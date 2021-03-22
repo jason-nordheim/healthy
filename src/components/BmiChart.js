@@ -1,4 +1,11 @@
-import { BmiUtils, categories } from "../util/BmiUtils";
+import { BmiUtils, categories, convert } from "../util/BmiUtils";
+
+const convertKgRangeToLb = (kgRange) => {
+  return {
+    min: convert.kilogramsToPounds(kgRange.min),
+    max: convert.kilogramsToPounds(kgRange.max),
+  };
+};
 
 /**
  *
@@ -9,10 +16,13 @@ export const BmiChart = ({ height, weight }) => {
   const meters = height / 100; // convert from centimeters
   const bmi = BmiUtils.calculateBmi(weight, meters);
   const category = BmiUtils.bmiCategory(bmi);
-  const underweightRange = BmiUtils.underweightThresholdKg(meters);
-  const normalWeightRange = BmiUtils.normalThresholdKg(meters);
-  const overweightRange = BmiUtils.overweightThresholdKg(meters);
-  const obeseRange = BmiUtils.obeseThresholdKg(meters);
+
+  const kgRanges = {
+    underweight: BmiUtils.underweightThresholdKg(meters),
+    normal: BmiUtils.normalThresholdKg(meters),
+    overweight: BmiUtils.overweightThresholdKg(meters),
+    obese: BmiUtils.obeseThresholdKg(meters),
+  };
 
   const round = (number) => {
     return Intl.NumberFormat("en-us", {
@@ -74,39 +84,39 @@ export const BmiChart = ({ height, weight }) => {
               </thead>
               <tbody>
                 <tr>
-                  <td>{"< " + categories.underweight.upperThreshold}</td>
-                  <td>{`0 - ${round(underweightRange.max)}`}</td>
+                  <td>{`< ${round(categories.underweight.maxBmi)}`}</td>
+                  <td>{`< ${round(kgRanges.underweight.max)}`}</td>
                   <td></td>
                   <td>{categories.underweight.name}</td>
                 </tr>
                 <tr>
                   <td>
-                    {categories.normal.lowerThreshold +
-                      " - " +
-                      categories.normal.upperThreshold}
+                    {`${round(categories.normal.minBmi)} - ${round(
+                      categories.normal.maxBmi
+                    )}`}
                   </td>
-                  <td>{`${round(normalWeightRange.min)} - ${round(
-                    normalWeightRange.max
+                  <td>{`${round(kgRanges.normal.min)} - ${round(
+                    kgRanges.normal.max
                   )}`}</td>
                   <td></td>
                   <td>{categories.normal.name}</td>
                 </tr>
                 <tr>
                   <td>
-                    {categories.overweight.lowerThreshold +
-                      " - " +
-                      categories.overweight.upperThreshold}
+                    {`${round(categories.overweight.minBmi)} - ${round(
+                      categories.overweight.maxBmi
+                    )}`}
                   </td>
-                  <td>{`${round(overweightRange.min)} - ${round(
-                    overweightRange.max
+                  <td>{`${round(kgRanges.overweight.min)} - ${round(
+                    kgRanges.overweight.max
                   )}`}</td>
                   <td></td>
                   <td>{categories.overweight.name}</td>
                 </tr>
                 <tr>
-                  <td>{"> " + categories.obese.lowerThreshold}</td>
-                  <td>{`${round(obeseRange.min)} +`}</td>
-                  <td></td>
+                  <td>{` > ${round(categories.obese.minBmi)}`}</td>
+                  <td>{` > ${round(kgRanges.obese.min)}`}</td>
+                  <td>{}</td>
                   <td>{categories.obese.name}</td>
                 </tr>
               </tbody>
