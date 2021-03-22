@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { BmiUtils, convert } from "../util/BmiUtils";
+import { BmiUtils } from "../util/BmiUtils";
+import { convert } from "../util/UnitUtilities";
 
 import { BmiChart } from "./BmiChart";
 export const BmiCalculator = () => {

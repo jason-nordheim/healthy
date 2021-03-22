@@ -1,4 +1,5 @@
-import { BmiUtils, categories, convert } from "../util/BmiUtils";
+import { BmiUtils, categories } from "../util/BmiUtils";
+import { convert } from "../util/UnitUtilities";
 
 const round = (number, decimals = 2) => {
   return Intl.NumberFormat("en-us", {
