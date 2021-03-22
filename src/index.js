@@ -1,16 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BmiCalculator } from "./components/BmiCalculator";
-import { NavBar } from "./components/layout/nav/NavBar";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { App } from "./components/App";
 
 ReactDOM.render(
   <React.StrictMode>
-    <NavBar />
     <Router>
-      <Route to="/">
-        <BmiCalculator />
-      </Route>
+      <Switch>
+        <App />
+      </Switch>
     </Router>
   </React.StrictMode>,
   document.getElementById("root")
