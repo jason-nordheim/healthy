@@ -1,5 +1,10 @@
 import { BmiUtils, categories, convert } from "../util/BmiUtils";
 
+const round = (number, decimals = 2) => {
+  return Intl.NumberFormat("en-us", {
+    maximumFractionDigits: decimals,
+  }).format(number);
+};
 const convertKgRangeToLb = (kgRange) => {
   return {
     min: convert.kilogramsToPounds(kgRange.min),
@@ -24,11 +29,22 @@ export const BmiChart = ({ height, weight }) => {
     obese: BmiUtils.obeseThresholdKg(meters),
   };
 
-  const round = (number) => {
-    return Intl.NumberFormat("en-us", {
-      maximumFractionDigits: 2,
-    }).format(number);
+  const lbRanges = {
+    underweight: convertKgRangeToLb(kgRanges.underweight),
+    normal: convertKgRangeToLb(kgRanges.normal),
+    overweight: convertKgRangeToLb(kgRanges.overweight),
+    obese: convertKgRangeToLb(kgRanges.obese),
   };
+
+  const formatRangeToString = (range) => {
+    if (range.min && range.max)
+      return `${round(range.min)} - ${round(range.max)}`;
+    else if (range.min && !range.max) return `> ${round(range.min)}`;
+    else if (!range.min && range.max) return `< ${round(range.max)}`;
+    else
+      throw new Error("invalid range object: must have a `min` or `max` value");
+  };
+
   return (
     <>
       <div className="row">
@@ -62,9 +78,7 @@ export const BmiChart = ({ height, weight }) => {
                 aria-valuemin="0"
                 aria-valuemax="100"
               >
-                {Intl.NumberFormat("en-us", {
-                  maximumFractionDigits: 2,
-                }).format(bmi)}
+                {round(bmi)}
               </div>
             </div>
           </div>
@@ -85,8 +99,8 @@ export const BmiChart = ({ height, weight }) => {
               <tbody>
                 <tr>
                   <td>{`< ${round(categories.underweight.maxBmi)}`}</td>
-                  <td>{`< ${round(kgRanges.underweight.max)}`}</td>
-                  <td></td>
+                  <td>{formatRangeToString(kgRanges.underweight)}</td>
+                  <td>{formatRangeToString(lbRanges.underweight)}</td>
                   <td>{categories.underweight.name}</td>
                 </tr>
                 <tr>
@@ -95,10 +109,8 @@ export const BmiChart = ({ height, weight }) => {
                       categories.normal.maxBmi
                     )}`}
                   </td>
-                  <td>{`${round(kgRanges.normal.min)} - ${round(
-                    kgRanges.normal.max
-                  )}`}</td>
-                  <td></td>
+                  <td>{formatRangeToString(kgRanges.normal)}</td>
+                  <td>{formatRangeToString(lbRanges.normal)}</td>
                   <td>{categories.normal.name}</td>
                 </tr>
                 <tr>
@@ -107,16 +119,14 @@ export const BmiChart = ({ height, weight }) => {
                       categories.overweight.maxBmi
                     )}`}
                   </td>
-                  <td>{`${round(kgRanges.overweight.min)} - ${round(
-                    kgRanges.overweight.max
-                  )}`}</td>
-                  <td></td>
+                  <td>{formatRangeToString(kgRanges.overweight)}</td>
+                  <td>{formatRangeToString(lbRanges.overweight)}</td>
                   <td>{categories.overweight.name}</td>
                 </tr>
                 <tr>
                   <td>{` > ${round(categories.obese.minBmi)}`}</td>
-                  <td>{` > ${round(kgRanges.obese.min)}`}</td>
-                  <td>{}</td>
+                  <td>{formatRangeToString(kgRanges.obese)}</td>
+                  <td>{formatRangeToString(lbRanges.obese)}</td>
                   <td>{categories.obese.name}</td>
                 </tr>
               </tbody>
