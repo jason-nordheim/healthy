@@ -1,8 +1,10 @@
+import { AppName } from "../../../config";
+
 export const Brand = () => {
   return (
     <>
-      <a className="navbar-brand" href="#">
-        Navbar
+      <a className="navbar-brand" href="/">
+        {AppName}
       </a>
       <button
         className="navbar-toggler"
