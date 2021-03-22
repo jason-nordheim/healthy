@@ -1,12 +1,12 @@
 import { BmiUtils, categories } from "../util/BmiUtils";
-import { convert, round } from "../util/UnitUtilities";
+import { round } from "../util/UnitUtilities";
 
-const convertKgRangeToLb = (kgRange) => {
-  return {
-    min: convert.kilogramsToPounds(kgRange.min),
-    max: convert.kilogramsToPounds(kgRange.max),
-  };
-};
+// const convertKgRangeToLb = (kgRange) => {
+//   return {
+//     min: convert.kilogramsToPounds(kgRange.min),
+//     max: convert.kilogramsToPounds(kgRange.max),
+//   };
+// };
 
 const formatRangeToString = (range) => {
   if (range.min && range.max)
