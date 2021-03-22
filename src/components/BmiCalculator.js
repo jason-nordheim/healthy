@@ -1,38 +1,91 @@
-import { useState } from "react";
-import { BmiUtils } from "../util/BmiUtils";
-import { convert } from "../util/UnitUtilities";
+import { useEffect, useState } from "react";
 
 import { BmiChart } from "./BmiChart";
+
+const UOM = {
+  imperial: "imperial",
+  metric: "metric",
+};
+
+const imperial = {
+  weight: "pounds",
+  height: "inches",
+};
+
+const metric = {
+  weight: "kilograms",
+  height: "centimeters",
+};
 export const BmiCalculator = () => {
-  const [state, setState] = useState({
+  const [measurements, setMeasurements] = useState({
     weight: 0,
-    w_units: "lb",
     height: 0,
-    h_units: "in",
-    bmi: undefined,
-    category: undefined,
-    kg: undefined,
-    cm: undefined,
   });
-  const { weight, w_units, height, h_units, category } = state;
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const cm = h_units === "in" ? convert.inchesToCentimeters(height) : height;
-    const kg = w_units === "lb" ? convert.poundsToKilograms(weight) : weight;
-    const m = cm / 100;
-    const bmi = BmiUtils.calculateBmi(kg, m);
-    setState({ ...state, bmi, category, cm, kg });
+  const [uom, setUom] = useState(UOM.imperial);
+  const [units, setUnits] = useState({
+    height: imperial.weight,
+    weight: imperial.height,
+  });
+
+  // update the units of measure
+  useEffect(() => {
+    if (uom === UOM.metric) {
+      setUnits({
+        weight: metric.weight,
+        height: metric.height,
+      });
+    } else {
+      setUnits({
+        weight: imperial.weight,
+        height: imperial.height,
+      });
+    }
+  }, [uom]);
+
+  const handleUomChange = (event) => {
+    setUom(event.target.value);
   };
-  const handleInputChange = (event) => {
+
+  const handleMeasurementChange = (event) => {
     const { name, value } = event.target;
-    setState({ ...state, [name]: value });
+    setMeasurements({ ...measurements, [name]: value });
   };
 
   return (
-    <form className="container" onSubmit={handleSubmit}>
+    <form className="container" onSubmit={(e) => e.preventDefault()}>
       <div className="row">
         <div className="col">
           <h3 className="text-center p-3">BMI Calculator</h3>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <span className="input-group p-3">
+            <label className="input-group-text" htmlFor="uom">
+              Unit of Measure
+            </label>
+            <select
+              className="form-select"
+              aria-label="Unit of Measurement"
+              name="uom"
+              id="uom"
+              value={uom}
+              onChange={handleUomChange}
+            >
+              <option
+                value={UOM.imperial}
+                className={uom === UOM.imperial ? "selected" : ""}
+              >
+                {UOM.imperial}
+              </option>
+              <option
+                value={UOM.metric}
+                className={uom === UOM.metric ? "selected" : ""}
+              >
+                {UOM.metric}
+              </option>
+            </select>
+          </span>
         </div>
       </div>
 
@@ -47,21 +100,27 @@ export const BmiCalculator = () => {
               type="number"
               name="weight"
               id="weight"
-              value={weight}
-              onChange={handleInputChange}
+              value={measurements.weight}
+              onChange={handleMeasurementChange}
             />
             <select
               className="form-select"
-              aria-label="Default select example"
               name="w_units"
               id="w_units"
-              value={w_units}
-              onChange={handleInputChange}
+              value={units.weight}
+              readOnly
+              aria-readonly={"true"}
             >
-              <option value="kg" className={w_units === "kg" ? "selected" : ""}>
-                kilograms
+              <option
+                value={metric.weight}
+                className={units.weight === metric.weight ? "selected" : ""}
+              >
+                {metric.weight}
               </option>
-              <option value="lb" className={w_units === "lb" ? "selected" : ""}>
+              <option
+                value={imperial.weight}
+                className={units.weight === imperial.weight ? "selected" : ""}
+              >
                 pounds
               </option>
             </select>
@@ -78,43 +137,36 @@ export const BmiCalculator = () => {
                 type="number"
                 name="height"
                 id="height"
-                value={height}
-                onChange={handleInputChange}
+                value={measurements.height}
+                onChange={handleMeasurementChange}
               />
               <select
                 className="form-select"
                 name="h_units"
                 id="h_units"
-                value={h_units}
-                onChange={handleInputChange}
+                readOnly
+                value={units.height}
               >
                 <option
-                  value="in"
-                  className={h_units === "in" ? "selected" : ""}
+                  value={metric.height}
+                  className={units.height === metric.height ? "selected" : ""}
                 >
-                  inches
+                  {metric.height}
                 </option>
                 <option
-                  value="cm"
-                  className={h_units === "cm" ? "selected" : ""}
+                  value={imperial.height}
+                  className={units.height === imperial.height ? "selected" : ""}
                 >
-                  centimeters
+                  {imperial.height}
                 </option>
               </select>
             </span>
           </div>
         </div>
       </div>
-      <div className="row">
-        <div className="col">
-          <span className="input-group p-3">
-            <button className="btn btn-primary" onClick={handleSubmit}>
-              Submit
-            </button>
-          </span>
-        </div>
-      </div>
-      {state.cm && state.kg && <BmiChart height={state.cm} weight={state.kg} />}
+      {measurements.cm && measurements.kg && (
+        <BmiChart height={measurements.cm} weight={measurements.kg} />
+      )}
     </form>
   );
 };
