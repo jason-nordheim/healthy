@@ -1,29 +1,7 @@
 import { useState } from "react";
+import { BmiUtils, convert } from "../util/BmiUtils";
 
-const categories = {
-  underweight: "underweight",
-  normal: "normal",
-  overweight: "overweight",
-  obese: "obese",
-};
-const calculateBmi = (kg, meters) => {
-  return kg / (meters * meters);
-};
-
-const poundsToKilograms = (pounds) => {
-  return pounds * 0.453592;
-};
-
-const inchesToCentimeters = (inches) => {
-  return inches * 2.54;
-};
-const getBmiCategory = (bmi) => {
-  if (bmi <= 18.5) return { name: categories.underweight, percent: 0.25 };
-  else if (bmi <= 24.9) return { name: categories.normal, percent: 0.5 };
-  else if (bmi <= 29.9) return { name: categories.overweight, percent: 0.75 };
-  else return { name: categories.obese, percent: 1 };
-};
-
+import { BmiChart } from "./BmiChart";
 export const BmiCalculator = () => {
   const [state, setState] = useState({
     weight: 0,
@@ -32,16 +10,17 @@ export const BmiCalculator = () => {
     h_units: "in",
     bmi: undefined,
     category: undefined,
+    kg: undefined,
+    cm: undefined,
   });
-  const { bmi, weight, w_units, height, h_units, category } = state;
+  const { weight, w_units, height, h_units, category } = state;
   const handleSubmit = (event) => {
     event.preventDefault();
-    const cm = h_units === "in" ? inchesToCentimeters(height) : height;
-    const kg = w_units === "lb" ? poundsToKilograms(weight) : weight;
+    const cm = h_units === "in" ? convert.inchesToCentimeters(height) : height;
+    const kg = w_units === "lb" ? convert.poundsToKilograms(weight) : weight;
     const m = cm / 100;
-    const bmi = calculateBmi(kg, m);
-    const category = getBmiCategory(bmi);
-    setState({ ...state, bmi, category });
+    const bmi = BmiUtils.calculateBmi(kg, m);
+    setState({ ...state, bmi, category, cm, kg });
   };
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -134,46 +113,7 @@ export const BmiCalculator = () => {
           </span>
         </div>
       </div>
-      {bmi && (
-        <div className="row">
-          <div className="col">
-            <div className="p-3">
-              <div
-                className="progress"
-                style={{ height: "1.5rem", textJustify: "center" }}
-              >
-                <div
-                  role="progressbar"
-                  style={{
-                    width: `${category.percent * 100}%`,
-                    height: "100%",
-                    fontSize: "1.1rem",
-                    textAlign: "center",
-                  }}
-                  className={
-                    "progress-bar  " + category.name === categories.underweight
-                      ? "bg-warning"
-                      : category.name === categories.normal
-                      ? "bg-success"
-                      : category.name === categories.overweight
-                      ? "bg-warning"
-                      : category.name === categories.obese
-                      ? "bg-danger"
-                      : ""
-                  }
-                  aria-valuenow={bmi}
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                >
-                  {Intl.NumberFormat("en-us", {
-                    maximumFractionDigits: 2,
-                  }).format(bmi)}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {state.cm && state.kg && <BmiChart height={state.cm} weight={state.kg} />}
     </form>
   );
 };
