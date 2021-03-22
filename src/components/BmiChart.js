@@ -1,16 +1,20 @@
 import { BmiUtils, categories } from "../util/BmiUtils";
-import { convert } from "../util/UnitUtilities";
+import { convert, round } from "../util/UnitUtilities";
 
-const round = (number, decimals = 2) => {
-  return Intl.NumberFormat("en-us", {
-    maximumFractionDigits: decimals,
-  }).format(number);
-};
 const convertKgRangeToLb = (kgRange) => {
   return {
     min: convert.kilogramsToPounds(kgRange.min),
     max: convert.kilogramsToPounds(kgRange.max),
   };
+};
+
+const formatRangeToString = (range) => {
+  if (range.min && range.max)
+    return `${round(range.min)} - ${round(range.max)}`;
+  else if (range.min && !range.max) return `> ${round(range.min)}`;
+  else if (!range.min && range.max) return `< ${round(range.max)}`;
+  else
+    throw new Error("invalid range object: must have a `min` or `max` value");
 };
 
 /**
@@ -23,28 +27,8 @@ export const BmiChart = ({ height, weight }) => {
   const bmi = BmiUtils.calculateBmi(weight, meters);
   const category = BmiUtils.bmiCategory(bmi);
 
-  const kgRanges = {
-    underweight: BmiUtils.underweightThresholdKg(meters),
-    normal: BmiUtils.normalThresholdKg(meters),
-    overweight: BmiUtils.overweightThresholdKg(meters),
-    obese: BmiUtils.obeseThresholdKg(meters),
-  };
-
-  const lbRanges = {
-    underweight: convertKgRangeToLb(kgRanges.underweight),
-    normal: convertKgRangeToLb(kgRanges.normal),
-    overweight: convertKgRangeToLb(kgRanges.overweight),
-    obese: convertKgRangeToLb(kgRanges.obese),
-  };
-
-  const formatRangeToString = (range) => {
-    if (range.min && range.max)
-      return `${round(range.min)} - ${round(range.max)}`;
-    else if (range.min && !range.max) return `> ${round(range.min)}`;
-    else if (!range.min && range.max) return `< ${round(range.max)}`;
-    else
-      throw new Error("invalid range object: must have a `min` or `max` value");
-  };
+  const kgRanges = BmiUtils.kgRange(meters);
+  const lbRanges = BmiUtils.lbRange(meters);
 
   return (
     <>
