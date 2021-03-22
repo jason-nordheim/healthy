@@ -1,18 +1,23 @@
-export const NavItem = ({ active, href = "#", label }) => {
+import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
+
+export const NavItem = ({ to = "#", label }) => {
+  const location = useLocation();
+  const active = location.pathname === to;
   return active ? (
     <>
       <li className="nav-item">
-        <a className="nav-link active" aria-current="page" href={href}>
+        <Link className="nav-link active" aria-current="page" to={to}>
           {label}
-        </a>
+        </Link>
       </li>
     </>
   ) : (
     <>
       <li className="nav-item">
-        <a className="nav-link" href={href}>
+        <Link className="nav-link" to={to}>
           {label}
-        </a>
+        </Link>
       </li>
     </>
   );
