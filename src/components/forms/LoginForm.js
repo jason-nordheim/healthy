@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { SERVER_URI } from "../../config";
+import { useContext, useState } from "react";
+import { AuthActions, AuthContext } from "../../context/auth.context";
 
 export const LoginForm = () => {
-  const [error, setError] = useState("");
+  const [state, dispatch] = useContext(AuthContext);
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
@@ -13,24 +13,7 @@ export const LoginForm = () => {
     event.preventDefault();
     // todo: send user data to API to create an account
     const user = { email, password };
-    fetch(SERVER_URI.routes.loginUser, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          setError(data.error);
-        }
-        console.log("data", data);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError(error); // todo: Find use-case
-      });
+    AuthActions.Login(user, dispatch);
   };
 
   const handleFormValueChange = (event) => {
@@ -84,14 +67,14 @@ export const LoginForm = () => {
             className="btn btn-primary"
             onClick={handleSubmit}
           >
-            Register
+            Login
           </button>
         </div>
       </div>
-      {error && (
+      {state?.error && (
         <div className="row">
           <div className="col mt-3">
-            <h6 className="text-danger text-center">{error}</h6>
+            <h6 className="text-danger text-center">{state.error}</h6>
           </div>
         </div>
       )}
