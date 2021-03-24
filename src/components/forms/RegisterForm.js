@@ -40,7 +40,7 @@ export const RegisterForm = () => {
         if (data.error) {
           setError(data.error);
         }
-        // todo: handle success event
+        // todo: h
         console.log("data", data);
       })
       .catch((error) => {
@@ -48,12 +48,21 @@ export const RegisterForm = () => {
         setError(error);
       });
   };
+  const handleBirthdayChange = (event) => {
+    const { name, value } = event.target;
+    setBirthday({ ...birthday, [name]: value });
+  };
   const handleFormValueChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
   };
   return (
     <form onSubmit={handleSubmit}>
+      <div className="row">
+        <div className="col">
+          <h3>Register</h3>
+        </div>
+      </div>
       <div className="row">
         <div className="col mb-3">
           <label htmlFor="first" className="form-label">
@@ -68,10 +77,8 @@ export const RegisterForm = () => {
             onChange={handleFormValueChange}
           />
         </div>
-      </div>
-      <div className="row">
         <div className="col mb-3">
-          <label htmlFor="first" className="form-label">
+          <label htmlFor="last" className="form-label">
             Last Name
           </label>
           <input
@@ -81,6 +88,70 @@ export const RegisterForm = () => {
             id="last"
             value={last}
             onChange={handleFormValueChange}
+          />
+        </div>
+      </div>
+      <div className="row"></div>
+      <div className="row">
+        <label htmlFor="birthday" className="form-label">
+          Birthday
+        </label>
+        <div className="col mb-3">
+          <label htmlFor="day" className="form-label">
+            Day
+          </label>
+          <input
+            className="form-control"
+            type="number"
+            name="day"
+            id="day"
+            min="1"
+            max="31"
+            value={day}
+            onChange={handleBirthdayChange}
+          />
+        </div>
+        <div className="col mb-3">
+          <label htmlFor="month" className="form-label">
+            Month
+          </label>
+          <select
+            name="month"
+            id="month"
+            name="month"
+            className="form-select"
+            value={month}
+            onChange={handleBirthdayChange}
+          >
+            {MONTHS.map((m) => {
+              return m.id === month ? (
+                <option
+                  key={m.value}
+                  id={m.id}
+                  value={m.id}
+                  className="selected"
+                >
+                  {m.name}
+                </option>
+              ) : (
+                <option key={m.value} id={m.id} value={m.id}>
+                  {m.name}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+        <div className="col mb-3">
+          <label className="form-label" htmlFor="year">
+            Year
+          </label>
+          <input
+            className="form-control"
+            type="number"
+            name="year"
+            id="year"
+            value={year}
+            onChange={handleBirthdayChange}
           />
         </div>
       </div>
