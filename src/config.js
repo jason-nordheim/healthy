@@ -1,11 +1,12 @@
 export const AppName = "Healthy";
 
-const BASE_SERVER_URI = `http://localhost:5000/`;
+const BASE_SERVER_URI = `http://localhost:5000`;
 
 export const SERVER_URI = {
   base: BASE_SERVER_URI,
   routes: {
     registerUser: `${BASE_SERVER_URI}/api/users`,
+    loginUser: `${BASE_SERVER_URI}/api/login`,
   },
 };
 export const MONTHS = [
