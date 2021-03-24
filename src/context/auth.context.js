@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { loginUser } from "../util/ApiUtils";
+import { loginUser, registerUser } from "../util/ApiUtils";
 
 /**
  * Default the context to having an undefined token
@@ -25,42 +25,76 @@ const ACTIONS = {
   REGISTER_FAILURE: "REGISTER_FAILURE",
 };
 
-export const AuthActions = {
-  Login: (user, dispatch) => {
-    // request started
-    dispatch({ type: ACTIONS.LOGIN_REQUEST, payload: null });
-    loginUser(user)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          dispatch({
-            type: ACTIONS.LOGIN_FAILURE,
-            payload: { error: data.error },
-          });
-        }
-        console.log("data", data);
-        dispatch({
-          type: ACTIONS.LOGIN_SUCCESS,
-          payload: { token: data.token },
-        });
-        // todo: handle success
-      })
-      .catch((error) => {
-        console.error("LoginError", error);
+const Login = (user, dispatch) => {
+  // request started
+  dispatch({ type: ACTIONS.LOGIN_REQUEST, payload: null });
+  return loginUser(user)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.error) {
         dispatch({
           type: ACTIONS.LOGIN_FAILURE,
-          payload: { error },
+          payload: { error: data.error },
         });
+      }
+      console.log("data", data);
+      dispatch({
+        type: ACTIONS.LOGIN_SUCCESS,
+        payload: { token: data.token },
       });
-  },
-  Logout: (dispatch) => {
-    try {
-      dispatch({ type: ACTIONS.LOGOUT_REQUEST });
-      dispatch({ type: ACTIONS.LOGOUT_SUCCESS });
-    } catch (error) {
-      dispatch({ type: ACTIONS.LOGIN_FAILURE });
-    }
-  },
+    })
+    .catch((error) => {
+      // todo: have not found scenario in which this is invoked
+      console.error("LoginError", error);
+      dispatch({
+        type: ACTIONS.LOGIN_FAILURE,
+        payload: { error },
+      });
+    });
+};
+
+const Logout = (dispatch) => {
+  try {
+    dispatch({ type: ACTIONS.LOGOUT_REQUEST });
+    dispatch({ type: ACTIONS.LOGOUT_SUCCESS });
+  } catch (error) {
+    // todo: this is never triggered currently
+    dispatch({ type: ACTIONS.LOGIN_FAILURE });
+  }
+};
+
+const Register = (user, dispatch) => {
+  dispatch({ type: ACTIONS.REGISTER_REQUEST });
+
+  registerUser(user)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.error) {
+        dispatch({
+          type: ACTIONS.REGISTER_FAILURE,
+          payload: { error: data.error },
+        });
+      } else {
+        dispatch({ type: ACTIONS.REGISTER_SUCCESS, payload: { data } });
+
+        // start the login process
+        Login(user, dispatch);
+      }
+    })
+    .catch((error) => {
+      // todo: this needs to be tested
+      console.error(error);
+      return dispatch({
+        type: ACTIONS.REGISTER_FAILURE,
+        payload: { error },
+      });
+    });
+};
+
+export const AuthActions = {
+  Login,
+  Logout,
+  Register,
 };
 
 export const AuthReducer = (state, action) => {
@@ -104,12 +138,22 @@ export const AuthReducer = (state, action) => {
         error: action.payload.error,
       };
     case ACTIONS.REGISTER_REQUEST:
+      return {
+        ...state,
+        request_in_progress: true,
+      };
       break;
     case ACTIONS.REGISTER_SUCCESS:
-      break;
+      return {
+        ...state,
+        request_in_progress: false,
+      };
     case ACTIONS.REGISTER_FAILURE:
-      break;
-
+      return {
+        ...state,
+        request_in_progress: false,
+        error: action.payload.error,
+      };
     default:
       throw new Error("Invalid Action");
   }
