@@ -17,8 +17,8 @@ export const AccountPage = () => {
             </div>
           </div>
           <div className="row">
-            <span>
-              <h6>
+            <span className="col mb-3 mt-3">
+              <h6 className="text-center">
                 Don't have an account? Register{" "}
                 <u style={{ cursor: "pointer" }} onClick={toggleForms}>
                   here
@@ -35,7 +35,7 @@ export const AccountPage = () => {
             </div>
           </div>
           <div className="row">
-            <span className="col mb-3 mt-3    ">
+            <span className="col mb-3 mt-3">
               <h6 className="text-center">
                 Already have an account? Login{" "}
                 <u style={{ cursor: "pointer" }} onClick={toggleForms}>
