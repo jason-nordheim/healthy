@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MONTHS } from "../../config";
+import { MONTHS, SERVER_URI } from "../../config";
 
 export const RegisterForm = () => {
   const [formValues, setFormValues] = useState({
@@ -18,6 +18,22 @@ export const RegisterForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // todo: send user data to API to create an account
+    const user = {
+      first,
+      last,
+      email,
+      password,
+      day,
+      month,
+      year,
+    };
+    fetch(SERVER_URI.routes.registerUser, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user }),
+    });
   };
   const handleBirthdayChange = (event) => {
     const { name, value } = event.target;
@@ -39,6 +55,7 @@ export const RegisterForm = () => {
             className="form-control"
             id="fist"
             value={first}
+            name="first"
             onChange={handleFormValueChange}
           />
         </div>
@@ -50,6 +67,7 @@ export const RegisterForm = () => {
           </label>
           <input
             type="text"
+            name="last"
             className="form-control"
             id="last"
             value={last}
@@ -58,7 +76,7 @@ export const RegisterForm = () => {
         </div>
       </div>
       <div className="row">
-        <label htmlFor="first" className="form-label">
+        <label htmlFor="birthday" className="form-label">
           Birthday
         </label>
         <div className="col mb-3">
@@ -83,6 +101,7 @@ export const RegisterForm = () => {
           <select
             name="month"
             id="month"
+            name="month"
             className="form-select"
             value={month}
             onChange={handleBirthdayChange}
@@ -126,6 +145,7 @@ export const RegisterForm = () => {
         <input
           type="email"
           className="form-control"
+          name="email"
           id="email"
           value={email}
           onChange={handleFormValueChange}
@@ -137,6 +157,7 @@ export const RegisterForm = () => {
         </label>
         <input
           type="password"
+          name="password"
           className="form-control"
           id="exampleInputPassword1"
           aria-describedby="passwordHelpBlock"
