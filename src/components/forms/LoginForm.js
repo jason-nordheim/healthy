@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MONTHS, SERVER_URI } from "../../config";
+import { SERVER_URI } from "../../config";
 
 export const LoginForm = () => {
   const [error, setError] = useState("");
@@ -40,8 +40,8 @@ export const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="row">
-        <div className="col">
-          <h3>Login</h3>
+        <div className="col mt-3 mb-3">
+          <h2 className="text-center">Login</h2>
         </div>
       </div>
 
