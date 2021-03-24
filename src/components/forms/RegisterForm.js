@@ -74,6 +74,7 @@ export const RegisterForm = () => {
             id="fist"
             value={first}
             name="first"
+            required
             onChange={handleFormValueChange}
           />
         </div>
@@ -86,6 +87,7 @@ export const RegisterForm = () => {
             name="last"
             className="form-control"
             id="last"
+            required
             value={last}
             onChange={handleFormValueChange}
           />
@@ -108,6 +110,7 @@ export const RegisterForm = () => {
             min="1"
             max="31"
             value={day}
+            required
             onChange={handleBirthdayChange}
           />
         </div>
@@ -121,6 +124,7 @@ export const RegisterForm = () => {
             name="month"
             className="form-select"
             value={month}
+            required
             onChange={handleBirthdayChange}
           >
             {MONTHS.map((m) => {
@@ -151,6 +155,7 @@ export const RegisterForm = () => {
             name="year"
             id="year"
             value={year}
+            required
             onChange={handleBirthdayChange}
           />
         </div>
@@ -166,6 +171,7 @@ export const RegisterForm = () => {
             name="email"
             id="email"
             value={email}
+            required
             onChange={handleFormValueChange}
           />
         </div>
@@ -179,9 +185,10 @@ export const RegisterForm = () => {
             type="password"
             name="password"
             className="form-control"
-            id="exampleInputPassword1"
+            id="password"
             aria-describedby="passwordHelpBlock"
             value={password}
+            required
             onChange={handleFormValueChange}
           />
           <div id="passwordHelpBlock" className="form-text">
