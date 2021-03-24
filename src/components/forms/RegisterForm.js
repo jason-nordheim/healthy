@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MONTHS, SERVER_URI } from "../../config";
 
 export const RegisterForm = () => {
+  const [error, setError] = useState("");
   const [formValues, setFormValues] = useState({
     first: "",
     last: "",
@@ -33,11 +34,19 @@ export const RegisterForm = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ user }),
-    });
-  };
-  const handleBirthdayChange = (event) => {
-    const { name, value } = event.target;
-    setBirthday({ ...birthday, [name]: value });
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          setError(data.error);
+        }
+        // todo: handle success event
+        console.log("data", data);
+      })
+      .catch((error) => {
+        console.error(error);
+        setError(error);
+      });
   };
   const handleFormValueChange = (event) => {
     const { name, value } = event.target;
@@ -76,103 +85,58 @@ export const RegisterForm = () => {
         </div>
       </div>
       <div className="row">
-        <label htmlFor="birthday" className="form-label">
-          Birthday
-        </label>
         <div className="col mb-3">
-          <label htmlFor="day" className="form-label">
-            Day
+          <label htmlFor="email" className="form-label">
+            Email address
           </label>
           <input
+            type="email"
             className="form-control"
-            type="number"
-            name="day"
-            id="day"
-            min="1"
-            max="31"
-            value={day}
-            onChange={handleBirthdayChange}
+            name="email"
+            id="email"
+            value={email}
+            onChange={handleFormValueChange}
           />
         </div>
-        <div className="col mb-3">
-          <label htmlFor="month" className="form-label">
-            Month
+      </div>
+      <div className="row">
+        <div className="mb-3">
+          <label htmlFor="exampleInputPassword1" className="form-label">
+            Password
           </label>
-          <select
-            name="month"
-            id="month"
-            name="month"
-            className="form-select"
-            value={month}
-            onChange={handleBirthdayChange}
+          <input
+            type="password"
+            name="password"
+            className="form-control"
+            id="exampleInputPassword1"
+            aria-describedby="passwordHelpBlock"
+            value={password}
+            onChange={handleFormValueChange}
+          />
+          <div id="passwordHelpBlock" className="form-text">
+            Your password must be 8-20 characters long, contain letters and
+            numbers, and must not contain spaces, special characters, or emoji.
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={handleSubmit}
           >
-            {MONTHS.map((m) => {
-              return m.id === month ? (
-                <option
-                  key={m.value}
-                  id={m.id}
-                  value={m.id}
-                  className="selected"
-                >
-                  {m.name}
-                </option>
-              ) : (
-                <option key={m.value} id={m.id} value={m.id}>
-                  {m.name}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-        <div className="col mb-3">
-          <label className="form-label" htmlFor="year">
-            Year
-          </label>
-          <input
-            className="form-control"
-            type="number"
-            name="year"
-            id="year"
-            value={year}
-            onChange={handleBirthdayChange}
-          />
+            Register
+          </button>
         </div>
       </div>
-      <div className="mb-3">
-        <label htmlFor="email" className="form-label">
-          Email address
-        </label>
-        <input
-          type="email"
-          className="form-control"
-          name="email"
-          id="email"
-          value={email}
-          onChange={handleFormValueChange}
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="exampleInputPassword1" className="form-label">
-          Password
-        </label>
-        <input
-          type="password"
-          name="password"
-          className="form-control"
-          id="exampleInputPassword1"
-          aria-describedby="passwordHelpBlock"
-          value={password}
-          onChange={handleFormValueChange}
-        />
-        <div id="passwordHelpBlock" className="form-text">
-          Your password must be 8-20 characters long, contain letters and
-          numbers, and must not contain spaces, special characters, or emoji.
+      {error && (
+        <div className="row">
+          <div className="col mt-3">
+            <h6 className="text-danger text-center">{error}</h6>
+          </div>
         </div>
-      </div>
-
-      <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
-        Register
-      </button>
+      )}
     </form>
   );
 };
