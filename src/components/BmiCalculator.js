@@ -109,6 +109,7 @@ export const BmiCalculator = () => {
               id="w_units"
               value={units.weight}
               readOnly
+              disabled
               aria-readonly={"true"}
             >
               <option
@@ -145,6 +146,7 @@ export const BmiCalculator = () => {
                 name="h_units"
                 id="h_units"
                 readOnly
+                disabled
                 value={units.height}
               >
                 <option
