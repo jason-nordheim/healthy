@@ -1,24 +1,34 @@
-import { useState } from "react";
-import { MONTHS, SERVER_URI } from "../../config";
+import { useState, useContext } from "react";
+import { MONTHS } from "../../config";
+import { AuthActions, AuthContext } from "../../context/auth.context";
 
+const BIRTHDAY_DEFAULTS = {
+  day: 1,
+  month: MONTHS[0].id,
+  year: 2000,
+};
+
+const FORM_DEFAULTS = {
+  first: "",
+  last: "",
+  email: "",
+  password: "",
+};
 export const RegisterForm = () => {
-  const [error, setError] = useState("");
-  const [formValues, setFormValues] = useState({
-    first: "",
-    last: "",
-    email: "",
-    password: "",
-  });
-  const [birthday, setBirthday] = useState({
-    day: 1,
-    month: MONTHS[0].id,
-    year: 2000,
-  });
+  // context
+  const [state, dispatch] = useContext(AuthContext);
+
+  // component state
+  const [formValues, setFormValues] = useState(FORM_DEFAULTS);
+  const [birthday, setBirthday] = useState(BIRTHDAY_DEFAULTS);
+
+  // de-structure for readability
   const { first, last, email, password } = formValues;
   const { day, month, year } = birthday;
+
+  // submit event handler
   const handleSubmit = (event) => {
     event.preventDefault();
-    // todo: send user data to API to create an account
     const user = {
       first,
       last,
@@ -28,30 +38,15 @@ export const RegisterForm = () => {
       month,
       year,
     };
-    fetch(SERVER_URI.routes.registerUser, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          setError(data.error);
-        }
-        // todo: h
-        console.log("data", data);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError(error);
-      });
+    AuthActions.Register(user, dispatch);
   };
+
+  // birthday onChange event handler
   const handleBirthdayChange = (event) => {
     const { name, value } = event.target;
     setBirthday({ ...birthday, [name]: value });
   };
+  // form onChange event handler
   const handleFormValueChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
@@ -207,10 +202,10 @@ export const RegisterForm = () => {
           </button>
         </div>
       </div>
-      {error && (
+      {state?.error && (
         <div className="row">
           <div className="col mt-3">
-            <h6 className="text-danger text-center">{error}</h6>
+            <h6 className="text-danger text-center">{state.error}</h6>
           </div>
         </div>
       )}
