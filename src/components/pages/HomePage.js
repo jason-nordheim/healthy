@@ -5,7 +5,7 @@ export const HomePage = () => {
     <div className="container">
       <div className="row">
         <div className="col">
-          <h1 class="display-2">
+          <h1 className="display-2">
             Welcome to <u>{AppName}</u>!
           </h1>
         </div>
