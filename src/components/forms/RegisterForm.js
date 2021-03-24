@@ -59,8 +59,8 @@ export const RegisterForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="row">
-        <div className="col">
-          <h3>Register</h3>
+        <div className="col mt-3 mb-3">
+          <h2 className="text-center">Register</h2>
         </div>
       </div>
       <div className="row">
@@ -119,7 +119,6 @@ export const RegisterForm = () => {
             Month
           </label>
           <select
-            name="month"
             id="month"
             name="month"
             className="form-select"
