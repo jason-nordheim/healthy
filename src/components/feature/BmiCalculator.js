@@ -57,31 +57,40 @@ export const BmiCalculator = () => {
     setUom(event.target.value);
   };
 
+  // function to determine if the chart should be shown
   const showChart = () => {
+    const MIN_KG = 14; // 30.8 pounds
+    const MIN_CM = 40; // 15.75 inches
     if (!values) return false;
     else if (!values.height) return false;
     else if (!values.weight) return false;
-    else if (!values.height > 0) return false;
-    else if (!values.weight > 0) return false;
+    else if (!values.height > MIN_CM) return false;
+    else if (!values.weight > MIN_KG) return false;
     else return true;
   };
 
+  // event handler to update the form values whenever they change
   const handleMeasurementChange = (event) => {
     const { name, value } = event.target;
+
+    // convert the values to imperial if needed
     if (uom === UOM.imperial) {
       if (name === "height") {
         const num = +value;
         const cm = convert.inchesToCentimeters(num);
         const updatedVals = { ...values, [name]: cm };
         setValues(updatedVals);
-      }
-      if (name === "weight") {
+      } else if (name === "weight") {
         const num = +value;
         const kg = convert.poundsToKilograms(num);
         const updateVals = { ...value, [name]: kg };
         setValues(updateVals);
+      } else {
+        setValues({ ...values, [name]: value });
       }
     }
+
+    // always update measurements values in state
     setMeasurements({ ...measurements, [name]: value });
   };
 
