@@ -3,38 +3,14 @@ import { RegisterForm } from "../forms/RegisterForm";
 import { LoginForm } from "../forms/LoginForm";
 import { AuthActions, AuthContext } from "../../context/auth.context";
 
-export const AccountPage = () => {
-  const [state, dispatch] = useContext(AuthContext);
+/**
+ * Account Page for Unauthenticated users
+ */
+const UnAuthenticated = () => {
   const [showRegistration, setShowRegistration] = useState(false);
   const toggleForms = (e) => setShowRegistration(!showRegistration);
 
-  const logout = (e) => {
-    AuthActions.Logout(dispatch);
-  };
-  return state?.token ? (
-    <div className="container">
-      <div className="row">
-        <div className="jumbotron mb-3 mt-3">
-          <h1>Welcome</h1>
-        </div>
-      </div>
-      <hr class="my-4" />
-      <div className="row">
-        <div className="col">
-          <p className="lead">
-            <span>{state.token}</span>
-          </p>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <button className="btn btn-primary" onClick={logout}>
-            Logout
-          </button>
-        </div>
-      </div>
-    </div>
-  ) : (
+  return (
     <div className="container">
       {showRegistration ? (
         <>
@@ -74,5 +50,48 @@ export const AccountPage = () => {
         </>
       )}
     </div>
+  );
+};
+
+/**
+ * Account Page For Authenticated Users
+ */
+const Authenticated = ({ state, dispatch }) => {
+  const logout = (e) => {
+    e.preventDefault();
+    AuthActions.Logout(dispatch);
+  };
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="jumbotron mb-3 mt-3">
+          <h1>Welcome</h1>
+        </div>
+      </div>
+      <hr class="my-4" />
+      <div className="row">
+        <div className="col">
+          <p className="lead">
+            <span>{state.token}</span>
+          </p>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <button className="btn btn-primary" onClick={logout}>
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const AccountPage = () => {
+  const [state, dispatch] = useContext(AuthContext);
+  return state?.token ? (
+    <Authenticated state={state} dispatch={dispatch} />
+  ) : (
+    <UnAuthenticated />
   );
 };
