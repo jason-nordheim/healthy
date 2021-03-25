@@ -9,6 +9,7 @@ export const SERVER_URI = {
     loginUser: `${BASE_SERVER_URI}/api/login`,
   },
 };
+
 export const MONTHS = [
   { id: 1, name: "January", abbr: "JAN" },
   { id: 2, name: "February", abbr: "FEB" },

@@ -1,9 +1,9 @@
 import { HomePage } from "./components/pages/HomePage";
-import { BmiCalculator } from "./components/feature/BmiCalculator";
 import { AccountPage } from "./components/pages/AccountPage";
+import { ToolsPage } from "./components/pages/ToolsPage";
 
 export const AppRoutes = [
-  { path: "/", exact: true, label: "Home", component: () => <HomePage /> },
+  { path: "/", label: "Home", component: () => <HomePage /> },
   {
     path: "/account",
     exact: false,
@@ -11,9 +11,9 @@ export const AppRoutes = [
     component: () => <AccountPage />,
   },
   {
-    path: "/bmiCalculator",
+    path: "/tools",
     exact: false,
-    label: "BMI Calculator",
-    component: () => <BmiCalculator />,
+    label: "Tools",
+    component: () => <ToolsPage />,
   },
 ];

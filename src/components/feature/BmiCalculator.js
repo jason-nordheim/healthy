@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { convert } from "../../util/UnitUtilities";
 
 import { BmiChart } from "./BmiChart";
 
@@ -16,29 +17,39 @@ const metric = {
   weight: "kilograms",
   height: "centimeters",
 };
-export const BmiCalculator = () => {
-  const [measurements, setMeasurements] = useState({
-    weight: 0,
-    height: 0,
-  });
-  const [uom, setUom] = useState(UOM.imperial);
-  const [units, setUnits] = useState({
+
+const DEFAULT_MEASUREMENTS = {
+  height: 0,
+  weight: 0,
+};
+
+const UNITS = {
+  DEFAULT: {
     height: imperial.weight,
     weight: imperial.height,
-  });
+  },
+  METRIC: {
+    weight: metric.weight,
+    height: metric.height,
+  },
+  IMPERIAL: {
+    weight: imperial.weight,
+    height: imperial.height,
+  },
+};
+
+export const BmiCalculator = () => {
+  const [values, setValues] = useState(DEFAULT_MEASUREMENTS);
+  const [measurements, setMeasurements] = useState(DEFAULT_MEASUREMENTS);
+  const [uom, setUom] = useState(UOM.imperial);
+  const [units, setUnits] = useState(UNITS.DEFAULT);
 
   // update the units of measure
   useEffect(() => {
     if (uom === UOM.metric) {
-      setUnits({
-        weight: metric.weight,
-        height: metric.height,
-      });
+      setUnits(UNITS.METRIC);
     } else {
-      setUnits({
-        weight: imperial.weight,
-        height: imperial.height,
-      });
+      setUnits(UNITS.IMPERIAL);
     }
   }, [uom]);
 
@@ -46,8 +57,31 @@ export const BmiCalculator = () => {
     setUom(event.target.value);
   };
 
+  const showChart = () => {
+    if (!values) return false;
+    else if (!values.height) return false;
+    else if (!values.weight) return false;
+    else if (!values.height > 0) return false;
+    else if (!values.weight > 0) return false;
+    else return true;
+  };
+
   const handleMeasurementChange = (event) => {
     const { name, value } = event.target;
+    if (uom === UOM.imperial) {
+      if (name === "height") {
+        const num = +value;
+        const cm = convert.inchesToCentimeters(num);
+        const updatedVals = { ...values, [name]: cm };
+        setValues(updatedVals);
+      }
+      if (name === "weight") {
+        const num = +value;
+        const kg = convert.poundsToKilograms(num);
+        const updateVals = { ...value, [name]: kg };
+        setValues(updateVals);
+      }
+    }
     setMeasurements({ ...measurements, [name]: value });
   };
 
@@ -166,8 +200,8 @@ export const BmiCalculator = () => {
           </div>
         </div>
       </div>
-      {measurements.cm && measurements.kg && (
-        <BmiChart height={measurements.cm} weight={measurements.kg} />
+      {showChart() && (
+        <BmiChart height={values.height} weight={values.weight} />
       )}
     </form>
   );
