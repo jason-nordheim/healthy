@@ -1,6 +1,8 @@
 import { useState, useContext } from "react";
 import { MONTHS } from "../../config";
 import { AuthActions, AuthContext } from "../../context/auth.context";
+import { LabeledInput } from "../common/LabeledInput";
+import { LabeledSelect } from "../common/LabeledSelect";
 
 const BIRTHDAY_DEFAULTS = {
   day: 1,
@@ -74,118 +76,89 @@ export const RegisterForm = () => {
           />
         </div>
         <div className="col mb-3">
-          <label htmlFor="last" className="form-label">
-            Last Name
-          </label>
-          <input
+          <LabeledInput
+            for="last"
             type="text"
             name="last"
-            className="form-control"
+            label="Last Name"
             id="last"
-            required
             value={last}
             onChange={handleFormValueChange}
           />
         </div>
       </div>
-      <div className="row"></div>
       <div className="row">
         <label htmlFor="birthday" className="form-label">
           Birthday
         </label>
         <div className="col mb-3">
-          <label htmlFor="day" className="form-label">
-            Day
-          </label>
-          <input
-            className="form-control"
-            type="number"
-            name="day"
+          <LabeledInput
             id="day"
-            min="1"
-            max="31"
+            name="day"
+            label="Day"
             value={day}
-            required
             onChange={handleBirthdayChange}
+            type="number"
+            min={1}
+            max={31}
           />
         </div>
         <div className="col mb-3">
-          <label htmlFor="month" className="form-label">
-            Month
-          </label>
-          <select
+          <LabeledSelect
             id="month"
             name="month"
-            className="form-select"
+            label="Month"
             value={month}
-            required
+            required={true}
             onChange={handleBirthdayChange}
-          >
-            {MONTHS.map((m) => {
-              return m.id === month ? (
-                <option
-                  key={m.value}
-                  id={m.id}
-                  value={m.id}
-                  className="selected"
-                >
-                  {m.name}
-                </option>
-              ) : (
-                <option key={m.value} id={m.id} value={m.id}>
-                  {m.name}
-                </option>
-              );
+            selectOptions={MONTHS.map((m) => {
+              return {
+                key: m.value,
+                id: m.id,
+                value: m.name,
+              };
             })}
-          </select>
+          />
         </div>
         <div className="col mb-3">
-          <label className="form-label" htmlFor="year">
-            Year
-          </label>
-          <input
-            className="form-control"
+          <LabeledInput
+            for="year"
+            id="year"
+            label="Year"
             type="number"
             name="year"
-            id="year"
             value={year}
-            required
-            onChange={handleBirthdayChange}
+            required={true}
+            onChange={handleFormValueChange}
           />
         </div>
       </div>
       <div className="row">
         <div className="col mb-3">
-          <label htmlFor="email" className="form-label">
-            Email address
-          </label>
-          <input
-            type="email"
-            className="form-control"
-            name="email"
+          <LabeledInput
+            for="email"
             id="email"
+            label="Email Address"
+            name="email"
             value={email}
-            required
+            required={true}
             onChange={handleFormValueChange}
           />
         </div>
       </div>
       <div className="row">
         <div className="mb-3">
-          <label htmlFor="exampleInputPassword1" className="form-label">
-            Password
-          </label>
-          <input
+          <LabeledInput
+            for="password"
             type="password"
-            name="password"
-            className="form-control"
             id="password"
-            aria-describedby="passwordHelpBlock"
+            label="Password"
+            name="password"
             value={password}
-            required
+            required={true}
             onChange={handleFormValueChange}
           />
-          <div id="passwordHelpBlock" className="form-text">
+          <div id="passwordHelp " className="form-text">
             Your password must be 8-20 characters long, contain letters and
             numbers, and must not contain spaces, special characters, or emoji.
           </div>

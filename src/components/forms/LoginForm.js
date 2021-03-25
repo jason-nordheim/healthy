@@ -47,7 +47,7 @@ export const LoginForm = () => {
           <LabeledInput
             for="password"
             type="password"
-            id="email"
+            id="password"
             label="Password"
             name="password"
             value={password}
