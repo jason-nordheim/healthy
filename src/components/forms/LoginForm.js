@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { AuthActions, AuthContext } from "../../context/auth.context";
+import { LabeledInput } from "../common/LabeledInput";
 
 export const LoginForm = () => {
   const [state, dispatch] = useContext(AuthContext);
@@ -30,32 +31,27 @@ export const LoginForm = () => {
 
       <div className="row">
         <div className="col mb-3">
-          <label htmlFor="email" className="form-label">
-            Email address
-          </label>
-          <input
-            type="email"
-            className="form-control"
-            name="email"
+          <LabeledInput
+            for="email"
             id="email"
+            label="Email Address"
+            name="email"
             value={email}
-            required
+            required={true}
             onChange={handleFormValueChange}
           />
         </div>
       </div>
       <div className="row">
         <div className="mb-3">
-          <label htmlFor="exampleInputPassword1" className="form-label">
-            Password
-          </label>
-          <input
+          <LabeledInput
+            for="password"
             type="password"
+            id="email"
+            label="Password"
             name="password"
-            className="form-control"
-            id="password"
             value={password}
-            required
+            required={true}
             onChange={handleFormValueChange}
           />
         </div>
