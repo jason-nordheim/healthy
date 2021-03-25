@@ -4,6 +4,7 @@
 export const LabeledInput = ({
   id,
   name,
+  label,
   value,
   onChange,
   type = "text",
@@ -12,7 +13,7 @@ export const LabeledInput = ({
   return (
     <>
       <label htmlFor={name} className="form-label">
-        First Name
+        {label}
       </label>
       <input
         type={type}
