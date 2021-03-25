@@ -1,5 +1,5 @@
 import { HomePage } from "./components/pages/HomePage";
-import { BmiCalculator } from "./components/BmiCalculator";
+import { BmiCalculator } from "./components/feature/BmiCalculator";
 import { AccountPage } from "./components/pages/AccountPage";
 
 export const AppRoutes = [

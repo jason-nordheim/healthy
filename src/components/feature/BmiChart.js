@@ -1,5 +1,5 @@
-import { BmiUtils, categories } from "../util/BmiUtils";
-import { round } from "../util/UnitUtilities";
+import { BmiUtils, categories } from "../../util/BmiUtils";
+import { round } from "../../util/UnitUtilities";
 
 // const convertKgRangeToLb = (kgRange) => {
 //   return {
