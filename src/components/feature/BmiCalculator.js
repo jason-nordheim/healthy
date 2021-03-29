@@ -1,42 +1,14 @@
 import { useEffect, useState } from "react";
+import {
+  DEFAULT_MEASUREMENTS,
+  IMPERIAL,
+  METRIC,
+  UNITS,
+  UOM,
+} from "../../config";
 import { convert } from "../../util/UnitUtilities";
 
 import { BmiChart } from "./BmiChart";
-
-const UOM = {
-  imperial: "imperial",
-  metric: "metric",
-};
-
-const imperial = {
-  weight: "pounds",
-  height: "inches",
-};
-
-const metric = {
-  weight: "kilograms",
-  height: "centimeters",
-};
-
-const DEFAULT_MEASUREMENTS = {
-  height: 0,
-  weight: 0,
-};
-
-const UNITS = {
-  DEFAULT: {
-    height: imperial.weight,
-    weight: imperial.height,
-  },
-  METRIC: {
-    weight: metric.weight,
-    height: metric.height,
-  },
-  IMPERIAL: {
-    weight: imperial.weight,
-    height: imperial.height,
-  },
-};
 
 export const BmiCalculator = () => {
   const [values, setValues] = useState(DEFAULT_MEASUREMENTS);
@@ -53,6 +25,7 @@ export const BmiCalculator = () => {
     }
   }, [uom]);
 
+  // event handler for changing the UOM
   const handleUomChange = (event) => {
     setUom(event.target.value);
   };
@@ -156,14 +129,14 @@ export const BmiCalculator = () => {
               aria-readonly={"true"}
             >
               <option
-                value={metric.weight}
-                className={units.weight === metric.weight ? "selected" : ""}
+                value={METRIC.weight}
+                className={units.weight === METRIC.weight ? "selected" : ""}
               >
-                {metric.weight}
+                {METRIC.weight}
               </option>
               <option
-                value={imperial.weight}
-                className={units.weight === imperial.weight ? "selected" : ""}
+                value={IMPERIAL.weight}
+                className={units.weight === IMPERIAL.weight ? "selected" : ""}
               >
                 pounds
               </option>
@@ -193,16 +166,16 @@ export const BmiCalculator = () => {
                 value={units.height}
               >
                 <option
-                  value={metric.height}
-                  className={units.height === metric.height ? "selected" : ""}
+                  value={METRIC.height}
+                  className={units.height === METRIC.height ? "selected" : ""}
                 >
-                  {metric.height}
+                  {METRIC.height}
                 </option>
                 <option
-                  value={imperial.height}
-                  className={units.height === imperial.height ? "selected" : ""}
+                  value={IMPERIAL.height}
+                  className={units.height === IMPERIAL.height ? "selected" : ""}
                 >
-                  {imperial.height}
+                  {IMPERIAL.height}
                 </option>
               </select>
             </span>

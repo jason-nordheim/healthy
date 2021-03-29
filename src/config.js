@@ -25,3 +25,38 @@ export const MONTHS = [
   { id: 11, name: "November", abbr: "NOV" },
   { id: 12, name: "December", abbr: "DEC" },
 ];
+
+export const UOM = {
+  imperial: "imperial",
+  metric: "metric",
+};
+
+export const IMPERIAL = {
+  weight: "pounds",
+  height: "inches",
+};
+
+export const METRIC = {
+  weight: "kilograms",
+  height: "centimeters",
+};
+
+export const DEFAULT_MEASUREMENTS = {
+  height: 0,
+  weight: 0,
+};
+
+export const UNITS = {
+  DEFAULT: {
+    height: IMPERIAL.weight,
+    weight: IMPERIAL.height,
+  },
+  METRIC: {
+    weight: METRIC.weight,
+    height: METRIC.height,
+  },
+  IMPERIAL: {
+    weight: IMPERIAL.weight,
+    height: IMPERIAL.height,
+  },
+};
