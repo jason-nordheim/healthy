@@ -129,7 +129,7 @@ export const RegisterForm = () => {
             name="year"
             value={year}
             required={true}
-            onChange={handleFormValueChange}
+            onChange={handleBirthdayChange}
           />
         </div>
       </div>
