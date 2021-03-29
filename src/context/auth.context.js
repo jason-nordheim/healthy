@@ -47,7 +47,6 @@ const Login = (user, dispatch) => {
           payload: { error: data.error },
         });
       }
-      console.log("data", data);
       dispatch({
         type: AUTH_TYPE.LOGIN_SUCCESS,
         payload: { token: data.token },
