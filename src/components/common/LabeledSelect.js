@@ -46,6 +46,7 @@ export const LabeledSelect = ({
         {label}
       </label>
       <select
+        key={id}
         name={name}
         id={id}
         required={required}
@@ -56,7 +57,7 @@ export const LabeledSelect = ({
         {selectOptions.map((opt) => {
           return opt.id === value ? (
             <option
-              key={opt.key}
+              key={opt.id}
               id={opt.id}
               value={opt.value}
               className="selected"
@@ -64,7 +65,7 @@ export const LabeledSelect = ({
               {opt.value}
             </option>
           ) : (
-            <option key={opt.key} id={opt.id} value={opt.value}>
+            <option key={opt.id} id={opt.id} value={opt.value}>
               {opt.value}
             </option>
           );
