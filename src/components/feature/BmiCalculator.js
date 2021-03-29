@@ -212,6 +212,12 @@ export const BmiCalculator = () => {
       {showChart() && (
         <BmiChart height={values.height} weight={values.weight} />
       )}
+      <div className="row">
+        <div className="col">
+          {/* todo:  */}
+          <button>Record</button>
+        </div>
+      </div>
     </form>
   );
 };
