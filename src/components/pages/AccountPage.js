@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { RegisterForm } from "../forms/RegisterForm";
 import { LoginForm } from "../forms/LoginForm";
 import { AuthActions, AuthContext } from "../../context/auth.context";
+import { EditProfile } from "../forms/EditProfile";
 
 /**
  * Account Page for Unauthenticated users
@@ -68,7 +69,7 @@ const Authenticated = ({ state, dispatch }) => {
           <h1>Welcome</h1>
         </div>
       </div>
-      <hr class="my-4" />
+      <hr className="my-4" />
       <div className="row">
         <div className="col">
           <p className="lead">
@@ -76,6 +77,7 @@ const Authenticated = ({ state, dispatch }) => {
           </p>
         </div>
       </div>
+      <EditProfile />
       <div className="row">
         <div className="col">
           <button className="btn btn-primary" onClick={logout}>
