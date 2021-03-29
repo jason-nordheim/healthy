@@ -7,6 +7,7 @@ export const SERVER_URI = {
   routes: {
     registerUser: `${BASE_SERVER_URI}/api/users`,
     loginUser: `${BASE_SERVER_URI}/api/login`,
+    getProfile: `${BASE_SERVER_URI}/api/users`,
   },
 };
 
