@@ -19,3 +19,13 @@ export const registerUser = (user) => {
     body: JSON.stringify({ user }),
   });
 };
+
+export const getProfile = (token) => {
+  return fetch(SERVER_URI.routes.getProfile, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${token}`,
+    },
+  });
+};
