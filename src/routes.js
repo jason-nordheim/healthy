@@ -3,7 +3,7 @@ import { AccountPage } from "./components/pages/AccountPage";
 import { ToolsPage } from "./components/pages/ToolsPage";
 
 export const AppRoutes = [
-  { path: "/", label: "Home", component: () => <HomePage /> },
+  { path: "/", exact: true, label: "Home", component: () => <HomePage /> },
   {
     path: "/account",
     exact: false,
