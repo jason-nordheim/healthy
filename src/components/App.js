@@ -13,12 +13,14 @@ export const App = () => {
   return (
     <AuthContext.Provider value={[state, dispatch]}>
       <NavBar />
-      {AppRoutes.map((route) => {
-        const { path, exact, component } = route;
-        return (
-          <Route key={path} exact={exact} path={path} render={component} />
-        );
-      })}
+      {AppRoutes.map((route) => (
+        <Route
+          key={route.path}
+          exact={route.exact}
+          path={route.path}
+          render={route.component}
+        />
+      ))}
     </AuthContext.Provider>
   );
 };
