@@ -1,30 +1,38 @@
-import { IMPERIAL, METRIC, UOM } from "../../../config";
+import { useEffect, useState } from "react";
+import { DEFAULTS, IMPERIAL, METRIC, UOM } from "../../../config";
 import { convert } from "../../../util/UnitUtilities";
+import { NumberInput } from "../input/NumberInput";
 import { Label } from "../Label";
 
-export const SelectHeight = ({ uom, cmTall, setCmTall }) => {
-  const heightUnits = uom === UOM.IMPERIAL ? IMPERIAL.HEIGHT : METRIC.HEIGHT;
+const { centimetersToInches, inchesToCentimeters } = convert;
 
-  const handleHeightChange = (event) => {
-    // convert the values to imperial if needed
-    const num = +event.target.value;
-    if (uom === UOM.IMPERIAL) {
-      const cm = convert.inchesToCentimeters(num);
-      setCmTall(cm);
-    } else {
-      setCmTall(num);
-    }
-  };
+export const SelectHeight = ({ uom = UOM.IMPERIAL, cm, setCm }) => {
+  const useImperial = uom === UOM.IMPERIAL ? true : false;
+  const heightUnits = useImperial ? IMPERIAL.HEIGHT : METRIC.HEIGHT;
+  const [val, setVal] = useState(useImperial ? centimetersToInches(cm) : cm);
+  const min = useImperial ? DEFAULTS.MIN.INCHES : DEFAULTS.MIN.CENTIMETERS;
+
+  useEffect(() => {
+    const num = parseInt(val);
+    // guard clause
+    if (isNaN(num)) return;
+    // convert
+    if (useImperial) setCm(inchesToCentimeters(num));
+    else setCm(num);
+  }, [val, useImperial, setCm]);
+
+  const handleHeightChange = (event) => setVal(event.target.value);
 
   return (
     <span className="input-group p-3">
-      <Label label="Height" name="height" />
-      <input
+      <Label label="Height" name="height" inputText={true} />
+      <NumberInput
         className="form-control"
         type="number"
         name="height"
         id="height"
-        value={cmTall}
+        value={val}
+        min={min}
         onChange={handleHeightChange}
       />
       <select
