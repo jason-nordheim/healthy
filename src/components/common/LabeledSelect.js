@@ -30,6 +30,12 @@ const validateSelectOptions = (selectOptions) => {
   });
 };
 
+export const CASING = {
+  default: "default",
+  uppercase: "uppercase",
+  lowercase: "lowercase",
+  capitalize: "capitalize",
+};
 export const LabeledSelect = ({
   id,
   name,
@@ -37,9 +43,30 @@ export const LabeledSelect = ({
   value,
   onChange,
   required = false,
+  casing = CASING.default,
   selectOptions,
 }) => {
   validateSelectOptions(selectOptions);
+
+  const Options = () =>
+    selectOptions.map((opt) => {
+      const classes = [];
+      if (opt.id === value) classes.push("selected");
+      if (casing === CASING.uppercase) classes.push("text-uppercase");
+      if (casing === CASING.lowercase) classes.push("text-lowercase");
+      if (casing === CASING.capitalize) classes.push("text-capitalize");
+      return (
+        <option
+          key={opt.id}
+          id={opt.id}
+          value={opt.value}
+          className={classes.join(" ")}
+        >
+          {opt.value}
+        </option>
+      );
+    });
+
   return (
     <>
       <label className="form-label" htmlFor={name}>
@@ -54,22 +81,7 @@ export const LabeledSelect = ({
         onChange={onChange}
         className="form-select"
       >
-        {selectOptions.map((opt) => {
-          return opt.id === value ? (
-            <option
-              key={opt.id}
-              id={opt.id}
-              value={opt.value}
-              className="selected"
-            >
-              {opt.value}
-            </option>
-          ) : (
-            <option key={opt.id} id={opt.id} value={opt.value}>
-              {opt.value}
-            </option>
-          );
-        })}
+        <Options />
       </select>
     </>
   );
