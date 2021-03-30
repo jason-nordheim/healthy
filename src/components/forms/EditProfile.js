@@ -4,34 +4,19 @@ import { getProfile } from "../../util/ApiUtils";
 import { LabeledInput } from "../common/LabeledInput";
 import { LabeledSelect } from "../common/LabeledSelect";
 import { TokenExpiredError } from "../../errors/TokenExpiredError";
-import {
-  DEFAULT_MEASUREMENTS,
-  IMPERIAL,
-  METRIC,
-  MONTHS,
-  UNITS,
-  UOM,
-} from "../../config";
+import { MONTHS, IMPERIAL, METRIC, UOM, DEFAULTS } from "../../config";
 import { convert } from "../../util/UnitUtilities";
 
-const DEFAULT_FIELD_VALUES = {
-  first: "",
-  last: "",
-  password: "",
-};
-const BIRTHDAY_DEFAULTS = {
-  day: 1,
-  month: MONTHS[0].id,
-  year: 2000,
-};
 export const EditProfile = () => {
   const [state, dispatch] = useContext(AuthContext);
-  const [fields, setFields] = useState(DEFAULT_FIELD_VALUES);
-  const [birthday, setBirthday] = useState(BIRTHDAY_DEFAULTS);
-  const [values, setValues] = useState(DEFAULT_MEASUREMENTS);
-  const [measurements, setMeasurements] = useState(DEFAULT_MEASUREMENTS);
-  const [uom, setUom] = useState(UOM.imperial);
-  const [units, setUnits] = useState(UNITS.DEFAULT);
+  const [fields, setFields] = useState(DEFAULTS.USER);
+  const [birthday, setBirthday] = useState(DEFAULTS.BIRTHDAY);
+  const [centimeters, setCentimeters] = useState(DEFAULTS.MEASUREMENTS.HEIGHT);
+  const [displayHeight, setDisplayHeight] = useState(
+    DEFAULTS.MEASUREMENTS.HEIGHT
+  );
+  const [uom, setUom] = useState(UOM.IMPERIAL);
+  const [heightUnits, setHeightUnits] = useState(DEFAULTS.UNITS.HEIGHT);
 
   // retrieve user profile when the component mounts
   useEffect(() => {
@@ -52,43 +37,25 @@ export const EditProfile = () => {
         });
   }, [state.token]);
 
-  // update the units of measure
-  useEffect(() => {
-    if (uom === UOM.metric) {
-      setUnits(UNITS.METRIC);
-    } else {
-      setUnits(UNITS.IMPERIAL);
-    }
-  }, [uom]);
-
   // event handler for changing the UOM
   const handleUomChange = (event) => {
     setUom(event.target.value);
+    if (uom == UOM.IMPERIAL) setHeightUnits(IMPERIAL.HEIGHT);
+    else if (uom === UOM.METRIC) setHeightUnits(METRIC.WEIGHT);
   };
 
   // event handler to update the form values whenever they change
-  const handleMeasurementChange = (event) => {
-    const { name, value } = event.target;
-
+  const handleHeightChange = (event) => {
     // convert the values to imperial if needed
-    if (uom === UOM.imperial) {
-      if (name === "height") {
-        const num = +value;
-        const cm = convert.inchesToCentimeters(num);
-        const updatedVals = { ...values, [name]: cm };
-        setValues(updatedVals);
-      } else if (name === "weight") {
-        const num = +value;
-        const kg = convert.poundsToKilograms(num);
-        const updateVals = { ...value, [name]: kg };
-        setValues(updateVals);
-      } else {
-        setValues({ ...values, [name]: value });
-      }
+    const num = +event.target.value;
+    if (uom === UOM.IMPERIAL) {
+      const cm = convert.inchesToCentimeters(num);
+      setCentimeters(cm);
+    } else {
+      setCentimeters(num);
     }
-
     // always update measurements values in state
-    setMeasurements({ ...measurements, [name]: value });
+    setDisplayHeight(num);
   };
 
   // handle fieldValue change
@@ -202,22 +169,21 @@ export const EditProfile = () => {
               onChange={handleUomChange}
             >
               <option
-                value={UOM.imperial}
-                className={uom === UOM.imperial ? "selected" : ""}
+                value={UOM.IMPERIAL}
+                className={uom === UOM.IMPERIAL ? "selected" : ""}
               >
-                {UOM.imperial}
+                {UOM.IMPERIAL}
               </option>
               <option
-                value={UOM.metric}
-                className={uom === UOM.metric ? "selected" : ""}
+                value={UOM.METRIC}
+                className={uom === UOM.METRIC ? "selected" : ""}
               >
-                {UOM.metric}
+                {UOM.METRIC}
               </option>
             </select>
           </span>
         </div>
       </div>
-
       <div className="row">
         <div className="col">
           <span className="input-group p-3">
@@ -229,28 +195,28 @@ export const EditProfile = () => {
               type="number"
               name="height"
               id="height"
-              value={measurements.height}
-              onChange={handleMeasurementChange}
+              value={displayHeight}
+              onChange={handleHeightChange}
             />
             <select
               className="form-select"
-              name="h_units"
-              id="h_units"
+              name="height"
+              id="height"
               readOnly
               disabled
-              value={UNITS.height}
+              value={heightUnits}
             >
               <option
-                value={METRIC.height}
-                className={UNITS.height === METRIC.height ? "selected" : ""}
+                value={METRIC.HEIGHT}
+                className={heightUnits === METRIC.HEIGHT ? "selected" : ""}
               >
-                {METRIC.height}
+                {METRIC.HEIGHT}
               </option>
               <option
-                value={IMPERIAL.height}
-                className={UNITS.height === IMPERIAL.height ? "selected" : ""}
+                value={IMPERIAL.HEIGHT}
+                className={heightUnits === IMPERIAL.HEIGHT ? "selected" : ""}
               >
-                {IMPERIAL.height}
+                {IMPERIAL.HEIGHT}
               </option>
             </select>
           </span>
