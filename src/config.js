@@ -1,5 +1,11 @@
 export const AppName = "Healthy";
 
+export const CLASSES = {
+  DEFAULT: {
+    FORMS: "container shadow pb-5 mb-3",
+  },
+};
+
 const BASE_SERVER_URI = `http://localhost:5000`;
 
 export const SERVER_URI = {
