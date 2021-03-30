@@ -1,6 +1,12 @@
 import { useContext, useState } from "react";
+import { CLASSES } from "../../config";
 import { AuthActions, AuthContext } from "../../context/auth.context";
-import { LabeledInput } from "../common/LabeledInput";
+import { FormErrorMessage } from "./FormErrorMessage";
+import { FormTitle } from "./FormTitle";
+import { Label } from "./Label";
+import { TextInput } from "./input/TextInput";
+import { PasswordInput } from "./input/PasswordInput";
+import { SubmitButton } from "./input/SubmitButton";
 
 export const LoginForm = () => {
   const [state, dispatch] = useContext(AuthContext);
@@ -22,55 +28,47 @@ export const LoginForm = () => {
     setFormValues({ ...formValues, [name]: value });
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="row">
-        <div className="col mt-3 mb-3">
-          <h2 className="text-center">Login</h2>
-        </div>
-      </div>
+    <form onSubmit={handleSubmit} className={CLASSES.DEFAULT.FORMS}>
+      <FormTitle title="Login" />
 
-      <div className="row">
-        <div className="col mb-3">
-          <LabeledInput
-            for="email"
-            id="email"
-            label="Email Address"
-            name="email"
-            value={email}
-            required={true}
-            onChange={handleFormValueChange}
-          />
+      <div className="container">
+        <div className="row">
+          <div className="col mb-3">
+            <Label label="Email Address" name="email" />
+            <TextInput
+              for="email"
+              id="email"
+              label="Email Address"
+              name="email"
+              value={email}
+              required={true}
+              onChange={handleFormValueChange}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="mb-3">
+            <Label label="Password" name="password" />
+            <PasswordInput
+              password={password}
+              onChange={handleFormValueChange}
+            />
+          </div>
         </div>
       </div>
-      <div className="row">
-        <div className="mb-3">
-          <LabeledInput
-            for="password"
-            type="password"
-            id="password"
-            label="Password"
-            name="password"
-            value={password}
-            required={true}
-            onChange={handleFormValueChange}
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <button
-            type="submit"
-            className="btn btn-primary"
-            onClick={handleSubmit}
-          >
-            Login
-          </button>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <SubmitButton onSubmit={handleSubmit} label="Login" />
+          </div>
         </div>
       </div>
       {state?.error && (
-        <div className="row">
-          <div className="col mt-3">
-            <h6 className="text-danger text-center">{state.error}</h6>
+        <div className="container">
+          <div className="row">
+            <div className="col mt-3">
+              <FormErrorMessage message={state.error} />
+            </div>
           </div>
         </div>
       )}
