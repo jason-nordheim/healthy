@@ -1,4 +1,11 @@
+import { convert } from "./util/UnitUtilities";
+
 export const AppName = "Healthy";
+
+const MIN_POUNDS = 20;
+const MIN_INCHES = 14;
+const MIN_KILOGRAMS = convert.poundsToKilograms(MIN_POUNDS);
+const MIN_CENTIMETERS = convert.inchesToCentimeters(MIN_INCHES);
 
 export const CLASSES = {
   DEFAULT: {
@@ -65,5 +72,11 @@ export const DEFAULTS = {
   MEASUREMENTS: {
     HEIGHT: 0,
     WEIGHT: 0,
+  },
+  MIN: {
+    KILOGRAMS: MIN_KILOGRAMS,
+    POUNDS: MIN_POUNDS,
+    CENTIMETERS: MIN_CENTIMETERS,
+    INCHES: MIN_INCHES,
   },
 };
