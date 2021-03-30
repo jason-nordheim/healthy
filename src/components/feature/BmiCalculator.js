@@ -1,15 +1,66 @@
-import { useEffect, useState } from "react";
-import { DEFAULTS, IMPERIAL, METRIC, UOM } from "../../config";
-import { convert } from "../../util/UnitUtilities";
+import { useState } from "react";
+import { DEFAULTS, UOM } from "../../config";
+import { FormTitle } from "../forms/FormTitle";
+import { SelectHeight } from "../forms/select/SelectHeight";
+import { SelectWeight } from "../forms/select/SelectWeight";
+import { SelectUnits } from "../forms/select/SelectUnits";
 
 import { BmiChart } from "./BmiChart";
+import { SubmitButton } from "../forms/input/SubmitButton";
+import { BmiUtils } from "../../util/BmiUtils";
 
 export const BmiCalculator = () => {
-  const [values, setValues] = useState(DEFAULTS.MEASUREMENTS);
-  const [measurements, setMeasurements] = useState(DEFAULTS.MEASUREMENTS);
+  const [cm, setCM] = useState(DEFAULTS.MEASUREMENTS.HEIGHT);
+  const [kg, setKg] = useState(DEFAULTS.MEASUREMENTS.WEIGHT);
   const [uom, setUom] = useState(UOM.IMPERIAL);
-  const [units, setUnits] = useState(DEFAULTS.UNITS);
 
+  const meters = cm / 100; // convert from centimeters
+  const bmi = BmiUtils.calculateBmi(kg, meters);
+
+  const showChart = kg && cm && bmi && bmi > 10 && bmi < 100 ? true : false;
+  console.log({ bmi, kg, cm, showChart });
+
+  // event handler for changing the UOM
+  const handleUomChange = (event) => setUom(event.target.value);
+
+  return (
+    <form className="container" onSubmit={(e) => e.preventDefault()}>
+      <div className="container">
+        <div className="row">
+          <FormTitle title="BMI Calculator" />
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col">
+          <SelectUnits uom={uom} onChangeUom={handleUomChange} />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <SelectHeight cm={cm} setCm={setCM} uom={uom} />
+        </div>
+        <div className="col">
+          <SelectWeight kg={kg} setKg={setKg} uom={uom} />
+        </div>
+      </div>
+
+      {showChart && <BmiChart meters={meters} bmi={bmi} />}
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            {/* todo:  */}
+            <SubmitButton label="Record" />
+          </div>
+        </div>
+      </div>
+    </form>
+  );
+};
+
+/**
+ * 
+ * 
   // update the units of measure
   useEffect(() => {
     if (uom === UOM.metric) {
@@ -60,131 +111,5 @@ export const BmiCalculator = () => {
     // always update measurements values in state
     setMeasurements({ ...measurements, [name]: value });
   };
-
-  return (
-    <form className="container" onSubmit={(e) => e.preventDefault()}>
-      <div className="row">
-        <div className="col">
-          <h3 className="text-center p-3">BMI Calculator</h3>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <span className="input-group p-3">
-            <label className="input-group-text" htmlFor="uom">
-              Unit of Measure
-            </label>
-            <select
-              className="form-select"
-              aria-label="Unit of Measurement"
-              name="uom"
-              id="uom"
-              value={uom}
-              onChange={handleUomChange}
-            >
-              <option
-                value={UOM.imperial}
-                className={uom === UOM.imperial ? "selected" : ""}
-              >
-                {UOM.imperial}
-              </option>
-              <option
-                value={UOM.metric}
-                className={uom === UOM.metric ? "selected" : ""}
-              >
-                {UOM.metric}
-              </option>
-            </select>
-          </span>
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="col">
-          <span className="input-group p-3">
-            <label className="input-group-text" htmlFor="weight">
-              Weight
-            </label>
-            <input
-              className="form-control"
-              type="number"
-              name="weight"
-              id="weight"
-              value={measurements.weight}
-              onChange={handleMeasurementChange}
-            />
-            <select
-              className="form-select"
-              name="w_units"
-              id="w_units"
-              value={units.weight}
-              readOnly
-              disabled
-              aria-readonly={"true"}
-            >
-              <option
-                value={METRIC.weight}
-                className={units.weight === METRIC.weight ? "selected" : ""}
-              >
-                {METRIC.weight}
-              </option>
-              <option
-                value={IMPERIAL.weight}
-                className={units.weight === IMPERIAL.weight ? "selected" : ""}
-              >
-                pounds
-              </option>
-            </select>
-          </span>
-        </div>
-        <div className="row">
-          <div className="col">
-            <span className="input-group p-3">
-              <label className="input-group-text" htmlFor="height">
-                Height
-              </label>
-              <input
-                className="form-control"
-                type="number"
-                name="height"
-                id="height"
-                value={measurements.height}
-                onChange={handleMeasurementChange}
-              />
-              <select
-                className="form-select"
-                name="h_units"
-                id="h_units"
-                readOnly
-                disabled
-                value={units.height}
-              >
-                <option
-                  value={METRIC.height}
-                  className={units.height === METRIC.height ? "selected" : ""}
-                >
-                  {METRIC.height}
-                </option>
-                <option
-                  value={IMPERIAL.height}
-                  className={units.height === IMPERIAL.height ? "selected" : ""}
-                >
-                  {IMPERIAL.height}
-                </option>
-              </select>
-            </span>
-          </div>
-        </div>
-      </div>
-      {showChart() && (
-        <BmiChart height={values.height} weight={values.weight} />
-      )}
-      <div className="row">
-        <div className="col">
-          {/* todo:  */}
-          <button>Record</button>
-        </div>
-      </div>
-    </form>
-  );
-};
+ * 
+ */
