@@ -1,31 +1,25 @@
 import { useEffect, useState } from "react";
-import {
-  DEFAULT_MEASUREMENTS,
-  IMPERIAL,
-  METRIC,
-  UNITS,
-  UOM,
-} from "../../config";
+import { DEFAULTS, IMPERIAL, METRIC, UOM } from "../../config";
 import { convert } from "../../util/UnitUtilities";
 
 import { BmiChart } from "./BmiChart";
 
 export const BmiCalculator = () => {
-  const [values, setValues] = useState(DEFAULT_MEASUREMENTS);
-  const [measurements, setMeasurements] = useState(DEFAULT_MEASUREMENTS);
-  const [uom, setUom] = useState(UOM.imperial);
-  const [units, setUnits] = useState(UNITS.DEFAULT);
+  const [values, setValues] = useState(DEFAULTS.MEASUREMENTS);
+  const [measurements, setMeasurements] = useState(DEFAULTS.MEASUREMENTS);
+  const [uom, setUom] = useState(UOM.IMPERIAL);
+  const [units, setUnits] = useState(DEFAULTS.UNITS);
 
   // update the units of measure
   useEffect(() => {
     if (uom === UOM.metric) {
-      setUnits(UNITS.METRIC);
+      setUnits(METRIC);
     } else {
-      setUnits(UNITS.IMPERIAL);
+      setUnits(IMPERIAL);
     }
   }, [uom]);
 
-  // event handler for changing the UOM
+  // event handler for changing the value of the
   const handleUomChange = (event) => {
     setUom(event.target.value);
   };

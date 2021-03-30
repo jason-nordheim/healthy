@@ -1,28 +1,16 @@
 import { useState, useContext } from "react";
-import { MONTHS } from "../../config";
+import { DEFAULTS, MONTHS } from "../../config";
 import { AuthActions, AuthContext } from "../../context/auth.context";
 import { LabeledInput } from "../common/LabeledInput";
 import { LabeledSelect } from "../common/LabeledSelect";
 
-const BIRTHDAY_DEFAULTS = {
-  day: 1,
-  month: MONTHS[0].id,
-  year: 2000,
-};
-
-const FORM_DEFAULTS = {
-  first: "",
-  last: "",
-  email: "",
-  password: "",
-};
 export const RegisterForm = () => {
   // context
   const [state, dispatch] = useContext(AuthContext);
 
   // component state
-  const [formValues, setFormValues] = useState(FORM_DEFAULTS);
-  const [birthday, setBirthday] = useState(BIRTHDAY_DEFAULTS);
+  const [formValues, setFormValues] = useState(DEFAULTS.USER);
+  const [birthday, setBirthday] = useState(DEFAULTS.BIRTHDAY);
 
   // de-structure for readability
   const { first, last, email, password } = formValues;
