@@ -22,16 +22,14 @@ const formatRangeToString = (range) => {
  * @param {Number} height in centimeters
  * @param {Number} weight in kilograms
  */
-export const BmiChart = ({ height, weight }) => {
-  const meters = height / 100; // convert from centimeters
-  const bmi = BmiUtils.calculateBmi(weight, meters);
+export const BmiChart = ({ meters, bmi }) => {
   const category = BmiUtils.bmiCategory(bmi);
 
   const kgRanges = BmiUtils.kgRange(meters);
   const lbRanges = BmiUtils.lbRange(meters);
 
   return (
-    <>
+    <div className="container">
       <div className="row">
         <div className="col">
           <div className="p-3">
@@ -119,6 +117,6 @@ export const BmiChart = ({ height, weight }) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
