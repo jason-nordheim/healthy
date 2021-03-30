@@ -1,5 +1,6 @@
-import { IMPERIAL, METRIC, UOM } from "../../config";
-import { convert } from "../../util/UnitUtilities";
+import { IMPERIAL, METRIC, UOM } from "../../../config";
+import { convert } from "../../../util/UnitUtilities";
+import { Label } from "../Label";
 
 export const SelectHeight = ({ uom, cmTall, setCmTall }) => {
   const heightUnits = uom === UOM.IMPERIAL ? IMPERIAL.HEIGHT : METRIC.HEIGHT;
@@ -17,9 +18,7 @@ export const SelectHeight = ({ uom, cmTall, setCmTall }) => {
 
   return (
     <span className="input-group p-3">
-      <label className="input-group-text" htmlFor="height">
-        Height
-      </label>
+      <Label label="Height" name="height" />
       <input
         className="form-control"
         type="number"
