@@ -1,4 +1,4 @@
-import { UOM } from "../../config";
+import { UOM } from "../../../config";
 
 export const SelectUnits = ({ uom, onChangeUom }) => {
   return (
