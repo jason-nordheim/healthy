@@ -12,6 +12,16 @@ export const getInitialState = () => {
       };
 };
 
+const AuthState = {
+  save: (state) => {
+    localStorage.setItem(AppName, JSON.stringify(state));
+    return state;
+  },
+  restore: () => {
+    return JSON.parse(localStorage.getItem(AppName));
+  },
+};
+
 /**
  * Default the context to having an undefined token
  */
@@ -42,6 +52,7 @@ const Login = (user, dispatch) => {
     .then((res) => res.json())
     .then((data) => {
       if (data.error) {
+        console.log("LoginError", data);
         dispatch({
           type: AUTH_TYPE.LOGIN_FAILURE,
           payload: { error: data.error },
@@ -108,9 +119,6 @@ export const AuthActions = {
 
 export const AuthReducer = (state, action) => {
   let newState;
-  const saveState = (state) => {
-    localStorage.setItem(AppName, JSON.stringify(state));
-  };
   switch (action.type) {
     case AUTH_TYPE.LOGIN_REQUEST:
       newState = {
@@ -119,72 +127,67 @@ export const AuthReducer = (state, action) => {
         token: undefined,
         error: undefined,
       };
-      saveState(newState);
-      return newState;
+      break;
     case AUTH_TYPE.LOGIN_SUCCESS:
       newState = {
         ...state,
         request_in_progress: false,
         token: action.payload.token,
       };
-      saveState(newState);
-      return newState;
+      break;
     case AUTH_TYPE.LOGIN_FAILURE:
       newState = {
         ...state,
+        token: undefined,
         request_in_progress: false,
         error: action.payload.error,
       };
-      saveState(newState);
-      return newState;
+      break;
     case AUTH_TYPE.LOGOUT_REQUEST:
       newState = {
         ...state,
         request_in_progress: true,
-        token: undefined,
         error: undefined,
       };
-      saveState(newState);
-      return newState;
+      break;
     case AUTH_TYPE.LOGOUT_SUCCESS:
       newState = {
         ...state,
+        token: undefined,
         request_in_progress: false,
         error: undefined,
       };
-      saveState(newState);
-      return newState;
+      break;
     case AUTH_TYPE.LOGOUT_FAILURE:
       newState = {
         ...state,
         request_in_progress: false,
         error: action.payload.error,
       };
-      saveState(newState);
-      return newState;
+      break;
     case AUTH_TYPE.REGISTER_REQUEST:
       newState = {
         ...state,
         request_in_progress: true,
       };
-      saveState(newState);
-      return newState;
+      break;
+
     case AUTH_TYPE.REGISTER_SUCCESS:
       newState = {
         ...state,
         request_in_progress: false,
       };
-      saveState(newState);
-      return newState;
+      break;
     case AUTH_TYPE.REGISTER_FAILURE:
       newState = {
         ...state,
         request_in_progress: false,
         error: action.payload.error,
       };
-      saveState(newState);
-      return newState;
+      break;
     default:
       throw new Error("Invalid Action");
   }
+  AuthState.save(newState);
+  return newState;
 };
