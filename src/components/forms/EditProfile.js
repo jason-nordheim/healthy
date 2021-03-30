@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { DEFAULTS, UOM } from "../../config";
+import { CLASSES, DEFAULTS, UOM } from "../../config";
 import { AuthContext } from "../../context/auth.context";
 import { SelectBirthday } from "./select/SelectBirthday";
 import { SelectHeight } from "./select/SelectHeight";
@@ -54,36 +54,38 @@ export const EditProfile = () => {
   const { first, last } = fields;
 
   return (
-    <form>
+    <form className={CLASSES.DEFAULT.FORMS}>
       <div className="row">
         <div className="col">
           <FormTitle title="Edit Profile" />
         </div>
       </div>
 
-      <div className="row">
-        <div className="col mb-3">
-          <Label label="First Name" name="first" />
-          <TextInput
-            for="first"
-            type="first"
-            name="last"
-            id="first"
-            value={first}
-            onChange={handleFieldChange}
-          />
-        </div>
-        <div className="col mb-3">
-          <Label label="Last Name" name="last" />
-          <TextInput
-            for="last"
-            type="text"
-            name="last"
-            label="Last Name"
-            id="last"
-            value={last}
-            onChange={handleFieldChange}
-          />
+      <div className="container">
+        <div className="row">
+          <div className="col mb-3">
+            <Label label="First Name" name="first" />
+            <TextInput
+              for="first"
+              type="first"
+              name="last"
+              id="first"
+              value={first}
+              onChange={handleFieldChange}
+            />
+          </div>
+          <div className="col mb-3">
+            <Label label="Last Name" name="last" />
+            <TextInput
+              for="last"
+              type="text"
+              name="last"
+              label="Last Name"
+              id="last"
+              value={last}
+              onChange={handleFieldChange}
+            />
+          </div>
         </div>
       </div>
 
@@ -97,13 +99,12 @@ export const EditProfile = () => {
         <div className="col">
           <SelectUnits uom={uom} onChangeUom={handleUomChange} />
         </div>
-      </div>
-
-      <div className="row">
         <div className="col">
           <SelectHeight cm={centimeters} setCmTall={setCentimeters} uom={uom} />
         </div>
       </div>
+
+      <div className="row"></div>
     </form>
   );
 };
