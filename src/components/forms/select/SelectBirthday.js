@@ -18,49 +18,53 @@ export const SelectBirthday = ({ birthday, setBirthday }) => {
   };
   const { day, month, year } = birthday;
   return (
-    <div className="container">
+    <div className="container mb-3">
       <div className="row">
         <div className="row">
-          <label htmlFor="birthday" className="form-label text-center">
-            Birthday
-          </label>
+          <Label label="Birthday" />
         </div>
         <div className="row">
-          <div className="col mb-3">
-            <Label label="Day" name="day" />
-            <NumberInput
-              id="day"
-              name="day"
-              label="Day"
-              value={day}
-              onChange={handleBirthdayFieldChange}
-              type="number"
-              min={1}
-              max={31}
-            />
+          <div className="col-sm-auto mb-2">
+            <span className="input-group">
+              <Label label="Day" name="day" inputText={true} />
+              <NumberInput
+                id="day"
+                name="day"
+                label="Day"
+                value={day}
+                onChange={handleBirthdayFieldChange}
+                type="number"
+                min={1}
+                max={31}
+              />
+            </span>
           </div>
-          <div className="col mb-3">
-            <Label label="Month" name="month" />
-            <Select
-              id="month"
-              name="month"
-              value={month}
-              required={true}
-              onChange={handleBirthdayFieldChange}
-              selectOptions={options}
-            />
+          <div className="col-sm-auto mb-2">
+            <span className="input-group">
+              <Label label="Month" name="month" inputText={true} />
+              <Select
+                id="month"
+                name="month"
+                value={month}
+                required={true}
+                onChange={handleBirthdayFieldChange}
+                selectOptions={options}
+              />
+            </span>
           </div>
-          <div className="col mb-3">
-            <Label label="Year" name="year" />
-            <NumberInput
-              for="year"
-              id="year"
-              type="number"
-              name="year"
-              value={year}
-              required={true}
-              onChange={handleBirthdayFieldChange}
-            />
+          <div className="col-sm-auto mb-3">
+            <span className="input-group">
+              <Label label="Year" name="year" inputText={true} />
+              <NumberInput
+                for="year"
+                id="year"
+                type="number"
+                name="year"
+                value={year}
+                required={true}
+                onChange={handleBirthdayFieldChange}
+              />
+            </span>
           </div>
         </div>
       </div>

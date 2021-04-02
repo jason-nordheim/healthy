@@ -24,7 +24,7 @@ export const SelectHeight = ({ uom = UOM.IMPERIAL, cm, setCm }) => {
   const handleHeightChange = (event) => setVal(event.target.value);
 
   return (
-    <span className="input-group p-3">
+    <span className="input-group">
       <Label label="Height" name="height" inputText={true} />
       <NumberInput
         className="form-control"

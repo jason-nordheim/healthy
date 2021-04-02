@@ -62,29 +62,36 @@ export const EditProfile = () => {
       </div>
 
       <div className="container">
-        <div className="row">
-          <div className="col-sm-auto mb-3">
-            <Label label="First Name" name="first" />
-            <TextInput
-              for="first"
-              type="first"
-              name="last"
-              id="first"
-              value={first}
-              onChange={handleFieldChange}
-            />
+        <div className="row mb-3">
+          <div className="col-sm-auto">
+            <Label label="Name" />
           </div>
-          <div className="col-sm-auto mb-3">
-            <Label label="Last Name" name="last" />
-            <TextInput
-              for="last"
-              type="text"
-              name="last"
-              label="Last Name"
-              id="last"
-              value={last}
-              onChange={handleFieldChange}
-            />
+          <div className="col-sm-auto mb-2">
+            <span className="input-group">
+              <Label label="First Name" name="first" inputText={true} />
+              <TextInput
+                for="first"
+                type="first"
+                name="last"
+                id="first"
+                value={first}
+                onChange={handleFieldChange}
+              />
+            </span>
+          </div>
+          <div className="col-sm-auto mb-2">
+            <span className="input-group">
+              <Label label="Last Name" name="last" inputText={true} />
+              <TextInput
+                for="last"
+                type="text"
+                name="last"
+                label="Last Name"
+                id="last"
+                value={last}
+                onChange={handleFieldChange}
+              />
+            </span>
           </div>
         </div>
       </div>
@@ -95,16 +102,21 @@ export const EditProfile = () => {
         </div>
       </div>
 
-      <div className="row">
-        <div className="col-sm-auto">
-          <SelectUnits uom={uom} onChangeUom={handleUomChange} />
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-auto">
+            <Label label="Height" />
+          </div>
         </div>
-        <div className="col-sm-auto">
-          <SelectHeight cm={centimeters} setCm={setCentimeters} uom={uom} />
+        <div className="row">
+          <div className="col-sm-auto mb-2">
+            <SelectUnits uom={uom} onChangeUom={handleUomChange} />
+          </div>
+          <div className="col-sm-auto mb-2">
+            <SelectHeight cm={centimeters} setCm={setCentimeters} uom={uom} />
+          </div>
         </div>
       </div>
-
-      <div className="row"></div>
     </form>
   );
 };

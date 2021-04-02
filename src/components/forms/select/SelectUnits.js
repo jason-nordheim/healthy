@@ -2,7 +2,7 @@ import { UOM } from "../../../config";
 
 export const SelectUnits = ({ uom, onChangeUom }) => {
   return (
-    <span className="input-group p-3">
+    <span className="input-group">
       <label className="input-group-text" htmlFor="uom">
         Unit of Measure
       </label>
