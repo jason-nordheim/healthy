@@ -20,9 +20,11 @@ export const SelectBirthday = ({ birthday, setBirthday }) => {
   return (
     <div className="container">
       <div className="row">
-        <label htmlFor="birthday" className="form-label">
-          Birthday
-        </label>
+        <div className="row">
+          <label htmlFor="birthday" className="form-label text-center">
+            Birthday
+          </label>
+        </div>
         <div className="row">
           <div className="col mb-3">
             <Label label="Day" name="day" />
