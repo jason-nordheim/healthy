@@ -63,7 +63,7 @@ export const EditProfile = () => {
 
       <div className="container">
         <div className="row">
-          <div className="col mb-3">
+          <div className="col-sm-auto mb-3">
             <Label label="First Name" name="first" />
             <TextInput
               for="first"
@@ -74,7 +74,7 @@ export const EditProfile = () => {
               onChange={handleFieldChange}
             />
           </div>
-          <div className="col mb-3">
+          <div className="col-sm-auto mb-3">
             <Label label="Last Name" name="last" />
             <TextInput
               for="last"
@@ -96,11 +96,11 @@ export const EditProfile = () => {
       </div>
 
       <div className="row">
-        <div className="col">
+        <div className="col-sm-auto">
           <SelectUnits uom={uom} onChangeUom={handleUomChange} />
         </div>
-        <div className="col">
-          <SelectHeight cm={centimeters} setCmTall={setCentimeters} uom={uom} />
+        <div className="col-sm-auto">
+          <SelectHeight cm={centimeters} setCm={setCentimeters} uom={uom} />
         </div>
       </div>
 
