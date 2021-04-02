@@ -7,7 +7,12 @@ export const NavItem = ({ to = "#", label }) => {
   return active ? (
     <>
       <li className="nav-item">
-        <Link className="nav-link active" aria-current="page" to={to}>
+        <Link
+          className="nav-link active"
+          aria-current="page"
+          aria-current={true}
+          to={to}
+        >
           {label}
         </Link>
       </li>

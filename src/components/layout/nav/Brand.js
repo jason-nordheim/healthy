@@ -1,6 +1,6 @@
 import { AppName } from "../../../config";
 
-export const Brand = () => {
+export const Brand = ({ expanded, setExpanded }) => {
   return (
     <>
       <a className="navbar-brand" href="/">
@@ -9,11 +9,12 @@ export const Brand = () => {
       <button
         className="navbar-toggler"
         type="button"
-        data-bs-toggle="collapse"
+        data-bs-toggle={expanded ? "expand" : "collapse"}
         data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent"
-        aria-expanded="false"
+        aria-expanded={expanded ? "true" : "false"}
         aria-label="Toggle navigation"
+        onClick={() => setExpanded(!expanded)}
       >
         <span className="navbar-toggler-icon"></span>
       </button>
