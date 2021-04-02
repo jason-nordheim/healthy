@@ -18,7 +18,6 @@ export const BmiCalculator = () => {
   const bmi = BmiUtils.calculateBmi(kg, meters);
 
   const showChart = kg && cm && bmi && bmi > 10 && bmi < 100 ? true : false;
-  console.log({ bmi, kg, cm, showChart });
 
   // event handler for changing the UOM
   const handleUomChange = (event) => setUom(event.target.value);
@@ -32,28 +31,32 @@ export const BmiCalculator = () => {
       </div>
 
       <div className="row">
-        <div className="col">
+        <div className="col-sm-auto mb-3">
           <SelectUnits uom={uom} onChangeUom={handleUomChange} />
         </div>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col-sm-auto">
           <SelectHeight cm={cm} setCm={setCM} uom={uom} />
         </div>
-        <div className="col">
+        <div className="col-sm-auto">
           <SelectWeight kg={kg} setKg={setKg} uom={uom} />
         </div>
       </div>
 
-      {showChart && <BmiChart meters={meters} bmi={bmi} />}
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            {/* todo:  */}
-            <SubmitButton label="Record" />
+      {showChart && (
+        <>
+          <BmiChart meters={meters} bmi={bmi} />
+          <div className="container">
+            <div className="row">
+              <div className="col-sm-auto">
+                {/* todo:  */}
+                <SubmitButton label="Record" />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </form>
   );
 };
