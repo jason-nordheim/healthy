@@ -66,13 +66,6 @@ const Authenticated = ({ state, dispatch }) => {
       <div className="row">
         <PageTitle text="Welcome" />
       </div>
-      <div className="row">
-        <div className="col">
-          <p className="lead">
-            <span>{state.token}</span>
-          </p>
-        </div>
-      </div>
       <div className="container">
         <EditProfile />
       </div>
