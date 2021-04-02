@@ -21,7 +21,7 @@ export const NavBar = () => {
           className={expanded ? "navbar-collapse" : "collapse navbar-collapse"}
           id="navbarSupportedContent"
         >
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0" onClick={handleClick}>
             {AppRoutes.map((route) => {
               return (
                 <NavItem key={route.path} to={route.path} label={route.label} />
