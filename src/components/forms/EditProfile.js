@@ -7,8 +7,9 @@ import { SelectUnits } from "./select/SelectUnits";
 import { FormTitle } from "./FormTitle";
 import { TextInput } from "./input/TextInput";
 import { Label } from "./Label";
+import { updateProfile } from "../../util/ApiUtils";
 
-export const EditProfile = ({ userData }) => {
+export const EditProfile = ({ userData, token }) => {
   const [fields, setFields] = useState({
     first: userData.first,
     last: userData.last,
@@ -34,6 +35,25 @@ export const EditProfile = ({ userData }) => {
       ...fields,
       [name]: value,
     });
+  };
+
+  const handleUpdateProfile = (e) => {
+    e.preventDefault();
+    const fieldData = {
+      ...fields,
+      ...birthday,
+      height: centimeters,
+    };
+    updateProfile(token, fieldData)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   // de-structure fields for form values
@@ -112,7 +132,9 @@ export const EditProfile = ({ userData }) => {
       <div className="container">
         <div className="row">
           <div className="col-sm-auto">
-            <button className="btn btn-primary">Update</button>
+            <button className="btn btn-primary" onClick={handleUpdateProfile}>
+              Update
+            </button>
           </div>
         </div>
       </div>
