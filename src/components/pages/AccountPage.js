@@ -1,9 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { RegisterForm } from "../forms/RegisterForm";
 import { LoginForm } from "../forms/LoginForm";
 import { AuthActions, AuthContext } from "../../context/auth.context";
 import { EditProfile } from "../forms/EditProfile";
 import { PageTitle } from "../layout/PageTitle";
+import { getProfile } from "../../util/ApiUtils";
+import { TokenExpiredError } from "../../errors/TokenExpiredError";
 
 /**
  * Account Page for Unauthenticated users
@@ -57,24 +59,31 @@ const UnAuthenticated = () => {
  * Account Page For Authenticated Users
  */
 const Authenticated = ({ state, dispatch }) => {
-  const logout = (e) => {
-    e.preventDefault();
-    AuthActions.Logout(dispatch);
-  };
+  const [userData, setUserData] = useState({});
+  // retrieve user profile when the component mounts
+  useEffect(() => {
+    state?.token &&
+      getProfile(state.token)
+        .then((res) => {
+          if (res.status === 403) throw new TokenExpiredError();
+          return res.json();
+        })
+        .then((data) => {
+          setUserData({ ...data });
+        })
+        .catch((error) => {
+          if (typeof error === typeof new TokenExpiredError()) {
+            AuthActions.Logout(dispatch);
+          }
+        });
+  }, [state.token]);
   return (
     <div className="container">
       <div className="row">
         <PageTitle text="Welcome" />
       </div>
       <div className="container">
-        <EditProfile />
-      </div>
-      <div className="row">
-        <div className="col">
-          <button className="btn btn-primary" onClick={logout}>
-            Logout
-          </button>
-        </div>
+        {userData?.first && <EditProfile userData={userData} />}
       </div>
     </div>
   );
