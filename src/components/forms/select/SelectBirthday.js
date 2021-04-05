@@ -7,7 +7,7 @@ export const SelectBirthday = ({ birthday, setBirthday }) => {
   const options = MONTHS.map((m) => ({
     key: m.value,
     id: m.id,
-    value: m.name,
+    value: m.id,
   }));
 
   const handleBirthdayFieldChange = (event) => {
