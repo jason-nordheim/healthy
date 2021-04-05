@@ -43,7 +43,7 @@ export const RegisterForm = () => {
     setFormValues({ ...formValues, [name]: value });
   };
   return (
-    <form onSubmit={handleSubmit} className={CLASSES.DEFAULT.FORMS}>
+    <form onSubmit={handleSubmit}>
       <FormTitle title="Register" />
 
       <div className="container">

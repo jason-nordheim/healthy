@@ -28,7 +28,7 @@ export const LoginForm = () => {
     setFormValues({ ...formValues, [name]: value });
   };
   return (
-    <form onSubmit={handleSubmit} className={CLASSES.DEFAULT.FORMS}>
+    <form onSubmit={handleSubmit}>
       <FormTitle title="Login" />
 
       <div className="container">
