@@ -44,20 +44,23 @@ export const EditProfile = ({ userData, token }) => {
       ...birthday,
       height: centimeters,
     };
+    e.target.disabled = true;
     updateProfile(token, fieldData)
       .then((res) => {
         return res.json();
       })
       .then((data) => {
         console.log(data);
+        e.target.disabled = false;
       })
       .catch((err) => {
         console.error(err);
+        e.target.disabled = false;
       });
   };
 
   // de-structure fields for form values
-  const { first, last } = fields;
+  const { first, last, email } = fields;
 
   return (
     <form className={CLASSES.DEFAULT.FORMS}>
@@ -74,7 +77,7 @@ export const EditProfile = ({ userData, token }) => {
           </div>
           <div className="col-sm-auto mb-2">
             <span className="input-group">
-              <Label label="First Name" name="first" inputText={true} />
+              <Label label="First" name="first" inputText={true} />
               <TextInput
                 for="first"
                 type="first"
@@ -87,7 +90,7 @@ export const EditProfile = ({ userData, token }) => {
           </div>
           <div className="col-sm-auto mb-2">
             <span className="input-group">
-              <Label label="Last Name" name="last" inputText={true} />
+              <Label label="Last" name="last" inputText={true} />
               <TextInput
                 for="last"
                 type="text"
@@ -99,6 +102,19 @@ export const EditProfile = ({ userData, token }) => {
               />
             </span>
           </div>
+        </div>
+        <div className="col-sm-auto mb-3">
+          <span className="input-group">
+            <Label label="Email" name="email" inputText={true} />
+            <TextInput
+              for="email"
+              type="email"
+              name="email"
+              id="email"
+              value={email}
+              onChange={handleFieldChange}
+            />
+          </span>
         </div>
       </div>
 
