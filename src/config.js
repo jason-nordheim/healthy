@@ -21,6 +21,7 @@ export const SERVER_URI = {
     registerUser: `${BASE_SERVER_URI}/api/users`,
     loginUser: `${BASE_SERVER_URI}/api/login`,
     getProfile: `${BASE_SERVER_URI}/api/users`,
+    updateProfile: `${BASE_SERVER_URI}/api/users`,
   },
 };
 

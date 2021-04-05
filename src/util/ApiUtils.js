@@ -29,3 +29,14 @@ export const getProfile = (token) => {
     },
   });
 };
+
+export const updateProfile = (token, fields) => {
+  return fetch(SERVER_URI.routes.updateProfile, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${token}`,
+    },
+    body: JSON.stringify(fields),
+  });
+};
