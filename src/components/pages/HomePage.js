@@ -5,10 +5,8 @@ export const HomePage = () => {
   return (
     <div className="container">
       <PageTitle text={AppName} />
-      <p className="lead">
-        Welcome to {AppName}! Let us help you live your bStart on your journey
-        to your best self.
-      </p>
+      <p className="lead">Welcome to {AppName}!</p>
+      <p>Begin your journey toward a happier, healthier life today.</p>
     </div>
   );
 };
