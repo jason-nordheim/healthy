@@ -1,10 +1,16 @@
 import { AppRoutes } from "../../../routes";
 import { Brand } from "./Brand";
 import { NavItem } from "./NavItem";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthActions, AuthContext } from "../../../context/auth.context";
 
 export const NavBar = () => {
   const [expanded, setExpanded] = useState(false);
+  const [state, dispatch] = useContext(AuthContext);
+
+  const handleLogout = (e) => {
+    AuthActions.Logout(dispatch);
+  };
 
   const handleClick = () => {
     setExpanded(!expanded);
@@ -27,6 +33,13 @@ export const NavBar = () => {
                 <NavItem key={route.path} to={route.path} label={route.label} />
               );
             })}
+            {state?.token && (
+              <li className="nav-item">
+                <span className="nav-link" onClick={handleLogout}>
+                  Logout
+                </span>
+              </li>
+            )}
           </ul>
         </div>
       </div>
