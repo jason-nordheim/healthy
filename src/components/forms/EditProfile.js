@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { CLASSES, DEFAULTS, UOM } from "../../config";
-import { AuthContext } from "../../context/auth.context";
+import { AuthActions, AuthContext } from "../../context/auth.context";
 import { SelectBirthday } from "./select/SelectBirthday";
 import { SelectHeight } from "./select/SelectHeight";
 import { SelectUnits } from "./select/SelectUnits";
@@ -26,12 +26,16 @@ export const EditProfile = () => {
           return res.json();
         })
         .then((data) => {
-          //const { first, last, email, height } = data;
-          console.log(data);
+          const { first, last, email, day, month, year } = data;
+
+          console.log({ data, b: DEFAULTS.BIRTHDAY });
+          setFields({ ...fields, first, last, email });
+          setBirthday({ day, month, year });
         })
         .catch((error) => {
+          console.log("inCatch");
           if (typeof error === typeof new TokenExpiredError()) {
-            //AuthActions.Logout(dispatch);
+            AuthActions.Logout(dispatch);
           }
         });
   }, [state.token]);
