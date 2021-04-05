@@ -9,7 +9,7 @@ import { TextInput } from "./input/TextInput";
 import { Label } from "./Label";
 import { updateProfile } from "../../util/ApiUtils";
 
-export const EditProfile = ({ userData, token }) => {
+export const EditProfile = ({ userData, updateUser }) => {
   const [fields, setFields] = useState({
     first: userData.first,
     last: userData.last,
@@ -39,24 +39,11 @@ export const EditProfile = ({ userData, token }) => {
 
   const handleUpdateProfile = (e) => {
     e.preventDefault();
-    const fieldData = {
+    updateUser({
       ...fields,
       ...birthday,
       height: centimeters,
-    };
-    e.target.disabled = true;
-    updateProfile(token, fieldData)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        e.target.disabled = false;
-      })
-      .catch((err) => {
-        console.error(err);
-        e.target.disabled = false;
-      });
+    });
   };
 
   // de-structure fields for form values

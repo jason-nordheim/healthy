@@ -6,6 +6,7 @@ import { EditProfile } from "../forms/EditProfile";
 import { PageTitle } from "../layout/PageTitle";
 import { getProfile } from "../../util/ApiUtils";
 import { TokenExpiredError } from "../../errors/TokenExpiredError";
+import { useProfile } from "../../hooks/useProfile";
 
 /**
  * Account Page for Unauthenticated users
@@ -59,31 +60,22 @@ const UnAuthenticated = () => {
  * Account Page For Authenticated Users
  */
 const Authenticated = ({ state, dispatch }) => {
-  const [userData, setUserData] = useState({});
+  const [userData, update] = useProfile(state?.token, dispatch);
   // retrieve user profile when the component mounts
-  useEffect(() => {
-    state?.token &&
-      getProfile(state.token)
-        .then((res) => {
-          if (res.status === 403) throw new TokenExpiredError();
-          return res.json();
-        })
-        .then((data) => {
-          setUserData({ ...data });
-        })
-        .catch((error) => {
-          if (typeof error === typeof new TokenExpiredError()) {
-            AuthActions.Logout(dispatch);
-          }
-        });
-  }, [state.token]);
+
   return (
     <div className="container">
       <div className="row">
-        <PageTitle text="Welcome" />
+        <PageTitle text="My Account" />
       </div>
       <div className="container">
-        {userData?.first && <EditProfile userData={userData} />}
+        {userData?.first && (
+          <EditProfile
+            userData={userData}
+            token={state.token}
+            updateUser={update}
+          />
+        )}
       </div>
     </div>
   );
