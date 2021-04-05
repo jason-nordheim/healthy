@@ -6,7 +6,12 @@ import { Label } from "../Label";
 
 const { centimetersToInches, inchesToCentimeters } = convert;
 
-export const SelectHeight = ({ uom = UOM.IMPERIAL, cm, setCm }) => {
+export const SelectHeight = ({
+  uom = UOM.IMPERIAL,
+  cm,
+  setCm,
+  displayLabel = true,
+}) => {
   const useImperial = uom === UOM.IMPERIAL ? true : false;
   const heightUnits = useImperial ? IMPERIAL.HEIGHT : METRIC.HEIGHT;
   const [val, setVal] = useState(useImperial ? centimetersToInches(cm) : cm);
@@ -25,7 +30,7 @@ export const SelectHeight = ({ uom = UOM.IMPERIAL, cm, setCm }) => {
 
   return (
     <span className="input-group">
-      <Label label="Height" name="height" inputText={true} />
+      {displayLabel && <Label label="Height" name="height" inputText={true} />}
       <NumberInput
         className="form-control"
         type="number"
