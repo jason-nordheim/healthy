@@ -88,7 +88,7 @@ export const EditProfile = ({ userData }) => {
         </div>
       </div>
 
-      <div className="container">
+      <div className="container mb-3    ">
         <div className="row">
           <div className="col-sm-auto">
             <Label label="Height" />
@@ -99,7 +99,20 @@ export const EditProfile = ({ userData }) => {
             <SelectUnits uom={uom} onChangeUom={handleUomChange} />
           </div>
           <div className="col-sm-auto mb-2">
-            <SelectHeight cm={centimeters} setCm={setCentimeters} uom={uom} />
+            <SelectHeight
+              cm={centimeters}
+              setCm={setCentimeters}
+              uom={uom}
+              displayLabel={false}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-auto">
+            <button className="btn btn-primary">Update</button>
           </div>
         </div>
       </div>
