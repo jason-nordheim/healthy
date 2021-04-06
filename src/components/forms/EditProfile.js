@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CLASSES, UOM } from "../../config";
 import { SelectBirthday } from "./select/SelectBirthday";
 import { SelectHeight } from "./select/SelectHeight";
@@ -9,17 +9,41 @@ import { Label } from "./Label";
 
 export const EditProfile = ({ userData, updateUser }) => {
   const [fields, setFields] = useState({
-    first: userData.first,
-    last: userData.last,
-    email: userData.email,
+    first: "",
+    last: "",
+    email: "",
   });
   const [birthday, setBirthday] = useState({
-    day: userData.day,
-    month: userData.month,
-    year: userData.year,
+    day: 0,
+    month: 0,
+    year: 0,
   });
-  const [centimeters, setCentimeters] = useState(userData.height || 0);
+  const [centimeters, setCentimeters] = useState(0);
   const [uom, setUom] = useState(UOM.IMPERIAL);
+
+  useEffect(() => {
+    if (!userData) return;
+    if (userData.first || userData.last || userData.email) {
+      setFields({
+        ...fields,
+        first: userData.first || "",
+        last: userData.last || "",
+        email: userData.last || "",
+      });
+    }
+    if (userData.day || userData.month || userData.year) {
+      setBirthday({
+        day: userData.day || 0,
+        month: userData.month || 0,
+        year: userData.year || 0,
+      });
+    }
+    if (userData.height) {
+      setCentimeters(userData.height);
+    }
+    // only should set when the data is retrieved from the api
+    // eslint-disable-next-line
+  }, [userData]);
 
   // event handler for changing the UOM
   const handleUomChange = (event) => {
