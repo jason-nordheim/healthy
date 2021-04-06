@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DEFAULTS, UOM } from "../../config";
 import { FormTitle } from "../forms/FormTitle";
 import { SelectHeight } from "../forms/select/SelectHeight";
@@ -9,19 +9,26 @@ import { BmiChart } from "./BmiChart";
 import { SubmitButton } from "../forms/input/SubmitButton";
 import { BmiUtils } from "../../util/BmiUtils";
 
-export const BmiCalculator = () => {
-  const [cm, setCM] = useState(DEFAULTS.MEASUREMENTS.HEIGHT);
+export const BmiCalculator = ({ profile = undefined }) => {
+  const [cm, setCm] = useState(DEFAULTS.MEASUREMENTS.HEIGHT);
   const [kg, setKg] = useState(DEFAULTS.MEASUREMENTS.WEIGHT);
   const [uom, setUom] = useState(UOM.IMPERIAL);
+  const [bmi, setBmi] = useState(0);
 
-  const meters = cm / 100; // convert from centimeters
-  const bmi = BmiUtils.calculateBmi(kg, meters);
+  useEffect(() => {
+    if (profile && profile.height) {
+      setCm(profile.height);
+    }
+  }, [profile]);
 
-  const showChart = kg && cm && bmi && bmi > 10 && bmi < 100 ? true : false;
+  useEffect(() => {
+    if (cm > 0 && kg > 0) {
+      setBmi(BmiUtils.calculateBmi(kg, cm / 100));
+    }
+  }, [cm, kg]);
 
   // event handler for changing the UOM
   const handleUomChange = (event) => setUom(event.target.value);
-
   return (
     <form className="container" onSubmit={(e) => e.preventDefault()}>
       <div className="container">
@@ -30,29 +37,29 @@ export const BmiCalculator = () => {
         </div>
       </div>
 
-      <div className="row">
-        <div className="col-sm-auto mb-3">
+      <div className="row mb-2">
+        <div className="col-sm-auto mb-1">
           <SelectUnits uom={uom} onChangeUom={handleUomChange} />
         </div>
       </div>
+      <div className="row mb-1">
+        <span className="col-sm-auto">
+          <SelectHeight cm={cm} setCm={setCm} uom={uom} />
+        </span>
+      </div>
       <div className="row">
-        <div className="col-sm-auto">
-          <SelectHeight cm={cm} setCm={setCM} uom={uom} />
-        </div>
-        <div className="col-sm-auto">
+        <span className="col-sm-auto">
           <SelectWeight kg={kg} setKg={setKg} uom={uom} />
-        </div>
+        </span>
       </div>
 
-      {showChart && (
+      {bmi > 10 && bmi < 100 && (
         <>
-          <BmiChart meters={meters} bmi={bmi} />
-          <div className="container">
-            <div className="row">
-              <div className="col-sm-auto">
-                {/* todo:  */}
-                <SubmitButton label="Record" />
-              </div>
+          <BmiChart meters={cm / 100} bmi={bmi} uom={uom} />
+          <div className="row">
+            <div className="col-sm-auto">
+              {/* todo:  */}
+              <SubmitButton label="" />
             </div>
           </div>
         </>
