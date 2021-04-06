@@ -5,15 +5,17 @@ import { SelectHeight } from "../forms/select/SelectHeight";
 import { SelectWeight } from "../forms/select/SelectWeight";
 import { SelectUnits } from "../forms/select/SelectUnits";
 
-import { BmiChart } from "./BmiChart";
 import { SubmitButton } from "../forms/input/SubmitButton";
-import { BmiUtils } from "../../util/BmiUtils";
+import { BmiUtils, categories } from "../../util/BmiUtils";
+import { BmiTable } from "./BmiTable";
 
+const { calculateBmi, bmiCategory } = BmiUtils;
 export const BmiCalculator = ({ profile = undefined }) => {
   const [cm, setCm] = useState(DEFAULTS.MEASUREMENTS.HEIGHT);
   const [kg, setKg] = useState(DEFAULTS.MEASUREMENTS.WEIGHT);
   const [uom, setUom] = useState(UOM.IMPERIAL);
   const [bmi, setBmi] = useState(0);
+  const [category, setCategory] = useState(categories.normal);
 
   useEffect(() => {
     if (profile && profile.height) {
@@ -23,18 +25,20 @@ export const BmiCalculator = ({ profile = undefined }) => {
 
   useEffect(() => {
     if (cm > 0 && kg > 0) {
-      setBmi(BmiUtils.calculateBmi(kg, cm / 100));
+      setBmi(calculateBmi(kg, cm / 100));
     }
   }, [cm, kg]);
+
+  useEffect(() => {
+    setCategory(bmiCategory(bmi));
+  }, [bmi]);
 
   // event handler for changing the UOM
   const handleUomChange = (event) => setUom(event.target.value);
   return (
     <form className="container" onSubmit={(e) => e.preventDefault()}>
-      <div className="container">
-        <div className="row">
-          <FormTitle title="BMI Calculator" />
-        </div>
+      <div className="row">
+        <FormTitle title="BMI Calculator" />
       </div>
 
       <div className="row mb-2">
@@ -53,17 +57,18 @@ export const BmiCalculator = ({ profile = undefined }) => {
         </span>
       </div>
 
-      {bmi > 10 && bmi < 100 && (
-        <>
-          <BmiChart meters={cm / 100} bmi={bmi} uom={uom} />
-          <div className="row">
-            <div className="col-sm-auto">
-              {/* todo:  */}
-              <SubmitButton label="" />
-            </div>
-          </div>
-        </>
-      )}
+      <div className="row mt-3">
+        <div className="col-sm-auto">
+          <BmiTable category={category} meters={cm / 100} bmi={bmi} uom={uom} />
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col-sm-auto">
+          {/* todo:  */}
+          <SubmitButton label="Log" />
+        </div>
+      </div>
     </form>
   );
 };
