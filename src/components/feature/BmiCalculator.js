@@ -62,13 +62,6 @@ export const BmiCalculator = ({ profile = undefined }) => {
           <BmiTable category={category} meters={cm / 100} bmi={bmi} uom={uom} />
         </div>
       </div>
-
-      <div className="row">
-        <div className="col-sm-auto">
-          {/* todo:  */}
-          <SubmitButton label="Log" />
-        </div>
-      </div>
     </form>
   );
 };
