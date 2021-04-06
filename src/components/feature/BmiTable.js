@@ -15,43 +15,60 @@ const { formatRangeToString, kgRange, lbRange } = BmiUtils;
  * @param {Number} height in centimeters
  * @param {Number} weight in kilograms
  */
-export const BmiChart = ({ meters, uom }) => {
+export const BmiTable = ({ bmi, category, meters, uom }) => {
+  const fontSize = "0.9rem";
   const kgRanges = kgRange(meters);
   const lbRanges = lbRange(meters);
+  const colorize = bmi > 10 && bmi < 50;
 
   return uom === UOM.IMPERIAL ? (
     <>
-      <div className="row">
+      <div className="row mt-2 mb-2">
         <div className="col-sm-auto">
-          <table
-            className="table table-responsive"
-            style={{ fontSize: "0.9rem" }}
-          >
+          <table className="table table-responsive" style={{ fontSize }}>
             <thead>
               <tr>
                 <th scope="col">Category</th>
                 <th scope="col">Weight Range</th>
               </tr>
             </thead>
-            <tbody className="fw-light">
-              <tr>
-                <td className="text-capitalize">
-                  {categories.underweight.name}
-                </td>
+            <tbody className="fw-light text-capitalize table-hover  ">
+              <tr
+                className={
+                  colorize && category === categories.underweight ? "table" : ""
+                }
+              >
+                <td>{categories.underweight.name}</td>
                 <td>{formatRangeToString(lbRanges.underweight)}</td>
               </tr>
-              <tr>
-                <td className="text-capitalize">{categories.normal.name}</td>
+              <tr
+                className={
+                  colorize && category === categories.normal
+                    ? "table-success"
+                    : ""
+                }
+              >
+                <td>{categories.normal.name}</td>
                 <td>{formatRangeToString(lbRanges.normal)}</td>
               </tr>
-              <tr>
-                <td className="text-capitalize">
-                  {categories.overweight.name}
-                </td>
+              <tr
+                className={
+                  colorize && category === categories.overweight
+                    ? "table-warning"
+                    : ""
+                }
+              >
+                <td>{categories.overweight.name}</td>
                 <td>{formatRangeToString(lbRanges.overweight)}</td>
               </tr>
-              <tr>
-                <td className="text-capitalize">{categories.obese.name}</td>
+              <tr
+                className={
+                  colorize && category === categories.obese
+                    ? "table-danger"
+                    : ""
+                }
+              >
+                <td>{categories.obese.name}</td>
                 <td>{formatRangeToString(lbRanges.obese)}</td>
               </tr>
             </tbody>
@@ -63,10 +80,7 @@ export const BmiChart = ({ meters, uom }) => {
     <>
       <div className="row">
         <div className="col-sm-auto">
-          <table
-            className="table table-responsive"
-            style={{ fontSize: "0.9rem" }}
-          >
+          <table className="table table-responsive" style={{ fontSize }}>
             <thead>
               <tr>
                 <th scope="col">Category</th>
