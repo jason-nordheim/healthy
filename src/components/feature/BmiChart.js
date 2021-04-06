@@ -25,7 +25,7 @@ export const BmiChart = ({ meters, uom }) => {
         <div className="col-sm-auto">
           <table
             className="table table-responsive"
-            style={{ fontSize: "0.75rem" }}
+            style={{ fontSize: "0.9rem" }}
           >
             <thead>
               <tr>
@@ -35,19 +35,23 @@ export const BmiChart = ({ meters, uom }) => {
             </thead>
             <tbody className="fw-light">
               <tr>
-                <td>{categories.underweight.name}</td>
+                <td className="text-capitalize">
+                  {categories.underweight.name}
+                </td>
                 <td>{formatRangeToString(lbRanges.underweight)}</td>
               </tr>
               <tr>
-                <td>{categories.normal.name}</td>
+                <td className="text-capitalize">{categories.normal.name}</td>
                 <td>{formatRangeToString(lbRanges.normal)}</td>
               </tr>
               <tr>
-                <td>{categories.overweight.name}</td>
+                <td className="text-capitalize">
+                  {categories.overweight.name}
+                </td>
                 <td>{formatRangeToString(lbRanges.overweight)}</td>
               </tr>
               <tr>
-                <td>{categories.obese.name}</td>
+                <td className="text-capitalize">{categories.obese.name}</td>
                 <td>{formatRangeToString(lbRanges.obese)}</td>
               </tr>
             </tbody>
@@ -61,7 +65,7 @@ export const BmiChart = ({ meters, uom }) => {
         <div className="col-sm-auto">
           <table
             className="table table-responsive"
-            style={{ fontSize: "0.75rem" }}
+            style={{ fontSize: "0.9rem" }}
           >
             <thead>
               <tr>
