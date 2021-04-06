@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
-import { AuthActions } from "../context/auth.context";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/auth.context";
+import { AuthActions } from "../context/auth.actions";
 import { TokenExpiredError } from "../errors/TokenExpiredError";
 import { getProfile, updateProfile } from "../util/ApiUtils";
 
-export const useProfile = (token, dispatch) => {
+export const useProfile = () => {
+  const [state, dispatch] = useContext(AuthContext);
   const [userData, setUserData] = useState({});
+  
   useEffect(() => {
-    token &&
-      getProfile(token)
+    state?.token &&
+      getProfile(state.token)
         .then((res) => {
           if (res.status === 403) throw new TokenExpiredError();
           return res.json();
@@ -20,10 +23,10 @@ export const useProfile = (token, dispatch) => {
             AuthActions.Logout(dispatch);
           }
         });
-  }, [token]);
+  }, [state.token, dispatch]);
 
   const update = (updatedValues) => {
-    return updateProfile(token, updatedValues)
+    return updateProfile(state.token, updatedValues)
       .then((res) => {
         return res.json();
       })
