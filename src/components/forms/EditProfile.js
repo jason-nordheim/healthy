@@ -1,13 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { CLASSES, UOM } from "../../config";
-import { AuthContext } from "../../context/auth.context";
 import { SelectBirthday } from "./select/SelectBirthday";
 import { SelectHeight } from "./select/SelectHeight";
 import { SelectUnits } from "./select/SelectUnits";
 import { FormTitle } from "./FormTitle";
 import { TextInput } from "./input/TextInput";
 import { Label } from "./Label";
-import { updateProfile } from "../../util/ApiUtils";
 
 export const EditProfile = ({ userData, updateUser }) => {
   const [fields, setFields] = useState({
