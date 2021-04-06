@@ -4,33 +4,32 @@ import { convert } from "../../../util/UnitUtilities";
 import { NumberInput } from "../input/NumberInput";
 import { Label } from "../Label";
 
-const { poundsToKilograms, kilogramsToPounds } = convert;
+const { poundsToKilograms } = convert;
 
 export const SelectWeight = ({ uom, kg, setKg }) => {
-  const useImperial = uom === UOM.IMPERIAL ? true : false;
+  const useImperial = uom === UOM.IMPERIAL;
   const weightUnits = useImperial ? IMPERIAL.WEIGHT : METRIC.WEIGHT;
   const min = useImperial ? DEFAULTS.MIN.POUNDS : DEFAULTS.MIN.KILOGRAMS;
-  const initialValue = kg && useImperial ? kilogramsToPounds(kg) : kg;
-  const [val, setVal] = useState(initialValue);
+  const [weight, setWeight] = useState(DEFAULTS.MEASUREMENTS.WEIGHT);
 
   useEffect(() => {
-    const num = parseInt(val);
+    const num = parseInt(weight);
     // guard clause
     if (isNaN(num)) return;
     // convert and set
     if (num && useImperial) setKg(poundsToKilograms(num));
     else if (num && !useImperial) setKg(num);
-  }, [val, setKg, useImperial]);
+  }, [weight, setKg, useImperial]);
 
-  const handleWeightChange = (event) => setVal(event.target.value);
+  const handleWeightChange = (event) => setWeight(event.target.value);
 
   return (
-    <span className="input-group p-3">
+    <span className="input-group">
       <Label label="Weight" name="weight" inputText={true} />
       <NumberInput
         name="weight"
         id="weight"
-        value={val}
+        value={weight}
         min={min}
         onChange={handleWeightChange}
       />
