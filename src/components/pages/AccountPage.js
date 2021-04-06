@@ -1,11 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { RegisterForm } from "../forms/RegisterForm";
 import { LoginForm } from "../forms/LoginForm";
-import { AuthActions, AuthContext } from "../../context/auth.context";
+import { AuthContext } from "../../context/auth.context";
 import { EditProfile } from "../forms/EditProfile";
 import { PageTitle } from "../layout/PageTitle";
-import { getProfile } from "../../util/ApiUtils";
-import { TokenExpiredError } from "../../errors/TokenExpiredError";
 import { useProfile } from "../../hooks/useProfile";
 
 /**
@@ -20,19 +18,19 @@ const UnAuthenticated = () => {
 
   const SwitchForms = () =>
     showRegistration ? (
-      <h6 className="text-center">
+      <p className="text-center fw-light">
         Don't have an account? Register{" "}
         <u style={{ cursor: "pointer" }} onClick={toggleForms}>
           here
         </u>
-      </h6>
+      </p>
     ) : (
-      <h6 className="text-center">
+      <p className="text-center fw-light">
         Already have an account? Login{" "}
         <u style={{ cursor: "pointer" }} onClick={toggleForms}>
           here
         </u>
-      </h6>
+      </p>
     );
 
   return (
@@ -42,15 +40,17 @@ const UnAuthenticated = () => {
           <PageTitle text={`My Account`} />
         </div>
       </div>
-      <div className="row">
-        <div className="col mt-3">
-          <DisplayedForm />
+      <div className="container shadow">
+        <div className="row">
+          <div className="col mt-3">
+            <DisplayedForm />
+          </div>
         </div>
-      </div>
-      <div className="row">
-        <span className="col mb-3 mt-3">
-          <SwitchForms />
-        </span>
+        <div className="row">
+          <span className="col mb-3 mt-3">
+            <SwitchForms />
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -83,6 +83,10 @@ const Authenticated = ({ state, dispatch }) => {
 
 export const AccountPage = () => {
   const [state, dispatch] = useContext(AuthContext);
-  if (state?.token) return <Authenticated state={state} dispatch={dispatch} />;
-  else return <UnAuthenticated />;
+  console.log(state);
+  return state?.token?.length > 10 ? (
+    <Authenticated state={state} dispatch={dispatch} />
+  ) : (
+    <UnAuthenticated />
+  );
 };
