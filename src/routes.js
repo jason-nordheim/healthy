@@ -1,6 +1,7 @@
 import { HomePage } from "./components/pages/HomePage";
 import { AccountPage } from "./components/pages/AccountPage";
 import { ToolsPage } from "./components/pages/ToolsPage";
+import { LogsPage } from "./components/pages/LogsPage";
 
 export const AppRoutes = [
   { path: "/", exact: true, label: "Home", component: () => <HomePage /> },
@@ -15,5 +16,11 @@ export const AppRoutes = [
     exact: false,
     label: "Tools",
     component: () => <ToolsPage />,
+  },
+  {
+    path: "/logs",
+    exact: false,
+    label: "Logs",
+    component: () => <LogsPage />,
   },
 ];
