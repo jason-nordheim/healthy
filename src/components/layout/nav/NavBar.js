@@ -2,7 +2,8 @@ import { AppRoutes } from "../../../routes";
 import { Brand } from "./Brand";
 import { NavItem } from "./NavItem";
 import { useContext, useState } from "react";
-import { AuthActions, AuthContext } from "../../../context/auth.context";
+import { AuthContext } from "../../../context/auth.context";
+import { AuthActions } from "../../../context/auth.actions";
 
 export const NavBar = () => {
   const [expanded, setExpanded] = useState(false);
@@ -33,13 +34,16 @@ export const NavBar = () => {
                 <NavItem key={route.path} to={route.path} label={route.label} />
               );
             })}
-            {state?.token && (
-              <li className="nav-item">
-                <span className="nav-link" onClick={handleLogout}>
-                  Logout
-                </span>
-              </li>
-            )}
+            {
+              // if logged in show a logout item in the list
+              state?.token && (
+                <li className="nav-item">
+                  <span className="nav-link" onClick={handleLogout}>
+                    Logout
+                  </span>
+                </li>
+              )
+            }
           </ul>
         </div>
       </div>
