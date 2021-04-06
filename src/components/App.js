@@ -1,17 +1,18 @@
 import { useReducer } from "react";
 import { Route } from "react-router";
-import {
-  AuthContext,
-  AuthReducer,
-  getInitialState,
-} from "../context/auth.context";
+import { AuthContext, AuthReducer } from "../context/auth.context";
+import { AuthState } from "../context/auth.state";
 import { AppRoutes } from "../routes";
 import { NavBar } from "./layout/nav/NavBar";
 
 export const App = () => {
-  const [state, dispatch] = useReducer(AuthReducer, getInitialState());
+  const [authState, authDispatch] = useReducer(
+    AuthReducer,
+    AuthState.initial()
+  );
+
   return (
-    <AuthContext.Provider value={[state, dispatch]}>
+    <AuthContext.Provider value={[authState, authDispatch]}>
       <NavBar />
       {AppRoutes.map((route) => (
         <Route

@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
-import { CLASSES, DEFAULTS } from "../../config";
-import { AuthActions, AuthContext } from "../../context/auth.context";
+import { DEFAULTS } from "../../config";
+import { AuthContext } from "../../context/auth.context";
 import { FormTitle } from "./FormTitle";
 import { TextInput } from "./input/TextInput";
 import { SubmitButton } from "./input/SubmitButton";
@@ -9,17 +9,18 @@ import { Label } from "./Label";
 import { PasswordInput } from "./input/PasswordInput";
 import { SelectBirthday } from "./select/SelectBirthday";
 import { FormErrorMessage } from "./FormErrorMessage";
+import { AuthActions } from "../../context/auth.actions";
 
 export const RegisterForm = () => {
   // context
   const [state, dispatch] = useContext(AuthContext);
 
   // component state
-  const [formValues, setFormValues] = useState(DEFAULTS.USER);
+  const [fields, setFields] = useState(DEFAULTS.USER);
   const [birthday, setBirthday] = useState(DEFAULTS.BIRTHDAY);
 
   // de-structure for readability
-  const { first, last, email, password } = formValues;
+  const { first, last, email, password } = fields;
 
   // submit event handler
   const handleSubmit = (event) => {
@@ -38,39 +39,46 @@ export const RegisterForm = () => {
   };
 
   // form onChange event handler
-  const handleFormValueChange = (event) => {
-    const { name, value } = event.target;
-    setFormValues({ ...formValues, [name]: value });
+  // handle fieldValue change
+  const handleFieldChange = (e) => {
+    const { name, value } = e.target;
+    setFields({
+      ...fields,
+      [name]: value,
+    });
   };
   return (
     <form onSubmit={handleSubmit}>
       <FormTitle title="Register" />
 
-      <div className="container">
+      <div className="container mb-3">
         <div className="row">
-          <div className="col mb-3">
-            <Label label="First Name" name="fist" />
-            <TextInput
-              type="text"
-              className="form-control"
-              id="fist"
-              value={first}
-              name="first"
-              required
-              onChange={handleFormValueChange}
-            />
+          <div className="col-sm-auto">
+            <Label label="Name" />
           </div>
-          <div className="col mb-3">
-            <Label label="Last Name" name="fist" />
-            <TextInput
-              for="last"
-              type="text"
-              name="last"
-              label="Last Name"
-              id="last"
-              value={last}
-              onChange={handleFormValueChange}
-            />
+          <div className="col-sm-auto mb-2">
+            <span className="input-group">
+              <Label label="First" name="first" inputText={true} />
+              <TextInput
+                for="first"
+                name="first"
+                id="first"
+                value={first}
+                onChange={handleFieldChange}
+              />
+            </span>
+          </div>
+          <div className="col-sm-auto mb-2">
+            <span className="input-group">
+              <Label label="Last" name="last" inputText={true} />
+              <TextInput
+                for="last"
+                name="last"
+                id="last"
+                value={last}
+                onChange={handleFieldChange}
+              />
+            </span>
           </div>
         </div>
       </div>
@@ -79,35 +87,44 @@ export const RegisterForm = () => {
 
       <div className="container">
         <div className="row">
-          <div className="col mb-3">
-            <Label label="Email Address" name="fist" />
-            <TextInput
-              for="email"
-              id="email"
-              label="Email Address"
-              name="email"
-              value={email}
-              required={true}
-              onChange={handleFormValueChange}
-            />
+          <div className="col-sm-auto">
+            <Label label="Login" />
+          </div>
+          <div className="col-sm-auto mb-1">
+            <span className="input-group">
+              <Label label="Email" name="fist" inputText={true} />
+              <TextInput
+                for="email"
+                id="email"
+                label="Email Address"
+                name="email"
+                value={email}
+                required={true}
+                onChange={handleFieldChange}
+              />
+            </span>
+          </div>
+          <div className="col-sm-auto">
+            <span className="input-group">
+              <Label label="Password" name="password" inputText={true} />
+              <PasswordInput password={password} onChange={handleFieldChange} />
+            </span>
           </div>
         </div>
 
         <div className="row">
-          <div className="col mb-3">
-            <Label label="Password" name="password" />
-            <PasswordInput
-              password={password}
-              onChange={handleFormValueChange}
-            />
-          </div>
+          <div className="col mb-3"></div>
         </div>
       </div>
 
       <div className="container">
         <div className="row">
-          <div className="col position-relative end">
-            <SubmitButton onSubmit={handleSubmit} label="Login" />
+          <div className="col-sm-auto ">
+            <SubmitButton
+              onSubmit={handleSubmit}
+              label="Login"
+              className="position-relative end"
+            />
           </div>
         </div>
       </div>

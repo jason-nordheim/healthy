@@ -1,12 +1,12 @@
 import { useContext, useState } from "react";
-import { CLASSES } from "../../config";
-import { AuthActions, AuthContext } from "../../context/auth.context";
+import { AuthContext } from "../../context/auth.context";
 import { FormErrorMessage } from "./FormErrorMessage";
 import { FormTitle } from "./FormTitle";
 import { Label } from "./Label";
 import { TextInput } from "./input/TextInput";
 import { PasswordInput } from "./input/PasswordInput";
 import { SubmitButton } from "./input/SubmitButton";
+import { AuthActions } from "../../context/auth.actions";
 
 export const LoginForm = () => {
   const [state, dispatch] = useContext(AuthContext);
