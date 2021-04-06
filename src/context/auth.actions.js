@@ -65,6 +65,7 @@ const Register = (user, dispatch) => {
     });
 };
 
+
 export const AuthActions = {
   Login,
   Logout,
