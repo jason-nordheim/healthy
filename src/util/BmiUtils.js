@@ -1,4 +1,4 @@
-import { convert } from "./UnitUtilities";
+import { convert, round } from "./UnitUtilities";
 
 const thresholds = {
   underweight: 18.49,
@@ -126,9 +126,23 @@ const bmiCategory = (bmi) => {
  */
 const calculateBmi = (kg, meters) => kg / (meters * meters);
 
+/**
+ * Creates a human readable string
+ * @param {{min: number, max: number}} range
+ * @returns {string}
+ */
+const formatRangeToString = (range) => {
+  const min = range.min || undefined;
+  const max = range.max || undefined;
+  if (min && max) return `${round(min)} - ${round(max)}`;
+  if (!min && max) return `under ${round(max)}`;
+  if (min && !max) return `over ${round(min)}`;
+};
+
 export const BmiUtils = {
   calculateBmi,
   bmiCategory,
   kgRange,
   lbRange,
+  formatRangeToString,
 };

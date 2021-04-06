@@ -1,7 +1,5 @@
 import { UOM } from "../../config";
 import { BmiUtils, categories } from "../../util/BmiUtils";
-import { round } from "../../util/UnitUtilities";
-import { Label } from "../forms/Label";
 
 // const convertKgRangeToLb = (kgRange) => {
 //   return {
@@ -10,65 +8,19 @@ import { Label } from "../forms/Label";
 //   };
 // };
 
-const formatRangeToString = (range) => {
-  if (range.min && range.max)
-    return `${round(range.min)} - ${round(range.max)}`;
-  else if (range.min && !range.max) return `over ${round(range.min)}`;
-  else if (!range.min && range.max) return `under ${round(range.max)}`;
-  else
-    throw new Error("invalid range object: must have a `min` or `max` value");
-};
+const { formatRangeToString, kgRange, lbRange } = BmiUtils;
 
 /**
  *
  * @param {Number} height in centimeters
  * @param {Number} weight in kilograms
  */
-export const BmiChart = ({ meters, bmi, uom }) => {
-  const category = BmiUtils.bmiCategory(bmi);
-
-  const kgRanges = BmiUtils.kgRange(meters);
-  const lbRanges = BmiUtils.lbRange(meters);
+export const BmiChart = ({ meters, uom }) => {
+  const kgRanges = kgRange(meters);
+  const lbRanges = lbRange(meters);
 
   return uom === UOM.IMPERIAL ? (
     <>
-      <div className="row">
-        <Label Label="BMI" />
-      </div>
-      <div className="row mt-3 mb-3">
-        <div className="col-sm-auto">
-          <div
-            className="progress"
-            style={{ height: "1.5rem", textJustify: "center" }}
-          >
-            <div
-              role="progressbar"
-              style={{
-                width: `${category.percent * 100}%`,
-                height: "100%",
-                fontSize: "1.1rem",
-                textAlign: "center",
-              }}
-              className={
-                "progress-bar  " + category.name === categories.underweight.name
-                  ? "bg-warning"
-                  : category.name === categories.normal.name
-                  ? "bg-success"
-                  : category.name === categories.overweight.name
-                  ? "bg-warning"
-                  : category.name === categories.obese.name
-                  ? "bg-danger"
-                  : ""
-              }
-              aria-valuenow={bmi}
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              {round(bmi)}
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="row">
         <div className="col-sm-auto">
           <table
@@ -105,43 +57,6 @@ export const BmiChart = ({ meters, bmi, uom }) => {
     </>
   ) : (
     <>
-      <div className="row">
-        <Label Label="BMI" />
-      </div>
-      <div className="row mt-3 mb-3">
-        <div className="col-sm-auto">
-          <div
-            className="progress"
-            style={{ height: "1.5rem", textJustify: "center" }}
-          >
-            <div
-              role="progressbar"
-              style={{
-                width: `${category.percent * 100}%`,
-                height: "100%",
-                fontSize: "1.1rem",
-                textAlign: "center",
-              }}
-              className={
-                "progress-bar  " + category.name === categories.underweight.name
-                  ? "bg-warning"
-                  : category.name === categories.normal.name
-                  ? "bg-success"
-                  : category.name === categories.overweight.name
-                  ? "bg-warning"
-                  : category.name === categories.obese.name
-                  ? "bg-danger"
-                  : ""
-              }
-              aria-valuenow={bmi}
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              {round(bmi)}
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="row">
         <div className="col-sm-auto">
           <table
