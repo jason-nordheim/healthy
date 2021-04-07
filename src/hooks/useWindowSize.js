@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 /**
  * Hook that to report window size
- * @returns {{width:{number}, height:{number}}}
+ * @returns {Object<width:{number}, height:{number}>}}
  */
 export const useWindowSize = () => {
   const [windowSize, setWindowSize] = useState({
