@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useWindowSize } from "../../hooks/useWindowSize";
 import { PageTitle } from "../layout/PageTitle";
 
 const LOGS = {
@@ -9,6 +10,8 @@ const LOGS = {
 
 export const LogsPage = () => {
   const [selected, setSelected] = useState(null);
+  const windowSize = useWindowSize();
+  console.log(windowSize);
 
   const handleLogTypeSelect = (e) => {
     // inner text will match the type
@@ -40,30 +43,30 @@ export const LogsPage = () => {
                 onClick={handleLogTypeSelect}
                 className={
                   selected === LOGS.ACTIVITY
-                    ? "btn btn-primary"
-                    : "btn btn-secondary"
+                    ? "btn btn-primary border"
+                    : "btn btn-secondary border"
                 }
               >
                 {LOGS.ACTIVITY}
               </button>
               <button
                 type="button"
-                onClick={() => setSelected(LOGS.FOOD)}
+                onClick={handleLogTypeSelect}
                 className={
                   selected === LOGS.FOOD
-                    ? "btn btn-primary"
-                    : "btn btn-secondary"
+                    ? "btn btn-primary border"
+                    : "btn btn-secondary border"
                 }
               >
                 {LOGS.FOOD}
               </button>
               <button
                 type="button"
-                onClick={() => setSelected(LOGS.WEIGHT)}
+                onClick={handleLogTypeSelect}
                 className={
                   selected === LOGS.WEIGHT
-                    ? "btn btn-primary"
-                    : "btn btn-secondary"
+                    ? "btn btn-primary border"
+                    : "btn btn-secondary border"
                 }
               >
                 {LOGS.WEIGHT}
