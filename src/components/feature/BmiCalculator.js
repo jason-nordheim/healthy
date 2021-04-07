@@ -5,7 +5,6 @@ import { SelectHeight } from "../forms/select/SelectHeight";
 import { SelectWeight } from "../forms/select/SelectWeight";
 import { SelectUnits } from "../forms/select/SelectUnits";
 
-import { SubmitButton } from "../forms/input/SubmitButton";
 import { BmiUtils, categories } from "../../util/BmiUtils";
 import { BmiTable } from "./BmiTable";
 
