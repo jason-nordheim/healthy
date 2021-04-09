@@ -6,7 +6,7 @@ import { Label } from "../Label";
 
 const { poundsToKilograms } = convert;
 
-export const SelectWeight = ({ uom, kg, setKg }) => {
+export const SelectWeight = ({ uom, kg, setKg, disabled = false }) => {
   const useImperial = uom === UOM.IMPERIAL;
   const weightUnits = useImperial ? IMPERIAL.WEIGHT : METRIC.WEIGHT;
   const min = useImperial ? DEFAULTS.MIN.POUNDS : DEFAULTS.MIN.KILOGRAMS;
@@ -32,9 +32,10 @@ export const SelectWeight = ({ uom, kg, setKg }) => {
         value={weight}
         min={min}
         onChange={handleWeightChange}
+        disabled={disabled}
       />
       <select
-        className="form-select"
+        className="form-select text-capitalize"
         name="w_units"
         id="w_units"
         value={weightUnits}
