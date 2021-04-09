@@ -1,4 +1,4 @@
-import { AppName } from "../config";
+import { AppName } from "../config/app.config";
 export const getInitialState = () => {};
 
 export const AuthState = {
