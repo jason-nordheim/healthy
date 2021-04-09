@@ -53,7 +53,6 @@ export const WeightLogContainer = () => {
         // todo: handle other errors
         // todo: convert to JSON
         // todo: update the weights
-        console.log({ res });
         fetchUserWeight();
       })
       .catch((error) => {
@@ -110,8 +109,8 @@ export const WeightLogContainer = () => {
                   >
                     <span>
                       {uom === UOM.IMPERIAL
-                        ? `${round(convert.kilogramsToPounds(weight.kg), 2)}`
-                        : `${round(weight.kg, 2)}`}
+                        ? `${round(convert.kilogramsToPounds(weight.kg))}`
+                        : `${round(weight.kg)}`}
                     </span>
                     <span className="align-items-center">
                       <TiDelete

@@ -5,7 +5,9 @@ const Login = (user, dispatch) => {
   // request started
   dispatch({ type: AUTH_TYPE.LOGIN_REQUEST, payload: null });
   return loginUser(user)
-    .then((res) => res.json())
+    .then((res) => {
+      return res.json();
+    })
     .then((data) => {
       if (data.error) {
         console.log("LoginError", data);
@@ -21,7 +23,6 @@ const Login = (user, dispatch) => {
     })
     .catch((error) => {
       // todo: have not found scenario in which this is invoked
-      console.error("LoginError", error);
       dispatch({
         type: AUTH_TYPE.LOGIN_FAILURE,
         payload: { error },
@@ -64,7 +65,6 @@ const Register = (user, dispatch) => {
       });
     });
 };
-
 
 export const AuthActions = {
   Login,

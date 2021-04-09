@@ -1,3 +1,9 @@
+export const round = (number, decimals = 2) => {
+  return Intl.NumberFormat("en-us", {
+    maximumFractionDigits: decimals,
+  }).format(number);
+};
+
 /**
  * returns the equivalent number of inches
  * @param {Number} inches
@@ -31,10 +37,4 @@ export const convert = {
   centimetersToInches,
   poundsToKilograms,
   kilogramsToPounds,
-};
-
-export const round = (number, decimals = 2) => {
-  return Intl.NumberFormat("en-us", {
-    maximumFractionDigits: decimals,
-  }).format(number);
 };
