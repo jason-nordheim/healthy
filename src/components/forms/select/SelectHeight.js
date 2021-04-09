@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { DEFAULTS, IMPERIAL, METRIC, UOM } from "../../../config";
+import { IMPERIAL, UOM, METRIC } from "../../../config/units.config";
 import { convert } from "../../../util/UnitUtilities";
 import { NumberInput } from "../input/NumberInput";
 import { Label } from "../Label";
@@ -127,10 +127,7 @@ export const SelectHeight = ({
   disabled = false,
 }) => {
   const useImperial = useMemo(() => uom === UOM.IMPERIAL, [uom]);
-  const min = useMemo(
-    () => (useImperial ? DEFAULTS.MIN.INCHES : DEFAULTS.MIN.CENTIMETERS),
-    [useImperial]
-  );
+  const min = 0;
 
   return useImperial ? (
     <ImperialHeightSelect

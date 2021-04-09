@@ -1,4 +1,4 @@
-import { AppName } from "../../config";
+import { AppName } from "../../config/app.config";
 import { PageTitle } from "../layout/PageTitle";
 
 export const HomePage = () => {

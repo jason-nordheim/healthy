@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { DEFAULTS, UOM } from "../../config";
+import { UOM } from "../../config/units.config";
 import { FormTitle } from "../forms/FormTitle";
 import { SelectHeight } from "../forms/select/SelectHeight";
 import { SelectWeight } from "../forms/select/SelectWeight";
@@ -10,8 +10,8 @@ import { BmiTable } from "./BmiTable";
 
 const { calculateBmi, bmiCategory } = BmiUtils;
 export const BmiCalculator = ({ profile = undefined }) => {
-  const [cm, setCm] = useState(DEFAULTS.MEASUREMENTS.HEIGHT);
-  const [kg, setKg] = useState(DEFAULTS.MEASUREMENTS.WEIGHT);
+  const [cm, setCm] = useState(0);
+  const [kg, setKg] = useState(0);
   const [uom, setUom] = useState(UOM.IMPERIAL);
   const [bmi, setBmi] = useState(0);
   const [category, setCategory] = useState(categories.normal);

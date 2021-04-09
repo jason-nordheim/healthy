@@ -1,4 +1,4 @@
-import { MONTHS } from "../../../config";
+import { MONTHS } from "../../../config/app.config";
 import { Label } from "../Label";
 import { NumberInput } from "../input/NumberInput";
 import { Select } from "./Select";

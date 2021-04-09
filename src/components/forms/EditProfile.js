@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { CLASSES, UOM } from "../../config";
+import { CLASSES } from "../../config/app.config";
 import { SelectBirthday } from "./select/SelectBirthday";
 import { SelectHeight } from "./select/SelectHeight";
 import { SelectUnits } from "./select/SelectUnits";
 import { TextInput } from "./input/TextInput";
 import { Label } from "./Label";
 import { Toggle } from "../common/Toggle";
+import { UOM } from "../../config/units.config";
 
 export const EditProfile = ({ userData, updateUser }) => {
   const [editMode, setEditMode] = useState(false);

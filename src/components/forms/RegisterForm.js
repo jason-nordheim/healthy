@@ -1,5 +1,4 @@
 import { useState, useContext } from "react";
-import { DEFAULTS } from "../../config";
 import { AuthContext } from "../../context/auth.context";
 import { FormTitle } from "./FormTitle";
 import { TextInput } from "./input/TextInput";
@@ -16,8 +15,13 @@ export const RegisterForm = () => {
   const [state, dispatch] = useContext(AuthContext);
 
   // component state
-  const [fields, setFields] = useState(DEFAULTS.USER);
-  const [birthday, setBirthday] = useState(DEFAULTS.BIRTHDAY);
+  const [fields, setFields] = useState({
+    first: "",
+    last: "",
+    email: "",
+    password: "",
+  });
+  const [birthday, setBirthday] = useState({ day: 1, month: 1, year: 2020 });
 
   // de-structure for readability
   const { first, last, email, password } = fields;

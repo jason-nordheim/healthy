@@ -1,4 +1,4 @@
-import { UOM } from "../../config";
+import { UOM } from "../../config/units.config";
 import { BmiUtils, categories } from "../../util/BmiUtils";
 
 // const convertKgRangeToLb = (kgRange) => {

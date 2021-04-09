@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { DEFAULTS, IMPERIAL, METRIC, UOM } from "../../../config";
 import { convert } from "../../../util/UnitUtilities";
 import { NumberInput } from "../input/NumberInput";
 import { Label } from "../Label";
+import { IMPERIAL, UOM, METRIC } from "../../../config/units.config";
 
 const { poundsToKilograms } = convert;
 
 export const SelectWeight = ({ uom, kg, setKg, disabled = false }) => {
   const useImperial = uom === UOM.IMPERIAL;
   const weightUnits = useImperial ? IMPERIAL.WEIGHT : METRIC.WEIGHT;
-  const min = useImperial ? DEFAULTS.MIN.POUNDS : DEFAULTS.MIN.KILOGRAMS;
-  const [weight, setWeight] = useState(DEFAULTS.MEASUREMENTS.WEIGHT);
+  const min = 0;
+  const [weight, setWeight] = useState(0);
 
   useEffect(() => {
     const num = parseInt(weight);

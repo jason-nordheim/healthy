@@ -1,4 +1,4 @@
-import { UOM } from "../../../config";
+import { UOM } from "../../../config/units.config";
 
 export const SelectUnits = ({ uom, onChangeUom, disabled = false }) => {
   return (
