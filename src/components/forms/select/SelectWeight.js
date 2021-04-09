@@ -13,7 +13,7 @@ export const SelectWeight = ({ uom, kg, setKg, disabled = false }) => {
   const [weight, setWeight] = useState(0);
 
   useEffect(() => {
-    const num = parseInt(weight);
+    const num = parseFloat(weight);
     // guard clause
     if (isNaN(num)) return;
     // convert and set
