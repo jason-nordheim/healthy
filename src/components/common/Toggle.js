@@ -1,7 +1,10 @@
-import { useEffect, useRef, useState } from "react";
 import { BsToggleOn, BsToggleOff } from "react-icons/bs/index";
 
-export const Toggle = ({ on = true, onClick }) => {
+export const Toggle = ({
+  on = true,
+  onClick,
+  style = { fontSize: "36px" },
+}) => {
   return (
     <div className="col d-flex justify-content-end align-items-center">
       <span className="h1 align-items-center" onClick={onClick}>
@@ -11,6 +14,7 @@ export const Toggle = ({ on = true, onClick }) => {
           data-trigger="hover"
           title="Edit"
           data-content="Click to toggle edit mode"
+          style={style}
         >
           {on ? (
             <BsToggleOn aria-label="on" title="toggle" color="green" />
