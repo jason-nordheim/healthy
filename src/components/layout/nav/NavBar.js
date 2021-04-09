@@ -1,4 +1,4 @@
-import { AppRoutes } from "../../../routes";
+import { AppRoutes } from "../../../config/routes";
 import { Brand } from "./Brand";
 import { NavItem } from "./NavItem";
 import { useContext, useState } from "react";
@@ -30,8 +30,18 @@ export const NavBar = () => {
         >
           <ul className="navbar-nav me-auto mb-2 mb-lg-0" onClick={handleClick}>
             {AppRoutes.map((route) => {
-              return (
+              // if there is a token, show all routes
+              return state.token ? (
                 <NavItem key={route.path} to={route.path} label={route.label} />
+              ) : (
+                // no user, only show routes that do not require a user
+                !route.authOnly && (
+                  <NavItem
+                    key={route.path}
+                    to={route.path}
+                    label={route.label}
+                  />
+                )
               );
             })}
             {
