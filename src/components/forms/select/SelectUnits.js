@@ -7,7 +7,7 @@ export const SelectUnits = ({ uom, onChangeUom, disabled = false }) => {
         Units
       </label>
       <select
-        className="form-select"
+        className="form-select text-capitalize"
         aria-label="Unit of Measurement"
         name="uom"
         id="uom"
