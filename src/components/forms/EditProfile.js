@@ -3,11 +3,12 @@ import { CLASSES, UOM } from "../../config";
 import { SelectBirthday } from "./select/SelectBirthday";
 import { SelectHeight } from "./select/SelectHeight";
 import { SelectUnits } from "./select/SelectUnits";
-import { FormTitle } from "./FormTitle";
 import { TextInput } from "./input/TextInput";
 import { Label } from "./Label";
+import { Toggle } from "../common/Toggle";
 
 export const EditProfile = ({ userData, updateUser }) => {
+  const [editMode, setEditMode] = useState(false);
   const [fields, setFields] = useState({
     first: "",
     last: "",
@@ -28,7 +29,7 @@ export const EditProfile = ({ userData, updateUser }) => {
         ...fields,
         first: userData.first || "",
         last: userData.last || "",
-        email: userData.last || "",
+        email: userData.email || "",
       });
     }
     if (userData.day || userData.month || userData.year) {
@@ -73,9 +74,12 @@ export const EditProfile = ({ userData, updateUser }) => {
 
   return (
     <form className={CLASSES.DEFAULT.FORMS}>
-      <div className="row">
-        <div className="col">
-          <FormTitle title="Edit Profile" />
+      <div className="container pt-2">
+        <div className="row">
+          <div className="col pt-2">
+            <h2>Edit Profile</h2>
+          </div>
+          <Toggle on={editMode} onClick={() => setEditMode(!editMode)} />
         </div>
       </div>
 
@@ -94,11 +98,12 @@ export const EditProfile = ({ userData, updateUser }) => {
                 id="first"
                 value={first}
                 onChange={handleFieldChange}
+                disabled={!editMode}
               />
             </span>
           </div>
           <div className="col-sm-auto mb-2">
-            <span className="input-group">
+            <span className={"input-group"}>
               <Label label="Last" name="last" inputText={true} />
               <TextInput
                 for="last"
@@ -108,6 +113,7 @@ export const EditProfile = ({ userData, updateUser }) => {
                 id="last"
                 value={last}
                 onChange={handleFieldChange}
+                disabled={!editMode}
               />
             </span>
           </div>
@@ -122,6 +128,7 @@ export const EditProfile = ({ userData, updateUser }) => {
               id="email"
               value={email}
               onChange={handleFieldChange}
+              disabled={!editMode}
             />
           </span>
         </div>
@@ -129,7 +136,11 @@ export const EditProfile = ({ userData, updateUser }) => {
 
       <div className="container">
         <div className="row">
-          <SelectBirthday birthday={birthday} setBirthday={setBirthday} />
+          <SelectBirthday
+            birthday={birthday}
+            setBirthday={setBirthday}
+            disabled={!editMode}
+          />
         </div>
       </div>
 
@@ -141,7 +152,11 @@ export const EditProfile = ({ userData, updateUser }) => {
         </div>
         <div className="row">
           <div className="col-sm-auto mb-2">
-            <SelectUnits uom={uom} onChangeUom={handleUomChange} />
+            <SelectUnits
+              uom={uom}
+              onChangeUom={handleUomChange}
+              disabled={!editMode}
+            />
           </div>
           <div className="col-sm-auto mb-2">
             <SelectHeight
@@ -149,6 +164,7 @@ export const EditProfile = ({ userData, updateUser }) => {
               setCm={setCentimeters}
               uom={uom}
               displayLabel={false}
+              disabled={!editMode}
             />
           </div>
         </div>
@@ -157,7 +173,11 @@ export const EditProfile = ({ userData, updateUser }) => {
       <div className="container">
         <div className="row">
           <div className="col-sm-auto">
-            <button className="btn btn-primary" onClick={handleUpdateProfile}>
+            <button
+              className="btn btn-primary"
+              onClick={handleUpdateProfile}
+              disabled={!editMode}
+            >
               Update
             </button>
           </div>
