@@ -1,25 +1,29 @@
 import { useState } from "react";
-import { useWindowSize } from "../../hooks/useWindowSize";
+import { ActivityLogContainer } from "../AcitivityLogContainer";
+import { FoodLogContainer } from "../FoodLogContainer";
 import { PageTitle } from "../layout/PageTitle";
+import { WeightLogContainer } from "../WeightLogContainer";
 
 const LOGS = {
   FOOD: "Food",
-  ACTIVITY: "Actviity",
+  ACTIVITY: "Activity",
   WEIGHT: "Weight",
 };
 
+const DEFAULT_TITLE = "My Logs";
 export const LogsPage = () => {
+  const [title, setTitle] = useState(DEFAULT_TITLE);
   const [selected, setSelected] = useState(null);
-  const windowSize = useWindowSize();
-  console.log(windowSize);
 
   const handleLogTypeSelect = (e) => {
     // inner text will match the type
     const { innerText } = e.target;
     if (innerText === selected) {
       setSelected(null);
+      setTitle(DEFAULT_TITLE);
     } else {
       setSelected(innerText);
+      setTitle(innerText + " log");
     }
   };
 
@@ -27,7 +31,7 @@ export const LogsPage = () => {
     <div className="container">
       <div className="row">
         <div className="col-sm-auto">
-          <PageTitle text="Logs" />
+          <PageTitle text={title} />
         </div>
       </div>
       <div className="container">
@@ -40,6 +44,9 @@ export const LogsPage = () => {
             >
               <button
                 type="button"
+                data-toggle={
+                  selected === LOGS.ACTIVITY ? "collapse show" : "collapse"
+                }
                 onClick={handleLogTypeSelect}
                 className={
                   selected === LOGS.ACTIVITY
@@ -51,6 +58,9 @@ export const LogsPage = () => {
               </button>
               <button
                 type="button"
+                data-toggle={
+                  selected === LOGS.FOOD ? "collapse show" : "collapse"
+                }
                 onClick={handleLogTypeSelect}
                 className={
                   selected === LOGS.FOOD
@@ -62,6 +72,9 @@ export const LogsPage = () => {
               </button>
               <button
                 type="button"
+                data-toggle={
+                  selected === LOGS.WEIGHT ? "collapse show" : "collapse"
+                }
                 onClick={handleLogTypeSelect}
                 className={
                   selected === LOGS.WEIGHT
@@ -71,6 +84,41 @@ export const LogsPage = () => {
               >
                 {LOGS.WEIGHT}
               </button>
+            </div>
+          </div>
+        </div>
+        <div className="row mt-3">
+          <div className="col-sm-auto">
+            <div className={selected === null ? "collapse show" : "collapse"}>
+              <span
+                className="small"
+                style={{
+                  display: "flex",
+                  flex: "1",
+                  placeContent: "center",
+                }}
+              >
+                Select a log type to get started ☝
+              </span>
+            </div>
+            <div
+              className={
+                selected === LOGS.ACTIVITY ? "collapse show" : "collapse"
+              }
+            >
+              <ActivityLogContainer />
+            </div>
+            <div
+              className={selected === LOGS.FOOD ? "collapse show" : "collapse"}
+            >
+              <FoodLogContainer />
+            </div>
+            <div
+              className={
+                selected === LOGS.WEIGHT ? "collapse show" : "collapse"
+              }
+            >
+              <WeightLogContainer />
             </div>
           </div>
         </div>
