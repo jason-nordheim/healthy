@@ -3,6 +3,10 @@ const BASE_SERVER_URI = `http://localhost:5000`;
 export const API_CONFIG = {
   base: BASE_SERVER_URI,
   routes: {
+    auth: {
+      url: `${BASE_SERVER_URI}/api/login`,
+      method: "POST",
+    },
     user: {
       register: {
         url: `${BASE_SERVER_URI}/api/users`,
@@ -17,9 +21,11 @@ export const API_CONFIG = {
         method: "PATCH",
       },
     },
-    auth: {
-      url: `${BASE_SERVER_URI}/api/login`,
-      method: "POST",
+    weight: {
+      add: {
+        url: `${BASE_SERVER_URI}/api/weights`,
+        method: "POST",
+      },
     },
   },
 };
