@@ -1,13 +1,21 @@
-export const TextInput = ({ id, value, name, required = true, onChange }) => {
+export const TextInput = ({
+  id,
+  value,
+  name,
+  required = true,
+  onChange,
+  disabled = false,
+}) => {
   return (
     <input
       type="text"
-      className="form-control"
+      className={disabled ? "form-control text-muted" : "form-control"}
       id={id}
       value={value}
       name={name}
       required={required}
       onChange={onChange}
+      disabled={disabled}
     />
   );
 };

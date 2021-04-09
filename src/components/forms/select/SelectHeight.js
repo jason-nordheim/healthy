@@ -6,7 +6,13 @@ import { Label } from "../Label";
 
 const { inchesToCentimeters, centimetersToInches } = convert;
 
-const ImperialHeightSelect = ({ displayLabel, cm, setCm, min }) => {
+const ImperialHeightSelect = ({
+  displayLabel,
+  cm,
+  setCm,
+  min,
+  disabled = false,
+}) => {
   const [inches, setInches] = useState(min);
   const handleHeightChange = (event) => setInches(event.target.value);
 
@@ -34,6 +40,7 @@ const ImperialHeightSelect = ({ displayLabel, cm, setCm, min }) => {
         value={inches}
         min={min}
         onChange={handleHeightChange}
+        disabled={disabled}
       />
       <select
         className="form-select"
@@ -61,7 +68,13 @@ const ImperialHeightSelect = ({ displayLabel, cm, setCm, min }) => {
 //     else setCm(num);
 //   }, [height, useImperial, setCm]);
 
-const MetricHeightSelect = ({ displayLabel, cm, setCm, min }) => {
+const MetricHeightSelect = ({
+  displayLabel,
+  cm,
+  setCm,
+  min,
+  disabled = false,
+}) => {
   const [centimeters, setCentimeters] = useState(min);
   const handleHeightChange = (event) => setCentimeters(event.target.value);
 
@@ -87,6 +100,7 @@ const MetricHeightSelect = ({ displayLabel, cm, setCm, min }) => {
         value={centimeters}
         min={min}
         onChange={handleHeightChange}
+        disabled={disabled}
       />
       <select
         className="form-select"
@@ -110,6 +124,7 @@ export const SelectHeight = ({
   cm = 0,
   setCm,
   displayLabel = true,
+  disabled = false,
 }) => {
   const useImperial = useMemo(() => uom === UOM.IMPERIAL, [uom]);
   const min = useMemo(
@@ -123,6 +138,7 @@ export const SelectHeight = ({
       setCm={setCm}
       displayLabel={displayLabel}
       min={min}
+      disabled={disabled}
     />
   ) : (
     <MetricHeightSelect
@@ -130,6 +146,7 @@ export const SelectHeight = ({
       setCm={setCm}
       displayLabel={displayLabel}
       min={min}
+      disabled={disabled}
     />
   );
 };

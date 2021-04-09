@@ -1,10 +1,10 @@
 import { UOM } from "../../../config";
 
-export const SelectUnits = ({ uom, onChangeUom }) => {
+export const SelectUnits = ({ uom, onChangeUom, disabled = false }) => {
   return (
     <span className="input-group">
-      <label className="input-group-text" htmlFor="uom">
-        Unit of Measure
+      <label className="input-group-text fw-light" htmlFor="uom">
+        Units
       </label>
       <select
         className="form-select"
@@ -13,6 +13,8 @@ export const SelectUnits = ({ uom, onChangeUom }) => {
         id="uom"
         value={uom}
         onChange={onChangeUom}
+        disabled={disabled}
+        readOnly={disabled}
       >
         <option
           value={UOM.IMPERIAL}

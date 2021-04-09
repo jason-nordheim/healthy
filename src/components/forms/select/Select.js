@@ -44,6 +44,7 @@ export const Select = ({
   required = false,
   casing = CASING.default,
   selectOptions,
+  disabled = false,
 }) => {
   validateSelectOptions(selectOptions);
 
@@ -76,6 +77,7 @@ export const Select = ({
         value={value}
         onChange={onChange}
         className="form-select"
+        disabled={disabled}
       >
         <Options />
       </select>

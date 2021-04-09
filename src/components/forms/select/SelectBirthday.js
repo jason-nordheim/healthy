@@ -3,7 +3,7 @@ import { Label } from "../Label";
 import { NumberInput } from "../input/NumberInput";
 import { Select } from "./Select";
 
-export const SelectBirthday = ({ birthday, setBirthday }) => {
+export const SelectBirthday = ({ birthday, setBirthday, disabled = false }) => {
   const options = MONTHS.map((m) => ({
     key: m.value,
     id: m.id,
@@ -36,6 +36,7 @@ export const SelectBirthday = ({ birthday, setBirthday }) => {
                 type="number"
                 min={1}
                 max={31}
+                disabled={disabled}
               />
             </span>
           </div>
@@ -49,6 +50,7 @@ export const SelectBirthday = ({ birthday, setBirthday }) => {
                 required={true}
                 onChange={handleBirthdayFieldChange}
                 selectOptions={options}
+                disabled={disabled}
               />
             </span>
           </div>
@@ -63,6 +65,7 @@ export const SelectBirthday = ({ birthday, setBirthday }) => {
                 value={year}
                 required={true}
                 onChange={handleBirthdayFieldChange}
+                disabled={disabled}
               />
             </span>
           </div>

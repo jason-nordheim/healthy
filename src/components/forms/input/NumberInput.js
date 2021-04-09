@@ -6,11 +6,12 @@ export const NumberInput = ({
   max = Number.MAX_SAFE_INTEGER,
   required = true,
   onChange,
+  disabled = false,
 }) => {
   return (
     <input
       type="number"
-      className="form-control"
+      className={disabled ? "form-control text-muted" : "form-control"}
       id={id}
       value={value}
       name={name}
@@ -18,6 +19,7 @@ export const NumberInput = ({
       max={max}
       required={required}
       onChange={onChange}
+      disabled={disabled}
     />
   );
 };
