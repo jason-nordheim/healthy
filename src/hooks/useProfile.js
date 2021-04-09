@@ -7,14 +7,10 @@ import { getProfile, updateProfile } from "../util/ApiUtils";
 export const useProfile = () => {
   const [state, dispatch] = useContext(AuthContext);
   const [userData, setUserData] = useState({});
-  
+
   useEffect(() => {
     state?.token &&
       getProfile(state.token)
-        .then((res) => {
-          if (res.status === 403) throw new TokenExpiredError();
-          return res.json();
-        })
         .then((data) => {
           setUserData({ ...data });
         })
