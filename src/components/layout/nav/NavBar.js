@@ -1,6 +1,7 @@
 import { AppRoutes } from "../../../config/routes";
 import { Brand } from "./Brand";
 import { NavItem } from "./NavItem";
+import { NavToggle } from "./NavToggle";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../context/auth.context";
 import { AuthActions } from "../../../context/auth.actions";
@@ -23,7 +24,8 @@ export const NavBar = () => {
       role="navigation"
     >
       <div className="container">
-        <Brand expanded={expanded} setExpanded={setExpanded} />
+        <Brand />
+        <NavToggle expanded={expanded} setExpanded={setExpanded} />
         <div
           className={expanded ? "navbar-collapse" : "collapse navbar-collapse"}
           id="navbarSupportedContent"
