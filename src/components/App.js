@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import { Route } from "react-router";
 import { AuthContext, AuthReducer } from "../context/auth.context";
 import { AuthState } from "../context/auth.state";
-import { AppRoutes } from "../routes";
+import { AppRoutes } from "../config/routes";
 import { NavBar } from "./layout/nav/NavBar";
 
 export const App = () => {
