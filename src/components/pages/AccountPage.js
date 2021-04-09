@@ -83,7 +83,6 @@ const Authenticated = ({ state, dispatch }) => {
 
 export const AccountPage = () => {
   const [state, dispatch] = useContext(AuthContext);
-  console.log(state);
   return state?.token?.length > 10 ? (
     <Authenticated state={state} dispatch={dispatch} />
   ) : (
