@@ -40,3 +40,14 @@ export const updateProfile = (token, fields) => {
     body: JSON.stringify(fields),
   });
 };
+
+export const addWeight = (token, kg) => {
+  return fetch(API_CONFIG.routes.weight.add.url, {
+    method: API_CONFIG.routes.weight.add.method,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${token}`,
+    },
+    body: JSON.stringify({ kg, source: "web" }),
+  });
+};
