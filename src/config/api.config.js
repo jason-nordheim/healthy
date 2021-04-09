@@ -26,6 +26,14 @@ export const API_CONFIG = {
         url: `${BASE_SERVER_URI}/api/weights`,
         method: "POST",
       },
+      getAll: {
+        url: `${BASE_SERVER_URI}/api/weights`,
+        method: "GET",
+      },
+      deleteOne: {
+        url: `${BASE_SERVER_URI}/api/weights`,
+        method: "DELETE",
+      },
     },
   },
 };
