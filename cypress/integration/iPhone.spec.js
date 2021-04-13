@@ -1,15 +1,21 @@
 import { AppName } from "../../src/config/app.config";
 
+const HOME = "http://localhost:3000/";
+
 const VIEWPORT = {
   IPHONE_X: {
     W: 375,
     H: 800,
   },
+  FULL_HD: {
+    W: 1920,
+    H: 1080,
+  },
 };
 
 context("iPhone", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/");
+    cy.visit(HOME);
     cy.viewport(VIEWPORT.IPHONE_X.W, VIEWPORT.IPHONE_X.H);
   });
 
@@ -54,6 +60,51 @@ context("iPhone", () => {
 
     it("Hides navigation links by default", () => {
       cy.get("div.collapse.navbar-collapse").should("not.be.be.visible");
+    });
+  });
+});
+
+context("Full HD", () => {
+  beforeEach(() => {
+    cy.visit(HOME);
+    cy.viewport(VIEWPORT.FULL_HD.W, VIEWPORT.FULL_HD.H);
+  });
+  describe("Navbar is visible and functional", () => {
+    it("with proper accessibility options", () => {
+      cy.get("nav")
+        .should("have.attr", "role", "navigation")
+        .should("have.class", "navbar")
+        .should("be.visible");
+    });
+    it("with a Brand containing the app name", () => {
+      // correct position and classes
+      cy.get("nav")
+        .children()
+        .first()
+        .children()
+        .first()
+        .should("have.class", "navbar-brand")
+        .should("have.text", AppName)
+        .should("be.visible");
+    });
+  });
+  describe("Navbar Brand", () => {
+    it("Can be clikced", () => {
+      cy.get(".navbar-brand").should("exist").click();
+    });
+  });
+  describe("Hides on Toggle Correctly", () => {
+    it("Hides toggler button", () => {
+      // has aria label (accessibility)
+      cy.get("button.navbar-toggler").should("not.be.visible");
+    });
+    it("Shows website links", () => {
+      cy.get("button.navbar-toggler")
+        .should("be.visible")
+        .should("have.attr", "aria-expanded", "false");
+    });
+    it("Shows site links by default", () => {
+      cy.get("nav.navbar").should("be.visible");
     });
   });
 });
