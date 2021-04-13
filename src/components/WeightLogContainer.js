@@ -1,38 +1,60 @@
 import { useContext, useEffect, useState } from "react";
 import { UOM } from "../config/units.config";
 import { AuthContext } from "../context/auth.context";
+import { AuthActions } from "../context/auth.actions";
 import { SelectUnits } from "./forms/select/SelectUnits";
 import { SelectWeight } from "./forms/select/SelectWeight";
-import { addWeight, deleteWeight, getWeight } from "../util/ApiUtils";
+import {
+  addWeight,
+  deleteWeight,
+  FAILED_TO_FETCH,
+  getWeight,
+} from "../util/ApiUtils";
 import { convert, round } from "../util/UnitUtilities";
 import { TiDelete } from "react-icons/ti/index";
+import { Redirect } from "react-router";
+import { AppRoutes } from "../config/routes";
 export const WeightLogContainer = () => {
   const [state, dispatch] = useContext(AuthContext);
   const [kg, setKg] = useState();
   const [uom, setUom] = useState(UOM.IMPERIAL);
   const [weights, setWeights] = useState([]);
 
-  // event handler for changing the UOM
   const handleUomChange = (event) => {
     setUom(event.target.value);
   };
 
-  const fetchUserWeight = () => {
-    console.log(state);
-    getWeight(state.token)
-      .then((data) => {
-        setWeights(data);
-      })
-      .catch((error) => {
-        console.log({ error });
-      });
+  // logout any user if an authenticated
+  // action fails
+  const handleFetchError = (error) => {
+    if (error == FAILED_TO_FETCH) {
+      AuthActions.Logout(dispatch);
+    } else {
+      //showError(error);
+      console.error({ error });
+    }
   };
 
+  // called using the useEffect hook when the
+  // component is mounted
+  const fetchUserWeight = () => {
+    getWeight(state.token)
+      .then((data) => {
+        console.log({ data });
+        setWeights(data);
+      })
+      .catch(handleFetchError);
+  };
+
+  // get the user weight onload
+  // state shouldn't change while component is mounted
   useEffect(() => {
     if (!state?.token) return;
     else fetchUserWeight();
   }, [state]);
 
+  // submit the new weight record to the API
+  // then refresh the weight records
   const handleSubmitWeight = (e) => {
     e.preventDefault();
 
@@ -41,38 +63,24 @@ export const WeightLogContainer = () => {
       return alert("Invalid weight value. Please check and try again");
     }
 
-    // guard clause - make sure we have a token
-    if (!state?.token) {
-      return alert("You must be logged in to perform this action");
-    }
-
-    // send the weight to the API
+    // send new weight to the API
     addWeight(state.token, kg)
-      .then((res) => {
+      .then(() => {
         // todo: handle token error
         // todo: handle other errors
         // todo: convert to JSON
         // todo: update the weights
         fetchUserWeight();
       })
-      .catch((error) => {
-        // todo: handle error
-        console.log({ error });
-      });
+      .catch(handleFetchError);
   };
-
   const handleDeleteWeight = (weight) => {
-    // guard clause - make sure we have a token
-    if (!state?.token) {
-      return alert("You must be logged in to perform this action");
-    }
-
     deleteWeight(state.token, weight._id)
       .then(() => fetchUserWeight())
-      .catch(console.error);
+      .catch(handleFetchError);
   };
 
-  return (
+  return state?.token ? (
     <>
       <div className="row mb-3">
         <form className="card p-3" onSubmit={handleSubmitWeight}>
@@ -125,5 +133,7 @@ export const WeightLogContainer = () => {
         </div>
       </div>
     </>
+  ) : (
+    <Redirect to={AppRoutes[0]} />
   );
 };
