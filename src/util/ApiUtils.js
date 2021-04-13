@@ -1,6 +1,17 @@
 import { API_CONFIG } from "../config/api.config";
 import { TokenExpiredError } from "../errors/TokenExpiredError";
 
+export const FAILED_TO_FETCH = "TypeError: Failed to fetch";
+
+const parseResponse = async (res) => {
+  console.log({ res });
+  const data = await res.text();
+  console.log({ data, res });
+  if (res.status === 403) {
+    throw new TokenExpiredError(JSON.stringify(data));
+  } else return JSON.parse(data);
+};
+
 export const loginUser = (user) => {
   const { url, method } = API_CONFIG.routes.auth;
   return fetch(url, {
@@ -20,10 +31,7 @@ export const registerUser = (user) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ user }),
-  }).then((res) => {
-    if (res.status === 403) throw new TokenExpiredError();
-    else return res.json();
-  });
+  }).then(parseResponse, parseResponse);
 };
 
 export const getProfile = (token) => {
@@ -34,10 +42,7 @@ export const getProfile = (token) => {
       "Content-Type": "application/json",
       Authorization: `bearer ${token}`,
     },
-  }).then((res) => {
-    if (res.status === 403) throw new TokenExpiredError();
-    else return res.json();
-  });
+  }).then(parseResponse);
 };
 
 export const updateProfile = (token, fields) => {
@@ -49,10 +54,7 @@ export const updateProfile = (token, fields) => {
       Authorization: `bearer ${token}`,
     },
     body: JSON.stringify(fields),
-  }).then((res) => {
-    if (res.status === 403) throw new TokenExpiredError();
-    else return res.json();
-  });
+  }).then(parseResponse);
 };
 
 export const addWeight = (token, kg) => {
@@ -64,11 +66,7 @@ export const addWeight = (token, kg) => {
       Authorization: `bearer ${token}`,
     },
     body: JSON.stringify({ kg, source: "web" }),
-  }).then((res) => {
-    if (res.status === 403) throw new TokenExpiredError();
-    // convert to json
-    else return res.json();
-  });
+  }).then(parseResponse);
 };
 
 export const getWeight = (token) => {
@@ -79,11 +77,7 @@ export const getWeight = (token) => {
       Authorization: `bearer ${token}`,
       "Content-Type": "application/json",
     },
-  }).then((res) => {
-    if (res.status === 403) throw new TokenExpiredError();
-    // convert the body to json
-    else return res.json();
-  });
+  }).then(parseResponse);
 };
 
 export const deleteWeight = (token, weightId) => {
@@ -95,9 +89,5 @@ export const deleteWeight = (token, weightId) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ _id: weightId }),
-  }).then((res) => {
-    if (res.status === 403) throw new TokenExpiredError();
-    // no content to the response
-    else return res.text();
-  });
+  }).then(parseResponse);
 };
