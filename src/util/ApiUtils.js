@@ -4,9 +4,7 @@ import { TokenExpiredError } from "../errors/TokenExpiredError";
 export const FAILED_TO_FETCH = "TypeError: Failed to fetch";
 
 const parseResponse = async (res) => {
-  console.log({ res });
   const data = await res.text();
-  console.log({ data, res });
   if (res.status === 403) {
     throw new TokenExpiredError(JSON.stringify(data));
   } else return JSON.parse(data);
