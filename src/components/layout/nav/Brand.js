@@ -6,7 +6,9 @@ export const Brand = () => {
   return (
     <>
       <a className="navbar-brand" href="/">
-        <GiMineralHeart size="24px" />
+        <abbr title={AppName} style={{ cursor: "pointer" }}>
+          <GiMineralHeart size="24px" />
+        </abbr>
       </a>
     </>
   );
