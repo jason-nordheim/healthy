@@ -94,7 +94,7 @@ export const EditProfile = ({ userData, updateUser }) => {
               <Label label="First" name="first" inputText={true} />
               <TextInput
                 for="first"
-                type="first"
+                type="text"
                 name="last"
                 id="first"
                 value={first}
