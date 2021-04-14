@@ -16,9 +16,10 @@ export const LoginForm = () => {
   });
 
   const { email, password } = formValues;
+
+  // submit handler
   const handleSubmit = (event) => {
     event.preventDefault();
-    // todo: send user data to API to create an account
     const user = { email, password };
     AuthActions.Login(user, dispatch);
   };
@@ -58,7 +59,7 @@ export const LoginForm = () => {
       </div>
       <div className="container">
         <div className="row">
-          <div className="col">
+          <div className="col-sm-auto d-flex justify-content-center">
             <SubmitButton onSubmit={handleSubmit} label="Login" />
           </div>
         </div>
