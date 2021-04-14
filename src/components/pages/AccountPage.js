@@ -19,14 +19,14 @@ const UnAuthenticated = () => {
   const SwitchForms = () =>
     showRegistration ? (
       <p className="text-center fw-light">
-        Don't have an account? Register{" "}
+        Already have an account? Login{" "}
         <u style={{ cursor: "pointer" }} onClick={toggleForms}>
           here
         </u>
       </p>
     ) : (
       <p className="text-center fw-light">
-        Already have an account? Login{" "}
+        Don't have an account? Register{" "}
         <u style={{ cursor: "pointer" }} onClick={toggleForms}>
           here
         </u>
