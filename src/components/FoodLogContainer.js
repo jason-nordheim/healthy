@@ -37,10 +37,10 @@ export const FoodLogContainer = () => {
                 onChange={(e) => setSearchText(e.target.value)}
               />
               <button
-                className="btn btn-secondary my-auto mx-auto p-2"
+                className="btn btn-secondary my-auto mx-auto px-3"
                 onClick={handleSearchFoods}
               >
-                <BiSearchAlt className="pl-4" />
+                <BiSearchAlt style={{ fontSize: "24px" }} />
               </button>
             </span>
           </form>
