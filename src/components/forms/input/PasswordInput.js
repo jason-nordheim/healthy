@@ -1,12 +1,3 @@
-const PasswordHelpText = () => {
-  return (
-    <div id="passwordHelp " className="form-text">
-      Your password must be 8-20 characters long, contain letters and numbers,
-      and must not contain spaces, special characters, or emoji.
-    </div>
-  );
-};
-
 export const PasswordInput = ({
   password,
   required = true,
@@ -25,7 +16,6 @@ export const PasswordInput = ({
         required={required}
         onChange={onChange}
       />
-      {displayHelp && <PasswordHelpText />}
     </>
   );
 };
