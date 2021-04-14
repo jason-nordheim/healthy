@@ -8,7 +8,7 @@ import {
   addWeight,
   deleteWeight,
   FAILED_TO_FETCH,
-  getWeight,
+  getWeights,
 } from "../util/ApiUtils";
 import { convert, round } from "../util/UnitUtilities";
 import { TiDelete } from "react-icons/ti/index";
@@ -38,7 +38,7 @@ export const WeightLogContainer = () => {
   // called using the useEffect hook when the
   // component is mounted
   const fetchUserWeight = () => {
-    getWeight(state.token)
+    getWeights(state.token)
       .then((data) => {
         console.log({ data });
         setWeights(data);
@@ -74,6 +74,8 @@ export const WeightLogContainer = () => {
       })
       .catch(handleFetchError);
   };
+
+  // event handler function
   const handleDeleteWeight = (weight) => {
     deleteWeight(state.token, weight._id)
       .then(() => fetchUserWeight())
