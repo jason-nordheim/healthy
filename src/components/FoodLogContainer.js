@@ -8,9 +8,11 @@ import { Food } from "./feature/Food";
 export const FoodLogContainer = () => {
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [message, setMessage] = useState("");
 
   const handleSearchFoods = (e) => {
     e.preventDefault();
+    setMessage(""); // clear any messages
 
     // prevent searches if less than 3 characters are entered
     if (!searchText || searchText.length < 3) {
@@ -19,7 +21,16 @@ export const FoodLogContainer = () => {
 
     searchFoods(searchText).then((data) => {
       setSearchResults(data.hints);
+
+      // no results means that we didn't match anything
+      if (data.hints.length === 0) {
+        setMessage(`No food matched "${searchText}"`);
+      }
     });
+  };
+
+  const handleAddFood = (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -51,6 +62,7 @@ export const FoodLogContainer = () => {
             searchResults.map((item, index) => (
               <Food key={`${item.food.foodId}${index}`} food={item.food} />
             ))}
+          {message && <p className="mx-auto">{message}</p>}
         </div>
       </div>
     </div>
