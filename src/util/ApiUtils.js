@@ -127,3 +127,10 @@ export const deleteWeight = (token, weightId) => {
     body: JSON.stringify({ _id: weightId }),
   }).then(parseResponse);
 };
+
+export const searchFoods = (text) => {
+  const { url, method } = API_CONFIG.routes.food.search;
+  return fetch(`${url}?query=${text}`, {
+    method,
+  }).then(parseResponse);
+};
