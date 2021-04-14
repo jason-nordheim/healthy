@@ -10,6 +10,11 @@ const parseResponse = async (res) => {
   } else return JSON.parse(data);
 };
 
+/**
+ * Get token from API
+ * @param {{email{String},password{String}}} user
+ * @returns {Promise<Response>}
+ */
 export const loginUser = (user) => {
   const { url, method } = API_CONFIG.routes.auth;
   return fetch(url, {
@@ -21,6 +26,11 @@ export const loginUser = (user) => {
   });
 };
 
+/**
+ * Send new user to API
+ * @param {{first{String}, last{String}, day{Number}, month: {Number}, year: {number}, email{String}, password{String}}} user
+ * @returns {Promise<Response>}
+ */
 export const registerUser = (user) => {
   const { url, method } = API_CONFIG.routes.user.register;
   return fetch(url, {
@@ -32,6 +42,11 @@ export const registerUser = (user) => {
   }).then(parseResponse, parseResponse);
 };
 
+/**
+ * Get profile associated with token
+ * @param {String} token
+ * @returns
+ */
 export const getProfile = (token) => {
   const { url, method } = API_CONFIG.routes.user.getInfo;
   return fetch(url, {
@@ -43,6 +58,12 @@ export const getProfile = (token) => {
   }).then(parseResponse);
 };
 
+/**
+ * Update the user associated with the provided token with the values provided
+ * @param {String} token
+ * @param {{Object}} fields
+ * @returns
+ */
 export const updateProfile = (token, fields) => {
   const { url, method } = API_CONFIG.routes.user.updateInfo;
   return fetch(url, {
@@ -55,6 +76,12 @@ export const updateProfile = (token, fields) => {
   }).then(parseResponse);
 };
 
+/**
+ * Add a new weight record for the current user
+ * @param {String} token
+ * @param {Number} kg
+ * @returns
+ */
 export const addWeight = (token, kg) => {
   const { url, method } = API_CONFIG.routes.weight.add;
   return fetch(url, {
@@ -67,7 +94,12 @@ export const addWeight = (token, kg) => {
   }).then(parseResponse);
 };
 
-export const getWeight = (token) => {
+/**
+ * Retrieve all weight records from API
+ * @param {String} token
+ * @returns
+ */
+export const getWeights = (token) => {
   const { url, method } = API_CONFIG.routes.weight.getAll;
   return fetch(url, {
     method,
@@ -78,6 +110,12 @@ export const getWeight = (token) => {
   }).then(parseResponse);
 };
 
+/**
+ * Remove weight record from API via its document Id
+ * @param {String} token
+ * @param {ObjectId} weightId
+ * @returns
+ */
 export const deleteWeight = (token, weightId) => {
   const { url, method } = API_CONFIG.routes.weight.deleteOne;
   return fetch(url, {
