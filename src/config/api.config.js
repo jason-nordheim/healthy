@@ -35,5 +35,11 @@ export const API_CONFIG = {
         method: "DELETE",
       },
     },
+    food: {
+      search: {
+        url: `${BASE_SERVER_URI}/api/foods/search`,
+        method: "GET",
+      },
+    },
   },
 };
