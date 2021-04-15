@@ -1,25 +1,16 @@
 import { PageTitle } from "../layout/PageTitle";
 import { BmiCalculator } from "../feature/BmiCalculator";
-import { useContext, useEffect, useReducer, useState } from "react";
-import { UserActions } from "../../context/user.actions";
-import { UserReducer } from "../../context/user.reducer";
-import { AuthContext } from "../../context/auth.context";
-import { UserState } from "../../context/user.state";
-import { Redirect } from "react-router-dom";
+import { useState } from "react";
 
 export const ToolsPage = () => {
-  const [authState, authDispatch] = useContext(AuthContext);
-  const [userState, userDispatch] = useReducer(UserReducer, UserState.initial);
   const [expandMenu, setExpandMenu] = useState(false);
   const [showCalc, setShowCalc] = useState(false);
 
-  useEffect(() => {
-    if (!authState) return;
-    else if (!authState.token) return;
-    UserActions.GetProfile(authState.token, userDispatch, authDispatch);
-  }, [authState, authDispatch]);
+  //   useEffect(() => {
+  //     UserActions.GetProfile(authState.token, userDispatch, authDispatch);
+  //   }, [authState, authDispatch]);
 
-  return authState?.token ? (
+  return (
     <div className="container">
       <div className="row">
         <div className="col">
@@ -44,7 +35,6 @@ export const ToolsPage = () => {
             </div>
             <div
               className={expandMenu ? "dropdown-menu show" : "dropdown-menu"}
-              aria-labeledby="calculatorsDropdown"
               style={{ position: "relative" }}
               onClick={(e) => setExpandMenu(!expandMenu)}
             >
@@ -63,11 +53,9 @@ export const ToolsPage = () => {
           </div>
         </div>
         <div id="bmiCalc" className={showCalc ? "collapse show" : "collapse"}>
-          <BmiCalculator profile={userState.profile} />
+          <BmiCalculator />
         </div>
       </div>
     </div>
-  ) : (
-    <Redirect to="/" />
   );
 };
