@@ -1,18 +1,22 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { logFood } from "../../util/ApiUtils";
 import { ManualFoodForm } from "../forms/ManualFoodForm";
 import { FoodSearch } from "./FoodSearch";
+import { AuthContext } from "../../context/auth.context";
+import { Redirect } from "react-router-dom";
 
 const ADD_OPTIONS = {
   SEARCH: "Search",
   MANUAL: "Manual Entry",
 };
-export const AddFood = () => {
+export const AddFood = ({ addFood }) => {
   const { SEARCH, MANUAL } = ADD_OPTIONS;
   const [addBy, setAddBy] = useState(SEARCH);
-  const handleAddSelect = (e) => {
+  const toggleAddBy = (e) => {
     e.preventDefault();
     setAddBy(e.target.innerText);
   };
+
   return (
     <div>
       <div className="row">
@@ -25,7 +29,7 @@ export const AddFood = () => {
             <button
               type="button"
               data-toggle={addBy === SEARCH ? "collapse show" : "collapse"}
-              onClick={handleAddSelect}
+              onClick={toggleAddBy}
               className={
                 addBy === SEARCH
                   ? "btn btn-primary border"
@@ -37,7 +41,7 @@ export const AddFood = () => {
             <button
               type="button"
               data-toggle={addBy === MANUAL ? "collapse show" : "collapse"}
-              onClick={handleAddSelect}
+              onClick={toggleAddBy}
               className={
                 addBy === MANUAL
                   ? "btn btn-primary border"
@@ -51,13 +55,15 @@ export const AddFood = () => {
       </div>
       <div className="row mt-2">
         <div className="col-sm-auto">
-          <span className={addBy === SEARCH ? "collapse show" : "collapse"}>
-            <FoodSearch />
-          </span>
-
-          <span className={addBy === MANUAL ? "collapse show" : "collapse"}>
-            <ManualFoodForm />
-          </span>
+          {addBy === SEARCH ? (
+            <span className="collapse show">
+              <FoodSearch logFood={addFood} />
+            </span>
+          ) : (
+            <span className="collapse show">
+              <ManualFoodForm logFood={addFood} />
+            </span>
+          )}
         </div>
       </div>
     </div>
