@@ -1,115 +1,169 @@
 export const NUTRIENTS = {
-  CA: {
-    name: "Calcium",
-    unit: "mg",
-  },
-  CHOCDF: {
-    name: "Carbs",
-    unit: "mg",
-  },
-  CHOLE: {
-    name: "Cholesterol",
-    unit: "mg",
-  },
-  FAMS: {
-    name: "Monounsaturated",
-    unit: "g",
-  },
-  FAPU: {
-    name: "Polyunsaturated",
-    unit: "g",
-  },
-  FASAT: {
-    name: "Saturated",
-    unit: "g",
+  ENERC_KCAL: {
+    name: "Energy",
+    unit: "kcal",
+    value: null,
+    initialValue: 0,
   },
   FAT: {
     name: "Fat",
     unit: "g",
+    value: null,
+    initialValue: 0,
   },
+  CA: {
+    name: "Calcium",
+    unit: "mg",
+    value: null,
+    initialValue: 0,
+  },
+  CHOCDF: {
+    name: "Carbs",
+    unit: "mg",
+    value: null,
+    initialValue: 0,
+  },
+  CHOLE: {
+    name: "Cholesterol",
+    unit: "mg",
+    value: null,
+    initialValue: 0,
+  },
+  FAMS: {
+    name: "Monounsaturated",
+    unit: "g",
+    value: null,
+    initialValue: 0,
+  },
+  FAPU: {
+    name: "Polyunsaturated",
+    unit: "g",
+    value: null,
+    initialValue: 0,
+  },
+  FASAT: {
+    name: "Saturated",
+    unit: "g",
+    value: null,
+    initialValue: 0,
+  },
+
   FATRN: {
     name: "Trans",
     unit: "g",
+    value: null,
+    initialValue: 0,
   },
   FE: {
     name: "Iron",
     unit: "mg",
+    value: null,
+    initialValue: 0,
   },
   FIBTG: {
     name: "Fiber",
     unit: "g",
+    value: null,
+    initialValue: 0,
   },
   FOLDFE: {
     name: "Folate",
     unit: "æg",
+    value: null,
+    initialValue: 0,
   },
   K: {
     name: "Potassium",
     unit: "mg",
+    value: null,
+    initialValue: 0,
   },
   MG: {
     name: "Magnesium",
     unit: "mg",
+    value: null,
+    initialValue: 0,
   },
   NA: {
     name: "Sodium",
     unit: "mg",
+    value: null,
+    initialValue: 0,
   },
-  ENERC_KCAL: {
-    name: "Energy",
-    unit: "kcal",
-  },
+
   NIA: {
     name: "Niacin (B3)",
     unit: "mg",
+    value: null,
   },
   P: {
     name: "Phosphorus",
     unit: "mg",
+    value: null,
+    initialValue: 0,
   },
   PROCNT: {
     name: "Protein",
     unit: "g",
+    value: null,
   },
   RIBF: {
     name: "Riboflavin (B2)",
     unit: "mg",
+    value: null,
+    initialValue: 0,
   },
   SUGAR: {
     name: "Sugars",
     unit: "g",
+    value: null,
+    initialValue: 0,
   },
   THIA: {
     name: "Thiamin (B1)",
     unit: "mg",
+    value: null,
+    initialValue: 0,
   },
   TOCPHA: {
     name: "Vitamin E",
     unit: "mg",
+    value: null,
+    initialValue: 0,
   },
   VITA_RAE: {
     name: "Vitamin A",
     unit: "æg",
+    value: null,
+    initialValue: 0,
   },
   VITB12: {
     name: "Vitamin B12",
     unit: "æg",
+    value: null,
   },
   VITB6A: {
     name: "Vitamin B6",
     unit: "mg",
+    value: null,
+    initialValue: 0,
   },
   VITC: {
     name: "Vitamin C",
     unit: "mg",
+    value: null,
   },
   VITD: {
     name: "Vitamin D",
     unit: "æg",
+    value: null,
+    initialValue: 0,
   },
   VITK1: {
     name: "Vitamin K",
     unit: "æg",
+    value: null,
+    initialValue: 0,
   },
 };
 
