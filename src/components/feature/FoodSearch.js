@@ -5,7 +5,7 @@ import { BiSearchAlt } from "react-icons/bi/index";
 import { searchFoods } from "../../util/ApiUtils";
 import { Food } from "./Food";
 
-export const FoodSearch = ({ addFood }) => {
+export const FoodSearch = ({ logFood }) => {
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [message, setMessage] = useState("");
@@ -27,10 +27,6 @@ export const FoodSearch = ({ addFood }) => {
         setMessage(`No food matched "${searchText}"`);
       }
     });
-  };
-
-  const handleAddFood = (e) => {
-    e.preventDefault();
   };
 
   return (
@@ -60,7 +56,12 @@ export const FoodSearch = ({ addFood }) => {
           {searchResults &&
             searchResults.length > 1 &&
             searchResults.map((item, index) => (
-              <Food key={`${item.food.foodId}${index}`} food={item.food} />
+              <Food
+                key={`${item.food.foodId}${index}`}
+                food={item.food}
+                foodActionHandler={(food) => logFood(food)}
+                foodActionLabel={"Log"}
+              />
             ))}
           {message && <p className="mx-auto">{message}</p>}
         </div>
