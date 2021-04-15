@@ -140,7 +140,7 @@ export const RegisterForm = () => {
         </div>
       </div>
 
-      {state?.error && (
+      {state && JSON.stringify(state.error) === `{}` ? null : (
         <div className="row">
           <div className="col mt-3">
             <FormErrorMessage message={state.error} />
