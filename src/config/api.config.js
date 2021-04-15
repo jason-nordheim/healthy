@@ -40,6 +40,14 @@ export const API_CONFIG = {
         url: `${BASE_SERVER_URI}/api/foods/search`,
         method: "GET",
       },
+      addFood: {
+        url: `${BASE_SERVER_URI}/api/foods`,
+        method: "POST",
+      },
+      getFoods: {
+        url: `${BASE_SERVER_URI}/api/foods`,
+        method: "GET",
+      },
     },
   },
 };
