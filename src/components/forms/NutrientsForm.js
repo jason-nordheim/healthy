@@ -5,11 +5,7 @@ export const NutrientsForm = ({ nutrients, onNutrientChange }) => {
   const nutrientArray = Object.entries(nutrients);
 
   return (
-    <div className="row">
-      <div className="col-sm-auto text-center">
-        <p>Nutrients</p>
-        <hr />
-      </div>
+    <>
       {nutrientArray.map((val) => {
         const key = val[0];
         const { name, unit, value } = val[1];
@@ -29,6 +25,6 @@ export const NutrientsForm = ({ nutrients, onNutrientChange }) => {
           </div>
         );
       })}
-    </div>
+    </>
   );
 };
