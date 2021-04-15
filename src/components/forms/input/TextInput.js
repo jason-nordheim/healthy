@@ -3,6 +3,7 @@ export const TextInput = ({
   value,
   name,
   required = true,
+  placeholder = null,
   onChange,
   disabled = false,
 }) => {
@@ -11,8 +12,9 @@ export const TextInput = ({
       type="text"
       className={disabled ? "form-control text-muted" : "form-control"}
       id={id}
-      value={value}
+      value={value || ""}
       name={name}
+      placeholder={placeholder}
       required={required}
       onChange={onChange}
       disabled={disabled}
