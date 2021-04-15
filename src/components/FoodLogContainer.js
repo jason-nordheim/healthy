@@ -1,68 +1,82 @@
-import { Label } from "./forms/Label";
-import { TextInput } from "./forms/input/TextInput";
 import { useState } from "react";
-import { BiSearchAlt } from "react-icons/bi/index";
-import { searchFoods } from "../util/ApiUtils";
-import { Food } from "./feature/Food";
+import { AddFood } from "./feature/AddFood";
+import { FoodLog } from "./feature/FoodLog";
+import { FoodSearch } from "./feature/FoodSearch";
+
+const BUTTONS = {
+  MY_LOG: "My Log",
+  ADD_FOOD: "Add Food",
+};
 
 export const FoodLogContainer = () => {
-  const [searchText, setSearchText] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [message, setMessage] = useState("");
+  const { MY_LOG, ADD_FOOD } = BUTTONS;
+  const [selected, setSelected] = useState(MY_LOG);
 
-  const handleSearchFoods = (e) => {
+  const handleButtonClick = (e) => {
     e.preventDefault();
-    setMessage(""); // clear any messages
-
-    // prevent searches if less than 3 characters are entered
-    if (!searchText || searchText.length < 3) {
-      return alert("Please enter more than 3 characters to perform search");
+    if (e.target.innerText === MY_LOG) {
+      setSelected(MY_LOG);
+    } else {
+      setSelected(ADD_FOOD);
     }
-
-    searchFoods(searchText).then((data) => {
-      setSearchResults(data.hints);
-
-      // no results means that we didn't match anything
-      if (data.hints.length === 0) {
-        setMessage(`No food matched "${searchText}"`);
-      }
-    });
-  };
-
-  const handleAddFood = (e) => {
-    e.preventDefault();
   };
 
   return (
     <div>
       <div className="row">
         <div className="col-sm-auto">
-          <form onSubmit={handleSearchFoods}>
-            <span className="input-group">
-              <Label label="Search" name="searchText" inputText={true} />
-              <TextInput
-                name="searchText"
-                for="searchText"
-                id="searchText"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-              />
-              <button
-                className="btn btn-secondary my-auto mx-auto px-3"
-                onClick={handleSearchFoods}
-              >
-                <BiSearchAlt style={{ fontSize: "24px" }} />
-              </button>
-            </span>
-          </form>
+          <div
+            className="btn-group d-flex"
+            role="group"
+            aria-label="select logs"
+          >
+            <button
+              type="button"
+              data-toggle={selected === MY_LOG ? "collapse show" : "collapse"}
+              onClick={handleButtonClick}
+              className={
+                selected === MY_LOG
+                  ? "btn btn-primary border"
+                  : "btn btn-secondary border"
+              }
+            >
+              {MY_LOG}
+            </button>
+            <button
+              type="button"
+              data-toggle={selected === ADD_FOOD ? "collapse show" : "collapse"}
+              onClick={handleButtonClick}
+              className={
+                selected === ADD_FOOD
+                  ? "btn btn-primary border"
+                  : "btn btn-secondary border"
+              }
+            >
+              {BUTTONS.ADD_FOOD}
+            </button>
+          </div>
         </div>
-        <div className="col-sm-auto mt-3">
-          {searchResults &&
-            searchResults.length > 1 &&
-            searchResults.map((item, index) => (
-              <Food key={`${item.food.foodId}${index}`} food={item.food} />
-            ))}
-          {message && <p className="mx-auto">{message}</p>}
+      </div>
+      <div className="row mt-2">
+        <div className="col-sm-auto">
+          {/* <div className={selected === null ? "collapse show" : "collapse"}>
+              <span
+                className="small"
+                style={{
+                  display: "flex",
+                  flex: "1",
+                  placeContent: "center",
+                }}
+              >
+                Select a log type to get started ☝
+              </span>
+            </div> */}
+          <div className={selected === MY_LOG ? "collapse show" : "collapse"}>
+            <FoodLog />
+          </div>
+          <div className={selected === ADD_FOOD ? "collapse show" : "collapse"}>
+            <AddFood />
+          </div>
         </div>
       </div>
     </div>
