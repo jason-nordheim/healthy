@@ -36,11 +36,11 @@ const UnAuthenticated = () => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col">
+        <div className="col text-center">
           <PageTitle text={`My Account`} />
         </div>
       </div>
-      <div className="container shadow">
+      <div className="container shadow rounded">
         <div className="row">
           <div className="col mt-3">
             <DisplayedForm />
