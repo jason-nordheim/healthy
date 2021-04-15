@@ -1,7 +1,7 @@
 import { round } from "../../util/UnitUtilities";
 import { NUTRIENTS } from "../../config/edaman.api.config";
 
-export const Food = ({ food }) => {
+export const Food = ({ food, foodActionLabel, foodActionHandler }) => {
   const {
     category,
     categoryLabel,
@@ -52,7 +52,10 @@ export const Food = ({ food }) => {
           </small>
         </span>
         <span className="col mb-2 text-center">
-          <button className="btn btn-secondary">{`Log ${label}`}</button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => foodActionHandler(food)}
+          >{`${foodActionLabel} ${label}`}</button>
         </span>
       </div>
     </div>
