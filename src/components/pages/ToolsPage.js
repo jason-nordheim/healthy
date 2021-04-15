@@ -5,6 +5,7 @@ import { UserActions } from "../../context/user.actions";
 import { UserReducer } from "../../context/user.reducer";
 import { AuthContext } from "../../context/auth.context";
 import { UserState } from "../../context/user.state";
+import { Redirect } from "react-router-dom";
 
 export const ToolsPage = () => {
   const [authState, authDispatch] = useContext(AuthContext);
@@ -18,7 +19,7 @@ export const ToolsPage = () => {
     UserActions.GetProfile(authState.token, userDispatch, authDispatch);
   }, [authState, authDispatch]);
 
-  return (
+  return authState?.token ? (
     <div className="container">
       <div className="row">
         <div className="col">
@@ -43,7 +44,7 @@ export const ToolsPage = () => {
             </div>
             <div
               className={expandMenu ? "dropdown-menu show" : "dropdown-menu"}
-              aria-labelledby="calculatorsDropdown"
+              aria-labeledby="calculatorsDropdown"
               style={{ position: "relative" }}
               onClick={(e) => setExpandMenu(!expandMenu)}
             >
@@ -66,5 +67,7 @@ export const ToolsPage = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <Redirect to="/" />
   );
 };
