@@ -128,9 +128,36 @@ export const deleteWeight = (token, weightId) => {
   }).then(parseResponse);
 };
 
+/***
+ * Send text to the healthy API to be
+ * forwarded to edman api and returned
+ */
 export const searchFoods = (text) => {
   const { url, method } = API_CONFIG.routes.food.search;
   return fetch(`${url}?query=${text}`, {
     method,
+  }).then(parseResponse);
+};
+
+export const logFood = (token, food) => {
+  const { url, method } = API_CONFIG.routes.food.addFood;
+  return fetch(url, {
+    method,
+    headers: {
+      Authorization: `bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ food }),
+  }).then(parseResponse);
+};
+
+export const getFoods = (token) => {
+  const { url, method } = API_CONFIG.routes.food.getFoods;
+  return fetch(url, {
+    method,
+    headers: {
+      Authorization: `bearer ${token}`,
+      "Content-Type": "application/json",
+    },
   }).then(parseResponse);
 };
