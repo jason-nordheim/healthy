@@ -89,36 +89,25 @@ export const LogsPage = () => {
         </div>
         <div className="row mt-3">
           <div className="col-sm-auto">
-            <div className={selected === null ? "collapse show" : "collapse"}>
-              <span
-                className="small"
-                style={{
-                  display: "flex",
-                  flex: "1",
-                  placeContent: "center",
-                }}
-              >
-                Select a log type to get started ☝
-              </span>
-            </div>
-            <div
-              className={
-                selected === LOGS.ACTIVITY ? "collapse show" : "collapse"
-              }
-            >
-              <ActivityLogContainer />
-            </div>
-            <div
-              className={selected === LOGS.FOOD ? "collapse show" : "collapse"}
-            >
-              <FoodLogContainer />
-            </div>
-            <div
-              className={
-                selected === LOGS.WEIGHT ? "collapse show" : "collapse"
-              }
-            >
-              <WeightLogContainer />
+            <div className="collapse show">
+              {selected === LOGS.ACTIVITY ? (
+                <ActivityLogContainer />
+              ) : selected === LOGS.FOOD ? (
+                <FoodLogContainer />
+              ) : selected === LOGS.WEIGHT ? (
+                <WeightLogContainer />
+              ) : (
+                <span
+                  className="small"
+                  style={{
+                    display: "flex",
+                    flex: "1",
+                    placeContent: "center",
+                  }}
+                >
+                  Select a log type to get started ☝
+                </span>
+              )}
             </div>
           </div>
         </div>
