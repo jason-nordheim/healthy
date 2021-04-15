@@ -1,9 +1,6 @@
-import { useContext, useState } from "react";
-import { logFood } from "../../util/ApiUtils";
+import { useState } from "react";
 import { ManualFoodForm } from "../forms/ManualFoodForm";
 import { FoodSearch } from "./FoodSearch";
-import { AuthContext } from "../../context/auth.context";
-import { Redirect } from "react-router-dom";
 
 const ADD_OPTIONS = {
   SEARCH: "Search",
