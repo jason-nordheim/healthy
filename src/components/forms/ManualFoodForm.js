@@ -31,7 +31,7 @@ export const ManualFoodForm = () => {
     });
   };
   const handleNutrientChange = (e) => {
-    const { id, name, value } = e.target;
+    const { name, value } = e.target;
     setFood({
       ...food,
       nutrients: { ...food.nutrients, [name]: { ...NUTRIENTS[name], value } },
