@@ -2,15 +2,7 @@ import { round } from "../../util/UnitUtilities";
 import { NUTRIENTS } from "../../config/edaman.api.config";
 
 export const Food = ({ food, foodActionLabel, foodActionHandler }) => {
-  const {
-    category,
-    categoryLabel,
-    foodId,
-    image,
-    label,
-    nutrients,
-    servingsPerContainer,
-  } = food;
+  const { category, foodId, label, nutrients, servingsPerContainer } = food;
 
   const nutrientLabels = Object.keys(nutrients);
   const nutrientValues = Object.values(nutrients);
@@ -26,7 +18,7 @@ export const Food = ({ food, foodActionLabel, foodActionHandler }) => {
             <table className="table table-sm ">
               <tbody className="table-striped">
                 <tr>
-                  <td scope="row">Category</td>
+                  <td>Category</td>
                   <td className="fw-light">{category}</td>
                 </tr>
                 <tr>
