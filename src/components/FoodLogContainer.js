@@ -4,7 +4,6 @@ import { AuthContext } from "../context/auth.context";
 import { getFoods, logFood } from "../util/ApiUtils";
 import { AddFood } from "./feature/AddFood";
 import { FoodLog } from "./feature/FoodLog";
-import { FoodSearch } from "./feature/FoodSearch";
 
 const BUTTONS = {
   MY_LOG: "My Log",
@@ -12,7 +11,7 @@ const BUTTONS = {
 };
 
 export const FoodLogContainer = () => {
-  const [state, dispatch] = useContext(AuthContext);
+  const [state] = useContext(AuthContext);
   const { MY_LOG, ADD_FOOD } = BUTTONS;
   const [selected, setSelected] = useState(MY_LOG);
   const [loggedFoods, setLoggedFoods] = useState([]);
