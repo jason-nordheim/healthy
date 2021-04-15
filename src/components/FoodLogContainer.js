@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { Redirect } from "react-router-dom";
+import { AuthContext } from "../context/auth.context";
+import { getFoods, logFood } from "../util/ApiUtils";
 import { AddFood } from "./feature/AddFood";
 import { FoodLog } from "./feature/FoodLog";
 import { FoodSearch } from "./feature/FoodSearch";
@@ -9,8 +12,18 @@ const BUTTONS = {
 };
 
 export const FoodLogContainer = () => {
+  const [state, dispatch] = useContext(AuthContext);
   const { MY_LOG, ADD_FOOD } = BUTTONS;
   const [selected, setSelected] = useState(MY_LOG);
+  const [loggedFoods, setLoggedFoods] = useState([]);
+
+  const getLoggedFoods = useCallback((token) => {
+    getFoods(token).then((foods) => setLoggedFoods(foods.foods));
+  }, []);
+
+  useEffect(() => {
+    getLoggedFoods(state.token);
+  }, [getLoggedFoods, state]);
 
   const handleButtonClick = (e) => {
     e.preventDefault();
@@ -21,7 +34,18 @@ export const FoodLogContainer = () => {
     }
   };
 
-  return (
+  const addFood = (food) => {
+    //console.log(food);
+    logFood(state.token, food).then((data) => {
+      console.log(data);
+      getLoggedFoods(state.token);
+    });
+  };
+  const deleteFood = (food) => {
+    console.log(food);
+  };
+
+  return state?.token ? (
     <div>
       <div className="row">
         <div className="col-sm-auto">
@@ -72,13 +96,15 @@ export const FoodLogContainer = () => {
               </span>
             </div> */}
           <div className={selected === MY_LOG ? "collapse show" : "collapse"}>
-            <FoodLog />
+            <FoodLog loggedFoods={loggedFoods} deleteFood={deleteFood} />
           </div>
           <div className={selected === ADD_FOOD ? "collapse show" : "collapse"}>
-            <AddFood />
+            <AddFood addFood={addFood} />
           </div>
         </div>
       </div>
     </div>
+  ) : (
+    <Redirect to="/" />
   );
 };
