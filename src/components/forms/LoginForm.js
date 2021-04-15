@@ -31,7 +31,6 @@ export const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <FormTitle title="Login" />
-
       <div className="container">
         <div className="row">
           <div className="col mb-3">
@@ -64,11 +63,11 @@ export const LoginForm = () => {
           </div>
         </div>
       </div>
-      {state?.error && (
+      {state && JSON.stringify(state.error) === `{}` ? null : (
         <div className="container">
           <div className="row">
             <div className="col mt-3">
-              <FormErrorMessage message={state.error} />
+              <FormErrorMessage message={JSON.stringify(state.error)} />
             </div>
           </div>
         </div>
