@@ -27,7 +27,9 @@ export const WeightLogContainer = () => {
   // logout any user if an authenticated
   // action fails
   const handleFetchError = (error) => {
+    // eslint-disable-next-line
     if (error == FAILED_TO_FETCH) {
+      // disabling since we don't want to compare by reference
       AuthActions.Logout(dispatch);
     } else {
       //showError(error);
@@ -40,7 +42,6 @@ export const WeightLogContainer = () => {
   const fetchUserWeight = () => {
     getWeights(state.token)
       .then((data) => {
-        console.log({ data });
         setWeights(data);
       })
       .catch(handleFetchError);
@@ -51,6 +52,7 @@ export const WeightLogContainer = () => {
   useEffect(() => {
     if (!state?.token) return;
     else fetchUserWeight();
+    //eslint-disable-next-line
   }, [state]);
 
   // submit the new weight record to the API
