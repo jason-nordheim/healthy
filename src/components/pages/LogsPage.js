@@ -28,13 +28,13 @@ export const LogsPage = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container d-flex flex-column align-content-stretch">
       <div className="row">
-        <div className="col-sm-auto">
+        <div className="col-sm-auto text-center mb-2">
           <PageTitle text={title} />
         </div>
       </div>
-      <div className="container">
+      <div className="container d-flex flex-column align-items-stretch">
         <div className="row">
           <div className="col-sm-auto">
             <div
