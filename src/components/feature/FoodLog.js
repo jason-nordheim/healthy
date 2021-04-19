@@ -1,14 +1,15 @@
-import { Food } from "./Food";
+import { FoodAccordionWrapper } from "./FoodAccordionWrapper";
 export const FoodLog = ({ loggedFoods, deleteFood }) => {
+  const containerId = "foodLog";
   return (
-    <div>
+    <div className="accordion d-flex flex-column" id={FoodLog}>
       {loggedFoods?.map((food) => {
         return (
-          <Food
+          <FoodAccordionWrapper
             key={food._id}
+            parentId={containerId}
             food={food}
-            foodActionHandler={() => deleteFood(food)}
-            foodActionLabel={"Remove"}
+            deleteFood={deleteFood}
           />
         );
       })}
