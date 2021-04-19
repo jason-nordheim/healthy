@@ -86,9 +86,6 @@ export const EditProfile = ({ userData, updateUser }) => {
 
       <div className="container">
         <div className="row mb-3">
-          <div className="col-sm-auto">
-            <Label label="Name" />
-          </div>
           <div className="col-sm-auto mb-2">
             <span className="input-group">
               <Label label="First" name="first" inputText={true} />
@@ -119,19 +116,21 @@ export const EditProfile = ({ userData, updateUser }) => {
             </span>
           </div>
         </div>
-        <div className="col-sm-auto mb-3">
-          <span className="input-group">
-            <Label label="Email" name="email" inputText={true} />
-            <TextInput
-              for="email"
-              type="email"
-              name="email"
-              id="email"
-              value={email}
-              onChange={handleFieldChange}
-              disabled={!editMode}
-            />
-          </span>
+        <div className="row">
+          <div className="col-sm-10 mb-3">
+            <span className="input-group">
+              <Label label="Email" name="email" inputText={true} />
+              <TextInput
+                for="email"
+                type="email"
+                name="email"
+                id="email"
+                value={email}
+                onChange={handleFieldChange}
+                disabled={!editMode}
+              />
+            </span>
+          </div>
         </div>
       </div>
 
