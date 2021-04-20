@@ -1,8 +1,8 @@
-const { Schema } = require("mongoose");
+const { Schema, Types } = require("mongoose");
 
 const foodSchema = new Schema(
   {
-    userId: { type: mongoose.Types.ObjectId, required: true }, // used to associate records
+    userId: { type: Types.ObjectId, required: true }, // used to associate records
     foodId: { type: String }, // used to associate back with edaman api
     label: { type: String, required: true }, // name of food (edaman)
     category: { type: String, required: false }, // category of food (edaman)
