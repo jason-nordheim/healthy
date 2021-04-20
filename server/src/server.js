@@ -1,3 +1,4 @@
+require("./config/config.mongoose").connect(); // connect to database
 const app = require("./api");
 
 app.listen(port, () =>
