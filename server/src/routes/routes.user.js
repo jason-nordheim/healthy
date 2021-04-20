@@ -1,14 +1,15 @@
 const { Router } = require("express");
 const bcrypt = require("bcrypt");
 const { User } = require("../models");
+const { validateRegisterParams } = require("../middleware");
 const { saltRounds, jwtKey, jwtOptions } = require("../config/app.config");
 const { authenticateUser, getUserId } = require("../middleware/authenticate");
-var jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 const userRouter = Router();
 
 // CREATE new user
-userRouter.route("/").post((req, res) => {
+userRouter.route("/").post(validateRegisterParams, (req, res) => {
   bcrypt
     .hash(req.body.password, saltRounds)
     .then((hashedPassword) => {
@@ -62,7 +63,7 @@ userRouter.route("/").patch(authenticateUser, (req, res) => {
 
 // DELETE
 userRouter.route("/").delete(authenticateUser, (req, res) => {
-  User.deleteOne({ _id: getUserId(id) })
+  User.deleteOne({ _id: getUserId(req) })
     .then(() => res.status(200).send("User deleted"))
     .catch((error) => res.status(400).send(error));
 });
