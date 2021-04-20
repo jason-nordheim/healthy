@@ -2,13 +2,13 @@
   "name": "healthy-server",
   "version": "1.0.0",
   "description": "Express server",
-  "main": "src/index.js",
+  "main": "src/server.js",
   "repository": "https://github.com/jason-nordheim/healthy-server.git",
   "author": "Jason Nordheim <jason.nordheim@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
