@@ -17,7 +17,7 @@ const userSchema = new Schema(
       },
     },
     uom: { type: String, required: true, default: "imperial" },
-    password_digest: { type: String, required: true },
+    passwordDigest: { type: String, required: true },
   },
   { timestamps: true }
 );
