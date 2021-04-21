@@ -1,4 +1,4 @@
-const { Router } = require("express");
+const { Router, request } = require("express");
 const bcrypt = require("bcrypt");
 const { User } = require("../models");
 const { validateRegisterParams } = require("../middleware");
@@ -19,7 +19,7 @@ userRouter.route("/").post(validateRegisterParams, (req, res) => {
         passwordDigest: hashedPassword,
       })
     )
-    .then(() => res.status(201).send("User registered"))
+    .then(() => res.status(201).json("User registered"))
     .catch((error) => res.status(400).json(error));
 });
 
@@ -42,19 +42,21 @@ userRouter.route("/login").post((req, res) => {
         }
       );
     })
-    .catch((error) => res.status(400).send(error));
+    .catch((error) => {
+      res.status(400).json(error);
+    });
 });
 
 // READ (current user)
 userRouter.route("/").get(authenticateUser, (req, res) => {
   User.findOne({ _id: getUserId(req) })
-    .then((user) => res.json(user))
+    .then((user) => res.json({ ...user._doc, passwordDigest: undefined }))
     .catch((error) => res.status(400).json(error));
 });
 
 // UPDATE (current user)
 userRouter.route("/").patch(authenticateUser, (req, res) => {
-  User.updateOne({ _id: getUserId(id) }, ...req.body)
+  User.updateOne({ _id: getUserId(req) }, { ...req.body })
     .then(() => res.status(200).send("User updated"))
     .catch((error) => res.status(400).json(error));
 });
@@ -62,8 +64,8 @@ userRouter.route("/").patch(authenticateUser, (req, res) => {
 // DELETE
 userRouter.route("/").delete(authenticateUser, (req, res) => {
   User.deleteOne({ _id: getUserId(req) })
-    .then(() => res.status(200).send("User deleted"))
-    .catch((error) => res.status(400).send(error));
+    .then(() => res.status(200).json("User deleted"))
+    .catch((error) => res.status(400).json(error));
 });
 
 module.exports = userRouter;
