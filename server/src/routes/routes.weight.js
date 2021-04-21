@@ -33,7 +33,7 @@ weightRouter.route("/").post(authenticateUser, (req, res) => {
 
   newWeight
     .save()
-    .then(() => res.status(201).send("Weight saved"))
+    .then(() => res.status(201).json("Weight saved"))
     .catch((error) => res.status(400).json(error));
 });
 
@@ -51,7 +51,7 @@ weightRouter.route("/:id").patch(authenticateUser, (req, res) => {
       kg,
     }
   )
-    .then(() => res.status(200).send("Weight updated"))
+    .then(() => res.status(200).json("Weight updated"))
     .catch((error) => res.status(400).json(error));
 });
 
@@ -61,7 +61,7 @@ weightRouter.route("/:id").delete(authenticateUser, (req, res) => {
   const weightId = req.params.id;
 
   Weight.deleteOne({ _id: weightId, userId })
-    .then(() => res.status(200).send("Weight deleted"))
+    .then(() => res.status(200).json("Weight deleted"))
     .catch((error) => res.status(400).json(error));
 });
 
