@@ -18,6 +18,6 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/foods", foodRouter);
 app.use("/api/weights", weightRouter);
-app.use("/api/exercise", exerciseRouter);
+app.use("/api/exercises", exerciseRouter);
 
 module.exports = app;
