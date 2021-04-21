@@ -83,7 +83,7 @@ describe("Route: `/api/users", () => {
   });
 });
 
-describe("With a user account", () => {
+describe("[MULTI-STEP] With a user account", () => {
   const request = supertest(app);
   let testUser = undefined;
   let token = undefined;
@@ -148,7 +148,7 @@ describe("With a user account", () => {
     { property: "month", updateTo: 9 },
     { property: "year", updateTo: 1990 },
   ].forEach((update) => {
-    test(`PATCH can update ${update.property} to ${update.updateTo}`, async () => {
+    test(`[PATCH] can update ${update.property} to ${update.updateTo}`, async () => {
       const patchRequest = await request
         .patch("/api/users/")
         .set("Authorization", bearerToken)
@@ -167,7 +167,7 @@ describe("With a user account", () => {
     });
   });
 
-  test("DELETE will remove user", async () => {
+  test("[DELETE] will remove user", async () => {
     const deleteRequest = await request
       .delete("/api/users/")
       .set("Authorization", bearerToken)
@@ -184,4 +184,6 @@ describe("With a user account", () => {
 
     expect(getRequest.accepted).toBe(false);
   });
+
+  
 });
