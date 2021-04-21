@@ -9,9 +9,9 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "jest --runInBand",
-    "test:watch": "jest --runInBand --watch",
-    "test:watchAll": "jest --runInBand --watchAll"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:watchAll": "jest --watchAll"
   },
   "dependencies": {
     "axios": "^0.21.1",
