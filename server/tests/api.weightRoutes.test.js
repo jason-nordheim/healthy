@@ -1,7 +1,6 @@
 const supertest = require("supertest");
 const app = require("../src/api");
 const { disconnect, connect } = require("../src/config/config.mongoose");
-const { patch } = require("../src/routes/routes.user");
 const { createTestUser } = require("./helpers");
 
 describe("Can record weight", () => {
@@ -154,5 +153,44 @@ describe("Can record weight", () => {
     expect(getSingleRequest.body).toHaveProperty("_id", id);
     expect(getSingleRequest.body).toHaveProperty("kg", newKg);
     expect(getSingleRequest.body).toHaveProperty("userId", userId);
+  });
+
+  test('[DELETE] request to "/api/weights/:id" removes weight record', async () => {
+    const getAllRequest1 = await request
+      .get("/api/weights")
+      .set("Authorization", bearerToken)
+      .send();
+
+    expect(getAllRequest1.statusCode).toBe(200);
+    expect(typeof getAllRequest1.body).toBe(typeof []);
+    expect(getAllRequest1.body.length).toBeGreaterThan(0);
+    expect(getAllRequest1.body[0]).toBeTruthy();
+    expect(getAllRequest1.body[0]).toHaveProperty("kg");
+    expect(getAllRequest1.body[0]).toHaveProperty("_id");
+    expect(getAllRequest1.body[0]).toHaveProperty("userId");
+    expect(getAllRequest1.body[0]).toHaveProperty("createdAt");
+    expect(getAllRequest1.body[0]).toHaveProperty("updatedAt");
+
+    const id = getAllRequest1.body[0]._id;
+
+    const deleteRequest = await request
+      .delete("/api/weights/" + id)
+      .set("Authorization", bearerToken)
+      .send();
+
+    expect(deleteRequest.statusCode).toBe(200);
+    expect(deleteRequest.body).toBeTruthy();
+    expect(deleteRequest.body).toContain("Weight deleted");
+
+    const getAllRequest2 = await request
+      .get("/api/weights")
+      .set("Authorization", bearerToken)
+      .send();
+
+    const expectedRecordCount = getAllRequest1.body.length - 1;
+
+    expect(getAllRequest2.statusCode).toBe(200);
+    expect(typeof getAllRequest2.body).toBe(typeof []);
+    expect(getAllRequest2.body.length).toBe(expectedRecordCount);
   });
 });
