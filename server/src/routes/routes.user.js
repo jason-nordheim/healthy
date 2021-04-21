@@ -12,25 +12,23 @@ const userRouter = Router();
 userRouter.route("/").post(validateRegisterParams, (req, res) => {
   bcrypt
     .hash(req.body.password, saltRounds)
-    .then((hashedPassword) => {
-      const newUser = new User({
+    .then((hashedPassword) =>
+      User.create({
         ...req.body,
         password: null,
         passwordDigest: hashedPassword,
-      });
-
-      return newUser.save();
-    })
+      })
+    )
     .then(() => res.status(201).send("User registered"))
     .catch((error) => res.status(400).json(error));
 });
 
 // LOGIN (token)
 userRouter.route("/login").post((req, res) => {
-  User.findOne({ email: req.params.email })
+  User.findOne({ email: req.body.email })
     .then((foundUser) => {
       bcrypt.compare(
-        req.params.password,
+        req.body.password,
         foundUser.passwordDigest,
         (error, isMatch) => {
           if (error) {
@@ -39,7 +37,7 @@ userRouter.route("/login").post((req, res) => {
             res.status(401).send("Invalid Credentials");
           } else {
             const token = jwt.sign({ id: foundUser.id }, jwtKey, jwtOptions);
-            res.status(201).json(token);
+            res.status(201).json({ token });
           }
         }
       );
