@@ -8,10 +8,10 @@ mongoClient.connection.on(
   console.debug.bind(console, "Connection Error:")
 );
 mongoClient.connection.once("connected", () => {
-  console.debug("Database connection established successfully");
+  //console.debug("Database connection established successfully");
 });
 mongoClient.connection.once("disconnected", () => {
-  console.debug("Database connection established successfully");
+  //console.debug("Database connection established successfully");
 });
 
 const connect = () =>
