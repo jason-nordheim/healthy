@@ -1,24 +1,7 @@
 const supertest = require("supertest");
-const faker = require("faker");
 const app = require("../src/api");
 const { disconnect, connect } = require("../src/config/config.mongoose");
-
-const userInfoString = (user) =>
-  `[first:${user.first}]` +
-  `[last:${user.last}]` +
-  `[email${user.email}]` +
-  `[password:${user.password}]` +
-  `[height:${user.height}]`;
-
-const createTestUser = () => ({
-  first: faker.name.firstName(),
-  last: faker.name.lastName(),
-  email: faker.internet.email(),
-  password: faker.internet.password(),
-  day: Math.ceil(Math.random() * 30),
-  month: Math.floor(Math.random() * 12),
-  year: new Date().getFullYear() - Math.floor(Math.random() * 50),
-});
+const { createTestUser } = require("./helpers");
 
 describe("Route: `/`", () => {
   const request = supertest(app);
@@ -43,10 +26,17 @@ describe("Route: `/api/users", () => {
   const testRoute = `/api/users`;
   let testUser = undefined;
 
+  /************
+   setup
+   ************/
   beforeAll(async () => {
     testUser = createTestUser();
     await connect();
   });
+
+  /************
+   teardown
+   ************/
   afterAll(async () => {
     await disconnect();
   });
@@ -76,7 +66,7 @@ describe("Route: `/api/users", () => {
       .type("application/json")
       .send(testUser);
 
-    expect(response.status).toBe(201);
+    expect(response.statusCode).toBe(201);
     expect(response.text).toContain("User registered");
   });
 
@@ -86,7 +76,7 @@ describe("Route: `/api/users", () => {
       .type("application/json")
       .send(testUser);
 
-    expect(response.status).toBe(201);
+    expect(response.statusCode).toBe(201);
     expect(response.body.token).toBeDefined();
     expect(response.body.token).toBeTruthy();
     expect(response.body.token.length).toBeGreaterThanOrEqual(20);
@@ -98,7 +88,10 @@ describe("With a user account", () => {
   let testUser = undefined;
   let token = undefined;
   let bearerToken = undefined;
-  // setup
+
+  /************
+   setup
+   ************/
   beforeAll(async () => {
     testUser = createTestUser();
     await connect();
@@ -118,7 +111,10 @@ describe("With a user account", () => {
     token = loginResponse.body.token;
     bearerToken = `bearer ${token}`;
   });
-  // teardown
+
+  /************
+   teardown
+   ************/
   afterAll(async () => {
     await disconnect();
   });
@@ -189,5 +185,3 @@ describe("With a user account", () => {
     expect(getRequest.accepted).toBe(false);
   });
 });
-
-
