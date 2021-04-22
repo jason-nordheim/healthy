@@ -4,13 +4,14 @@ const { disconnect, connect } = require("../src/config/config.mongoose");
 const { createTestUser } = require("./helpers");
 
 describe("Can record weight", () => {
-  let request = supertest(app);
+  let request = undefined;
   let bearerToken = undefined;
 
   /************
    setup
    ************/
   beforeAll(async () => {
+    request = supertest(app);
     const testUser = createTestUser();
     // connect to database
     await connect();
