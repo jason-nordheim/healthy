@@ -29,8 +29,6 @@ const Login = (user, dispatch) => {
       });
     });
 };
-
-
 const Logout = (dispatch) => {
   try {
     dispatch({ type: AUTH_TYPE.LOGOUT_REQUEST });
