@@ -14,7 +14,7 @@ foodRouter.route("/").post(authenticateUser, (req, res) => {
 
   newFood
     .save()
-    .then(() => res.status(201).send("Food saved"))
+    .then(() => res.status(201).json("Food saved"))
     .catch((error) => res.status(400).send(error));
 });
 
@@ -31,14 +31,14 @@ foodRouter.route("/:id").patch(authenticateUser, (req, res) => {
     { _id: req.params.id, userId: getUserId(req) },
     { ...req.body }
   )
-    .then(() => res.status(200).send("Food updated"))
+    .then(() => res.status(200).json("Food updated"))
     .catch((error) => res.status(400).json(error));
 });
 
 // DELETE
 foodRouter.route("/:id").patch(authenticateUser, (req, res) => {
   Food.deleteOne({ _id: req.params.id, userId: getUserId(req) })
-    .then(() => res.status(200).send("Food deleted"))
+    .then(() => res.status(200).json("Food deleted"))
     .catch((error) => res.status(400).json(error));
 });
 
