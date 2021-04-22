@@ -4,16 +4,13 @@ const { disconnect, connect } = require("../src/config/config.mongoose");
 const { createTestUser } = require("./helpers");
 
 describe("Route: `/api/users", () => {
-  const request = undefined;
-  const testRoute = undefined;
+  const testRoute = `/api/users`;
   let testUser = undefined;
 
   /************
    setup
    ************/
   beforeAll(async () => {
-    request = supertest(app);
-    testRoute = `/api/users`;
     testUser = createTestUser();
     await connect();
   });
@@ -26,17 +23,17 @@ describe("Route: `/api/users", () => {
   });
 
   test("[GET] request receives 400 response without token", async () => {
-    const response = await request.get(testRoute);
+    const response = await supertest(app).get(testRoute);
     expect(response.statusCode).toBe(400);
   });
 
   test("[POST] request receives 400 response if no body included", async () => {
-    const response = await request.get(testRoute);
+    const response = await supertest(app).get(testRoute);
     expect(response.statusCode).toBe(400);
   });
 
   test("[POST] request receives 400 response if only sending `first`, `last`, and `email`", async () => {
-    const response = await request.post(testRoute).send({
+    const response = await supertest(app).post(testRoute).send({
       first: "Jason",
       last: "Nordheim",
       email: "jason.nordheim@gmail.com",
@@ -45,7 +42,7 @@ describe("Route: `/api/users", () => {
   });
 
   test("[POST] Can register user", async () => {
-    const response = await request
+    const response = await supertest(app)
       .post(testRoute)
       .type("application/json")
       .send(testUser);
@@ -55,7 +52,7 @@ describe("Route: `/api/users", () => {
   });
 
   test("[POST] User can login", async () => {
-    const response = await request
+    const response = await supertest(app)
       .post(`${testRoute}/login`)
       .type("application/json")
       .send(testUser);
@@ -67,26 +64,24 @@ describe("Route: `/api/users", () => {
   });
 });
 
-describe("[MULTI-STEP] With a user account", () => {
-  let request = undefined;
+describe("Authenticated Users", () => {
   let bearerToken = undefined;
 
   /************
    setup
    ************/
   beforeAll(async () => {
-    request = supertest(app);
     const testUser = createTestUser();
     await connect();
 
-    const registerResponse = await request
+    const registerResponse = await supertest(app)
       .post("/api/users/")
       .type("application/json")
       .send(testUser);
 
     expect(registerResponse.statusCode).toBe(201);
 
-    const loginResponse = await request
+    const loginResponse = await supertest(app)
       .post("/api/users/login")
       .type("application/json")
       .send(testUser);
@@ -105,8 +100,13 @@ describe("[MULTI-STEP] With a user account", () => {
     await disconnect();
   });
 
+  beforeEach(() => {
+    expect(bearerToken).toBeDefined();
+    expect(bearerToken).toBeTruthy();
+  });
+
   test("[GET] Can use bearer token to retrieve all associated user information", async () => {
-    const response = await request
+    const response = await supertest(app)
       .get("/api/users/")
       .set("Authorization", bearerToken)
       .send();
@@ -137,7 +137,7 @@ describe("[MULTI-STEP] With a user account", () => {
 
   updates.forEach((update) => {
     test(`[PATCH] can update ${update.property} to ${update.updateTo}`, async () => {
-      const patchRequest = await request
+      const patchRequest = await supertest(app)
         .patch("/api/users/")
         .set("Authorization", bearerToken)
         .send({ [update.property]: update.updateTo });
@@ -145,7 +145,7 @@ describe("[MULTI-STEP] With a user account", () => {
       expect(patchRequest.statusCode).toBe(200);
       expect(patchRequest.text).toContain("User updated");
 
-      const getRequest = await request
+      const getRequest = await supertest(app)
         .get("/api/users/")
         .set("Authorization", bearerToken)
         .send();
@@ -156,7 +156,7 @@ describe("[MULTI-STEP] With a user account", () => {
   });
 
   test("[DELETE] will remove user", async () => {
-    const deleteRequest = await request
+    const deleteRequest = await supertest(app)
       .delete("/api/users/")
       .set("Authorization", bearerToken)
       .send();
@@ -165,7 +165,7 @@ describe("[MULTI-STEP] With a user account", () => {
     expect(deleteRequest.text).toContain("User deleted");
 
     // verify GET request fails (due to authentication)
-    const getRequest = await request
+    const getRequest = await supertest(app)
       .get("/api/users")
       .set("Authorization", bearerToken)
       .send();

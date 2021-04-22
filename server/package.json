@@ -10,6 +10,7 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "jest",
+    "test:o": "jest -o", 
     "test:watch": "jest --watch",
     "test:watchAll": "jest --watchAll"
   },
