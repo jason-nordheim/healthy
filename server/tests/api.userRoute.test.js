@@ -3,33 +3,17 @@ const app = require("../src/api");
 const { disconnect, connect } = require("../src/config/config.mongoose");
 const { createTestUser } = require("./helpers");
 
-describe("Route: `/`", () => {
-  const request = supertest(app);
-  const testRoute = "/";
-  test("GET request is receives 404 response", async () => {
-    const response = await request.get(testRoute);
-    expect(response.statusCode).toBe(404);
-  });
-});
-
-describe("Route: `/api`", () => {
-  const request = supertest(app);
-  const testRoute = `/api`;
-  test("GET request receives 404 response", async () => {
-    const response = await request.get(testRoute);
-    expect(response.statusCode).toBe(404);
-  });
-});
-
 describe("Route: `/api/users", () => {
-  const request = supertest(app);
-  const testRoute = `/api/users`;
+  const request = undefined;
+  const testRoute = undefined;
   let testUser = undefined;
 
   /************
    setup
    ************/
   beforeAll(async () => {
+    request = supertest(app);
+    testRoute = `/api/users`;
     testUser = createTestUser();
     await connect();
   });
@@ -84,16 +68,15 @@ describe("Route: `/api/users", () => {
 });
 
 describe("[MULTI-STEP] With a user account", () => {
-  const request = supertest(app);
-  let testUser = undefined;
-  let token = undefined;
+  let request = undefined;
   let bearerToken = undefined;
 
   /************
    setup
    ************/
   beforeAll(async () => {
-    testUser = createTestUser();
+    request = supertest(app);
+    const testUser = createTestUser();
     await connect();
 
     const registerResponse = await request
@@ -108,7 +91,10 @@ describe("[MULTI-STEP] With a user account", () => {
       .type("application/json")
       .send(testUser);
 
-    token = loginResponse.body.token;
+    expect(loginResponse.statusCode).toBe(201);
+    expect(loginResponse.body).toBeTruthy();
+
+    const token = loginResponse.body.token;
     bearerToken = `bearer ${token}`;
   });
 
@@ -141,13 +127,15 @@ describe("[MULTI-STEP] With a user account", () => {
     });
   });
 
-  [
+  const updates = [
     { property: "first", updateTo: "newFirst" },
     { property: "last", updateTo: "newLast" },
     { property: "day", updateTo: 1 },
     { property: "month", updateTo: 9 },
     { property: "year", updateTo: 1990 },
-  ].forEach((update) => {
+  ];
+
+  updates.forEach((update) => {
     test(`[PATCH] can update ${update.property} to ${update.updateTo}`, async () => {
       const patchRequest = await request
         .patch("/api/users/")
@@ -184,6 +172,4 @@ describe("[MULTI-STEP] With a user account", () => {
 
     expect(getRequest.accepted).toBe(false);
   });
-
-  
 });
