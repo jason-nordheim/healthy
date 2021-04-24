@@ -1,6 +1,5 @@
 const supertest = require("supertest");
 const app = require("../src/api");
-const faker = require("faker");
 const { disconnect, connect } = require("../src/config/config.mongoose");
 const { createTestUser, createTestFood } = require("./helpers");
 
