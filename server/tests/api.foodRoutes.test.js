@@ -1,5 +1,4 @@
 const supertest = require("supertest");
-const { path } = require("../src/api");
 const app = require("../src/api");
 const { disconnect, connect } = require("../src/config/config.mongoose");
 const { createTestUser, createTestFood } = require("./helpers");
