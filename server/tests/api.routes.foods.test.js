@@ -1,4 +1,5 @@
 const supertest = require("supertest");
+const prettyFormat = require("pretty-format");
 const app = require("../src/api");
 const { disconnect, connect } = require("../src/config/config.mongoose");
 const { createTestUser, createTestFood } = require("./helpers");
@@ -39,6 +40,22 @@ describe("FOOD Routes", () => {
     await disconnect();
   });
 
+  beforeEach(() => {
+    expect(bearerToken).toBeDefined();
+  });
+
+  const isValidFoodObject = (food) => {
+    expect(food.label).toBeDefined();
+    expect(typeof food.label).toBe(typeof "");
+    expect(typeof food.nutrients).toBe(typeof {});
+    expect(food.category).toBeDefined();
+    expect(food.categoryLabel).toBeDefined();
+    expect(typeof food.categoryLabel).toBe(typeof "");
+    expect(typeof food.servingsPerContainer).toBe(typeof 825.22);
+    expect(food.image).toBeDefined();
+    expect(typeof food.image).toBe(typeof "");
+  };
+
   // DEFAULT STATE
   test("[GET] New user returns no food records when queried", async () => {
     // request food records for user
@@ -54,9 +71,43 @@ describe("FOOD Routes", () => {
   });
 
   // SEARCH FOR FOOD
-  test("[GET] Querying food returns valid response for common foods", async () => {
+  test.skip("[GET] Querying food returns valid response for common foods", async () => {
     // sending a search query for food, successfully communicates with
     // external api
+
+    const testSearchFoods = ["Pizza", "Mac & cheese", "asparagus"];
+    for (let i = 0; i < testSearchFoods.length; i++) {
+      const searchResponse = await supertest(app)
+        .get("/api/foods/search")
+        .query({ query: testSearchFoods[i] })
+        .send();
+
+      expect(searchResponse.statusCode).toBe(200);
+      expect(searchResponse.body).toBeTruthy();
+      expect(searchResponse.body.hints).toBeTruthy();
+      expect(searchResponse.body.hints.length).toBeGreaterThan(0);
+
+      for (let j = 0; j < searchResponse.body.hints.length; j++) {
+        expect(searchResponse.body.hints[j].food).toBeDefined();
+        const food = searchResponse.body.hints[j].food;
+
+        // label
+        expect(food["label"]).toBeDefined();
+        expect(food["label"].length).toBeGreaterThan(1);
+
+        // nutrients
+        expect(food["nutrients"]).toBeDefined();
+        expect(food["nutrients"]).toHaveProperty("ENERC_KCAL"); // calories
+
+        // category
+        expect(food["category"]).toBeDefined();
+        expect(food["category"].length).toBeGreaterThan(1);
+
+        // categoryLabel
+        expect(food["categoryLabel"]).toBeDefined();
+        expect(food["categoryLabel"].length).toBeGreaterThan(1);
+      }
+    }
   });
 
   // CREATE FOOD (Log)
@@ -81,7 +132,6 @@ describe("FOOD Routes", () => {
 
     expect(getRequest.statusCode).toBe(200);
     expect(typeof getRequest.body).toBe(typeof []);
-    expect(getRequest.body.length).toBe(1);
     expect(getRequest.body[0]).toBeTruthy();
     expect(getRequest.body[0]).toHaveProperty("_id");
     expect(getRequest.body[0]).toHaveProperty("userId");
