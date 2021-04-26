@@ -267,12 +267,53 @@ describe("FOOD Routes", () => {
   });
 
   // DELETE FOOD (Log)
+  // create food record
+  // query all recorded foods
+  // delete first food returned for query
+  // query all recorded foods
+  // verify that second call to food log does not contain
+  // deleted food record
   test("[DELETE] /:id Food can be deleted by id", async () => {
-    // create food record
-    // query all recorded foods
-    // delete first food returned for query
-    // query all recorded foods
-    // verify that second call to food log does not contain
-    // deleted food record
+    const testFood = createTestFood();
+
+    const postRequest = await supertest(app)
+      .post("/api/foods")
+      .set("Authorization", bearerToken)
+      .send(testFood);
+
+    expect(postRequest.statusCode).toBe(201);
+    expect(postRequest.body).toBeTruthy();
+    expect(postRequest.body).toContain("Food saved");
+
+    const getRequest = await supertest(app)
+      .get("/api/foods")
+      .set("Authorization", bearerToken)
+      .send();
+
+    // test the response is as expected
+    expect(getRequest.statusCode).toBe(200);
+    expect(typeof getRequest.body).toBe(typeof []);
+    expect(getRequest.body.length).toBeGreaterThan(1);
+    expect(getRequest.body[0]).toBeTruthy();
+
+    const food = getRequest.body[0];
+    expect(food).toHaveProperty("_id");
+    expect(food).toHaveProperty("userId");
+    expect(food).toHaveProperty("label");
+    expect(food).toHaveProperty("categoryLabel");
+    expect(food).toHaveProperty("category");
+    expect(food).toHaveProperty("nutrients");
+    expect(food).toHaveProperty("createdAt");
+    expect(food).toHaveProperty("updatedAt");
+    const id = food._id;
+    expect(id).toBeDefined();
+
+    const deleteRequest = await supertest(app)
+      .delete("/api/foods/" + id)
+      .set("Authorization", bearerToken)
+      .send();
+
+    expect(deleteRequest.statusCode).toBe(200);
+    expect(deleteRequest.body).toContain("Food deleted");
   });
 });

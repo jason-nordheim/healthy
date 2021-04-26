@@ -43,7 +43,7 @@ foodRouter.route("/:id").patch(authenticateUser, (req, res) => {
 });
 
 // DELETE
-foodRouter.route("/:id").patch(authenticateUser, (req, res) => {
+foodRouter.route("/:id").delete(authenticateUser, (req, res) => {
   Food.deleteOne({ _id: req.params.id, userId: getUserId(req) })
     .then(() => res.status(200).json("Food deleted"))
     .catch((error) => res.status(400).json(error));
