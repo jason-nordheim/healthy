@@ -3,7 +3,7 @@ const app = require("../src/api");
 const { disconnect, connect } = require("../src/config/config.mongoose");
 const { createTestUser } = require("./helpers");
 
-describe("Route: `/api/users", () => {
+describe("Route: `/api/users [UNAUTHORIZED]", () => {
   /************
    setup
    ************/
@@ -18,35 +18,20 @@ describe("Route: `/api/users", () => {
     await disconnect();
   });
 
-  test("[GET] request receives 400 response without token", async () => {
+  test("[GET] request receives 403 response if bearer token received", async () => {
     const response = await supertest(app).get(`/api/users`);
-    expect(response.statusCode).toBe(400);
-  });
-
-  test("[POST] request receives 400 response if no body included", async () => {
-    const response = await supertest(app).get(`/api/users`);
-    expect(response.statusCode).toBe(400);
-  });
-
-  test("[POST] request receives 400 response if only sending `first`, `last`, and `email`", async () => {
-    const response = await supertest(app).post(`/api/users`).send({
-      first: "Jason",
-      last: "Nordheim",
-      email: "jason.nordheim@gmail.com",
-    });
-    expect(response.statusCode).toBe(400);
+    expect(response.statusCode).toBe(403);
   });
 });
 
 describe("[MULTI-STEP] With a user account", () => {
-  let testUser = undefined;
   let bearerToken = undefined;
 
   /************
    setup
    ************/
   beforeAll(async () => {
-    testUser = createTestUser();
+    const testUser = createTestUser();
     await connect();
 
     const registerResponse = await supertest(app)
