@@ -143,10 +143,58 @@ describe("FOOD Routes", () => {
   });
 
   // READ FOOD - Single (Log)
+  // insert a food record
+  // query foods logged
+  // check to see if GET to /:id returns the same object
   test("[GET] /:id Food can be retrieved by id", async () => {
-    // insert a food record
-    // query foods logged
-    // check to see if GET to /:id returns the same object
+    const testFood = createTestFood();
+
+    const postRequest = await request
+      .post("/api/foods")
+      .set("Authorization", bearerToken)
+      .send(testFood);
+
+    expect(postRequest.statusCode).toBe(201);
+    expect(postRequest.body).toBeTruthy();
+    expect(postRequest.body).toContain("Food saved");
+
+    const getRequest = await request
+      .get("/api/foods")
+      .set("Authorization", bearerToken)
+      .send();
+
+    // test the response is as expected
+    expect(getRequest.statusCode).toBe(200);
+    expect(typeof getRequest.body).toBe(typeof []);
+    expect(getRequest.body.length).toBeGreaterThan(1);
+    expect(getRequest.body[0]).toBeTruthy();
+    expect(getRequest.body[0]).toHaveProperty("_id");
+    expect(getRequest.body[0]).toHaveProperty("userId");
+    expect(getRequest.body[0]).toHaveProperty("label");
+    expect(getRequest.body[0]).toHaveProperty("category");
+    expect(getRequest.body[0]).toHaveProperty("categoryLabel");
+    expect(getRequest.body[0]).toHaveProperty("nutrients");
+    expect(getRequest.body[0]).toHaveProperty("createdAt");
+    expect(getRequest.body[0]).toHaveProperty("updatedAt");
+
+    const id = getRequest.body[0]._id;
+    expect(id).toBeDefined();
+
+    const getRequestWithId = await request
+      .get("/api/foods/" + id)
+      .set("Authorization", bearerToken)
+      .send();
+
+    expect(getRequestWithId.statusCode).toBe(200);
+    expect(getRequestWithId.body).toBeTruthy();
+    expect(getRequestWithId.body).toHaveProperty("_id");
+    expect(getRequestWithId.body).toHaveProperty("userId");
+    expect(getRequestWithId.body).toHaveProperty("label");
+    expect(getRequestWithId.body).toHaveProperty("category");
+    expect(getRequestWithId.body).toHaveProperty("categoryLabel");
+    expect(getRequestWithId.body).toHaveProperty("nutrients");
+    expect(getRequestWithId.body).toHaveProperty("createdAt");
+    expect(getRequestWithId.body).toHaveProperty("updatedAt");
   });
 
   // UPDATE FOOD (Log)
