@@ -55,8 +55,25 @@ const createTestFood = () => ({
   },
 });
 
+const createTestExercise = () => ({
+  name: faker.random.words(2),
+  category: faker.random.word(2),
+  duration: faker.datatype.number({ min: 60, max: 7200, precision: 4 }),
+  minElevation: faker.datatype.number({ min: 50, max: 15000, precision: 1 }),
+  maxElevation: faker.datatype.number({ min: 50, max: 15000, precision: 1 }),
+  minHeart: faker.datatype.number({ min: 50, max: 100, precision: 1 }),
+  maxHeart: faker.datatype.number({ min: 100, max: 180, precision: 1 }),
+  avgHeart: faker.datatype.number({ min: 80, max: 165, precision: 1 }),
+  location: faker.address.city(),
+  calories: faker.datatype.number({ min: 10, max: 500, precision: 1 }),
+  notes: faker.random.words(
+    faker.datatype.number({ min: 10, max: 200, precision: 1 })
+  ),
+});
+
 module.exports = {
   userInfoString,
   createTestUser,
   createTestFood,
+  createTestExercise,
 };
