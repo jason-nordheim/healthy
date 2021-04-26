@@ -110,6 +110,9 @@ describe("Exercise Routes", () => {
     });
   });
   // READ (by ID)
+  test.todo("[GET] can retrieve single food");
   // UPDATE (by ID)
+  test.todo("[PATCH] can update values for a specific food");
   // DELETE
+  test.todo("[DELETE] can delete food from log ");
 });
