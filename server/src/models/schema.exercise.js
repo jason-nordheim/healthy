@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema, Types } = require("mongoose");
 
 const exerciseSchema = new Schema(
   {
@@ -8,6 +8,7 @@ const exerciseSchema = new Schema(
       minlength: 3,
       required: true,
     },
+    userId: { type: Types.ObjectId, required: true }, // associate with user
     category: { type: String, default: null }, // e.g. "treadmill"
     duration: { type: Number, required: true }, // seconds
     minElevation: { type: Number, default: null }, // meters
