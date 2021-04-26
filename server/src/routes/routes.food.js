@@ -25,6 +25,13 @@ foodRouter.route("/").get(authenticateUser, (req, res) => {
     .catch((error) => res.status(400).json(error));
 });
 
+// READ
+foodRouter.route("/:id").get(authenticateUser, (req, res) => {
+  Food.findOne({ userId: getUserId(req), _id: req.params.id })
+    .then((foods) => res.json(foods))
+    .catch((error) => res.status(400).json(error));
+});
+
 // UPDATE
 foodRouter.route("/:id").patch(authenticateUser, (req, res) => {
   Food.updateOne(
