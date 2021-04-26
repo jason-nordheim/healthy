@@ -54,6 +54,11 @@ describe("Can record weight", () => {
     expect(getRequest.body.length).toBe(0);
   });
 
+  test("[GET] without token returns 403", async () => {
+    const getRequest = await request.get("/api/weights").send();
+    expect(getRequest.statusCode).toBe(403);
+  });
+
   test('[POST] request to "/api/weights" creates new weight records', async () => {
     const postRequest = await request
       .post("/api/weights")

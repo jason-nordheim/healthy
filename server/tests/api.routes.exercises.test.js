@@ -48,6 +48,12 @@ describe("Exercise Routes", () => {
     await disconnect();
   });
 
+  test.todo("[GET] request return 403 without authorization");
+  // test("[GET] without token returns 401", async () => {
+  //   const getRequest = await request.get("/api/exercises").send();
+  //   expect(getRequest.statusCode).toBe(400);
+  // });
+
   // CREATE
   test("[POST]Can create exercise", async () => {
     const testExercise = createTestExercise();
