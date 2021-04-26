@@ -5,6 +5,13 @@ const { searchFoods } = require("../util/edaman.api");
 
 const foodRouter = Router();
 
+// SEARCH
+foodRouter.route("/search").get((req, res) => {
+  searchFoods(req.query.query)
+    .then((result) => res.status(200).json(result.data))
+    .catch((error) => res.status(400).json(error));
+});
+
 // CREATE
 foodRouter.route("/").post(authenticateUser, (req, res) => {
   const newFood = Food({
@@ -46,13 +53,6 @@ foodRouter.route("/:id").patch(authenticateUser, (req, res) => {
 foodRouter.route("/:id").delete(authenticateUser, (req, res) => {
   Food.deleteOne({ _id: req.params.id, userId: getUserId(req) })
     .then(() => res.status(200).json("Food deleted"))
-    .catch((error) => res.status(400).json(error));
-});
-
-// SEARCH
-foodRouter.route("/search").get((req, res) => {
-  searchFoods(req.query.query)
-    .then((result) => res.status(200).json(result.data))
     .catch((error) => res.status(400).json(error));
 });
 
