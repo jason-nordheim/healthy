@@ -1,23 +1,22 @@
 const supertest = require("supertest");
+const { path } = require("../src/api");
 const app = require("../src/api");
 const { disconnect, connect } = require("../src/config/config.mongoose");
 const { createTestUser, createTestFood } = require("./helpers");
 
 describe("FOOD Routes", () => {
-  let request = undefined;
   let bearerToken = undefined;
 
   /************
    setup
    ************/
   beforeAll(async () => {
-    request = supertest(app);
     const testUser = createTestUser();
     // connect to database
     await connect();
 
     // create a test user account
-    const registerResponse = await request
+    const registerResponse = await supertest(app)
       .post("/api/users/")
       .type("application/json")
       .send(testUser);
@@ -25,7 +24,7 @@ describe("FOOD Routes", () => {
     expect(registerResponse.statusCode).toBe(201);
 
     // get a token
-    const loginResponse = await request
+    const loginResponse = await supertest(app)
       .post("/api/users/login")
       .type("application/json")
       .send(testUser);
@@ -45,7 +44,7 @@ describe("FOOD Routes", () => {
   test("[GET] New user returns no food records when queried", async () => {
     // request food records for user
     // verify empty array is returned
-    const getRequest = await request
+    const getRequest = await supertest(app)
       .get("/api/foods")
       .set("Authorization", bearerToken)
       .send();
@@ -67,7 +66,7 @@ describe("FOOD Routes", () => {
     // verify that the food record was saved via a get request
     const testFood = createTestFood();
 
-    const postRequest = await request
+    const postRequest = await supertest(app)
       .post("/api/foods")
       .set("Authorization", bearerToken)
       .send(testFood);
@@ -76,7 +75,7 @@ describe("FOOD Routes", () => {
     expect(postRequest.body).toBeTruthy();
     expect(postRequest.body).toContain("Food saved");
 
-    const getRequest = await request
+    const getRequest = await supertest(app)
       .get("/api/foods")
       .set("Authorization", bearerToken)
       .send();
@@ -110,7 +109,7 @@ describe("FOOD Routes", () => {
 
     // perform POST request for each generated food item
     testFoods.forEach(async (food) => {
-      const postRequest = await request
+      const postRequest = await supertest(app)
         .post("/api/foods")
         .set("Authorization", bearerToken)
         .send(food);
@@ -121,7 +120,7 @@ describe("FOOD Routes", () => {
     });
 
     // request all food logged related to existing user
-    const getRequest = await request
+    const getRequest = await supertest(app)
       .get("/api/foods")
       .set("Authorization", bearerToken)
       .send();
@@ -149,7 +148,7 @@ describe("FOOD Routes", () => {
   test("[GET] /:id Food can be retrieved by id", async () => {
     const testFood = createTestFood();
 
-    const postRequest = await request
+    const postRequest = await supertest(app)
       .post("/api/foods")
       .set("Authorization", bearerToken)
       .send(testFood);
@@ -158,7 +157,7 @@ describe("FOOD Routes", () => {
     expect(postRequest.body).toBeTruthy();
     expect(postRequest.body).toContain("Food saved");
 
-    const getRequest = await request
+    const getRequest = await supertest(app)
       .get("/api/foods")
       .set("Authorization", bearerToken)
       .send();
@@ -180,7 +179,7 @@ describe("FOOD Routes", () => {
     const id = getRequest.body[0]._id;
     expect(id).toBeDefined();
 
-    const getRequestWithId = await request
+    const getRequestWithId = await supertest(app)
       .get("/api/foods/" + id)
       .set("Authorization", bearerToken)
       .send();
@@ -198,12 +197,73 @@ describe("FOOD Routes", () => {
   });
 
   // UPDATE FOOD (Log)
+  // create food record
+  // query all recorded foods
+  // save :id of first food recorded returned
+  // mutate the first food recorded
+  // query by :id to verify that the fields were updated correctly
   test("[PATCH] /:id Food can be updated by id", async () => {
-    // create food record
-    // query all recorded foods
-    // save :id of first food recorded returned
-    // mutate the first food recorded
-    // query by :id to verify that the fields were updated correctly
+    const testFood = createTestFood();
+
+    const postRequest = await supertest(app)
+      .post("/api/foods")
+      .set("Authorization", bearerToken)
+      .send(testFood);
+
+    expect(postRequest.statusCode).toBe(201);
+    expect(postRequest.body).toBeTruthy();
+    expect(postRequest.body).toContain("Food saved");
+
+    const getRequest = await supertest(app)
+      .get("/api/foods")
+      .set("Authorization", bearerToken)
+      .send();
+
+    // test the response is as expected
+    expect(getRequest.statusCode).toBe(200);
+    expect(typeof getRequest.body).toBe(typeof []);
+    expect(getRequest.body.length).toBeGreaterThan(1);
+    expect(getRequest.body[0]).toBeTruthy();
+
+    const food = getRequest.body[0];
+    expect(food).toHaveProperty("_id");
+    expect(food).toHaveProperty("userId");
+    expect(food).toHaveProperty("label");
+    expect(food).toHaveProperty("categoryLabel");
+    expect(food).toHaveProperty("category");
+    expect(food).toHaveProperty("nutrients");
+    expect(food).toHaveProperty("createdAt");
+    expect(food).toHaveProperty("updatedAt");
+    const id = food._id;
+    expect(id).toBeDefined();
+
+    const patchRequest = await supertest(app)
+      .patch("/api/foods/" + id)
+      .set("Authorization", bearerToken)
+      .send({
+        label: "Pizza",
+        nutrients: { ...food.nutrients, ENERC_KCAL: 2000 },
+      });
+
+    expect(patchRequest.statusCode).toBe(200);
+    expect(patchRequest.body).toContain("Food updated");
+
+    const getRequestWithId = await supertest(app)
+      .get("/api/foods/" + id)
+      .set("Authorization", bearerToken)
+      .send();
+
+    expect(getRequestWithId.body).toHaveProperty("_id", food._id);
+    expect(getRequestWithId.body).toHaveProperty("userId", food.userId);
+    expect(getRequestWithId.body).toHaveProperty("label", "Pizza");
+    expect(getRequestWithId.body).toHaveProperty(
+      "categoryLabel",
+      food.categoryLabel
+    );
+    expect(getRequestWithId.body).toHaveProperty("category", food.category);
+    expect(getRequestWithId.body).toHaveProperty("nutrients");
+    expect(getRequestWithId.body.nutrients).toHaveProperty("ENERC_KCAL", 2000);
+    expect(getRequestWithId.body).toHaveProperty("createdAt", food.createdAt);
   });
 
   // DELETE FOOD (Log)

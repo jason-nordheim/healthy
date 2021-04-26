@@ -36,7 +36,7 @@ foodRouter.route("/:id").get(authenticateUser, (req, res) => {
 foodRouter.route("/:id").patch(authenticateUser, (req, res) => {
   Food.updateOne(
     { _id: req.params.id, userId: getUserId(req) },
-    { ...req.body }
+    { ...req.body, nutrients: { ...req.body.nutrients } }
   )
     .then(() => res.status(200).json("Food updated"))
     .catch((error) => res.status(400).json(error));
