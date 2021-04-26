@@ -24,15 +24,15 @@ describe("Route: `/api/users [UNAUTHORIZED]", () => {
   });
 });
 
-describe("[MULTI-STEP] With a user account", () => {
+describe("Route: `/api/users [AUTHORIZED]", () => {
   let bearerToken = undefined;
 
   /************
    setup
    ************/
   beforeAll(async () => {
-    const testUser = createTestUser();
     await connect();
+    const testUser = createTestUser();
 
     const registerResponse = await supertest(app)
       .post("/api/users/")
@@ -41,6 +41,7 @@ describe("[MULTI-STEP] With a user account", () => {
 
     expect(registerResponse.statusCode).toBe(201);
     expect(registerResponse.body).toBeTruthy();
+
     const loginResponse = await supertest(app)
       .post("/api/users/login")
       .type("application/json")
@@ -50,7 +51,10 @@ describe("[MULTI-STEP] With a user account", () => {
     expect(loginResponse.body).toBeTruthy();
 
     const token = loginResponse.body.token;
+    expect(token).toBeDefined();
+
     bearerToken = `bearer ${token}`;
+    expect(bearerToken).toBeDefined();
   });
 
   /************
