@@ -43,6 +43,10 @@ describe("Can record weight", () => {
     await disconnect();
   });
 
+  beforeEach(() => {
+    expect(bearerToken).toBeDefined();
+  });
+
   test("User has no weights by default", async () => {
     const getRequest = await request
       .get("/api/weights")
