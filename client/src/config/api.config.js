@@ -88,4 +88,28 @@ export const API_ROUTES = {
       auth: true,
     },
   },
+  weights: {
+    retrieveAll: {
+      url: `${BASE_SERVER_URI}/api/weights`,
+      method: `GET`,
+      auth: true,
+    },
+    create: {
+      url: `${BASE_SERVER_URI}/api/weights`,
+      method: `POST`,
+      auth: true,
+    },
+    delete: {
+      url: `${BASE_SERVER_URI}/api/weights`,
+      method: `DELETE`,
+      params: "_id",
+      auth: true,
+    },
+    update: {
+      url: `${BASE_SERVER_URI}/api/weights`,
+      method: `PATCH`,
+      params: "_id",
+      auth: true,
+    },
+  },
 };
