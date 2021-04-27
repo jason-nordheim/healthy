@@ -18,6 +18,12 @@ exerciseRouter.route("/").post(authenticateUser, (req, res) => {
 });
 
 // READ
+exerciseRouter.route("/:id").get(authenticateUser, (req, res) => {
+  Exercise.findOne({ userId: getUserId(req), _id: req.params.id })
+    .then((foods) => res.json(foods))
+    .catch((error) => res.status(400).json(error));
+});
+// READ
 exerciseRouter.route("/").get(authenticateUser, (req, res) => {
   Exercise.find({ userId: getUserId(req) })
     .then((foods) => res.json(foods))
@@ -35,7 +41,7 @@ exerciseRouter.route("/:id").patch(authenticateUser, (req, res) => {
 });
 
 // DELETE
-exerciseRouter.route("/:id").patch(authenticateUser, (req, res) => {
+exerciseRouter.route("/:id").delete(authenticateUser, (req, res) => {
   Exercise.deleteOne({ _id: req.params.id, userId: getUserId(req) })
     .then(() => res.status(200).send("Food deleted"))
     .catch((error) => res.status(400).json(error));
