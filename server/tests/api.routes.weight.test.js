@@ -4,7 +4,6 @@ const { disconnect, connect } = require("../src/config/config.mongoose");
 const { createTestUser } = require("./helpers");
 
 describe("Can record weight", () => {
-  let request = undefined;
   let bearerToken = undefined;
 
   /************
@@ -32,8 +31,12 @@ describe("Can record weight", () => {
 
     const token = loginResponse.body.token;
     expect(token).toBeDefined();
+    expect(token.length).toBeGreaterThan(10);
+
     bearerToken = `bearer ${token}`;
+
     expect(bearerToken).toBeDefined();
+    expect(bearerToken.length).toBeGreaterThan(token.length);
   });
 
   /************
@@ -49,7 +52,7 @@ describe("Can record weight", () => {
   });
 
   test("User has no weights by default", async () => {
-    const getRequest = await request
+    const getRequest = await supertest(app)
       .get("/api/weights")
       .set("Authorization", bearerToken)
       .send();
@@ -60,12 +63,12 @@ describe("Can record weight", () => {
   });
 
   test("[GET] without token returns 403", async () => {
-    const getRequest = await request.get("/api/weights").send();
+    const getRequest = await supertest(app).get("/api/weights").send();
     expect(getRequest.statusCode).toBe(403);
   });
 
   test('[POST] request to "/api/weights" creates new weight records', async () => {
-    const postRequest = await request
+    const postRequest = await supertest(app)
       .post("/api/weights")
       .set("Authorization", bearerToken)
       .send({ kg: 74.8, source: "testEnv" });
@@ -74,7 +77,7 @@ describe("Can record weight", () => {
     expect(postRequest.body).toBeTruthy();
     expect(postRequest.body).toContain("Weight saved");
 
-    const getRequest = await request
+    const getRequest = await supertest(app)
       .get("/api/weights")
       .set("Authorization", bearerToken)
       .send();
@@ -91,7 +94,7 @@ describe("Can record weight", () => {
   });
 
   test('[GET] request to "/api/weights/:id" returns correct weight record', async () => {
-    const getAllRequest = await request
+    const getAllRequest = await supertest(app)
       .get("/api/weights")
       .set("Authorization", bearerToken)
       .send();
@@ -110,7 +113,7 @@ describe("Can record weight", () => {
     const kg = getAllRequest.body[0].kg;
     const userId = getAllRequest.body[0].userId;
 
-    const getSingleRequest = await request
+    const getSingleRequest = await supertest(app)
       .get("/api/weights/" + id)
       .set("Authorization", bearerToken)
       .send();
@@ -125,7 +128,7 @@ describe("Can record weight", () => {
   });
 
   test('[PATCH] request to "/api/weights/:id" returns correct mutates weight record', async () => {
-    const getAllRequest = await request
+    const getAllRequest = await supertest(app)
       .get("/api/weights")
       .set("Authorization", bearerToken)
       .send();
@@ -143,7 +146,7 @@ describe("Can record weight", () => {
     const id = getAllRequest.body[0]._id;
     const userId = getAllRequest.body[0].userId;
     const newKg = 75.65;
-    const patchRequest = await request
+    const patchRequest = await supertest(app)
       .patch("/api/weights/" + id)
       .set("Authorization", bearerToken)
       .send({ kg: newKg });
@@ -152,7 +155,7 @@ describe("Can record weight", () => {
     expect(patchRequest.body).toBeTruthy();
     expect(patchRequest.body).toContain("Weight updated");
 
-    const getSingleRequest = await request
+    const getSingleRequest = await supertest(app)
       .get("/api/weights/" + id)
       .set("Authorization", bearerToken)
       .send();
@@ -167,7 +170,7 @@ describe("Can record weight", () => {
   });
 
   test('[DELETE] request to "/api/weights/:id" removes weight record', async () => {
-    const getAllRequest1 = await request
+    const getAllRequest1 = await supertest(app)
       .get("/api/weights")
       .set("Authorization", bearerToken)
       .send();
@@ -184,7 +187,7 @@ describe("Can record weight", () => {
 
     const id = getAllRequest1.body[0]._id;
 
-    const deleteRequest = await request
+    const deleteRequest = await supertest(app)
       .delete("/api/weights/" + id)
       .set("Authorization", bearerToken)
       .send();
@@ -193,7 +196,7 @@ describe("Can record weight", () => {
     expect(deleteRequest.body).toBeTruthy();
     expect(deleteRequest.body).toContain("Weight deleted");
 
-    const getAllRequest2 = await request
+    const getAllRequest2 = await supertest(app)
       .get("/api/weights")
       .set("Authorization", bearerToken)
       .send();
