@@ -16,8 +16,8 @@ describe("Can record weight", () => {
     // connect to database
     await connect();
 
-    // create a test user account
-    const registerResponse = await request
+    // create a test user
+    const registerResponse = await supertest(app)
       .post("/api/users/")
       .type("application/json")
       .send(testUser);
@@ -25,13 +25,15 @@ describe("Can record weight", () => {
     expect(registerResponse.statusCode).toBe(201);
 
     // get a token
-    const loginResponse = await request
+    const loginResponse = await supertest(app)
       .post("/api/users/login")
       .type("application/json")
       .send(testUser);
 
     const token = loginResponse.body.token;
+    expect(token).toBeDefined();
     bearerToken = `bearer ${token}`;
+    expect(bearerToken).toBeDefined();
   });
 
   /************
@@ -39,7 +41,6 @@ describe("Can record weight", () => {
    ************/
   afterAll(async () => {
     // delete user
-
     await disconnect();
   });
 
