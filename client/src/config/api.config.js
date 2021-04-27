@@ -1,149 +1,91 @@
 const BASE_SERVER_URI = `http://localhost:5000`;
 
-const API_CONFIG = {
-  routes: {
-    users: [
-      {
-        name: "get profile",
-        description: "returns user profile data ",
-        request: {
-          path: "/api/users",
-          method: "GET",
-          auth: true,
-          query: null,
-          body: null,
-        },
-        response: {
-          success: {
-            statusCode: 200,
-            body: {
-              first: String,
-              last: String,
-              email: String,
-              password: String,
-              day: Number,
-              month: Number,
-              year: Number,
-              height: Number || undefined,
-            },
-            format: "application/json",
-          },
-          clientError: {
-            statusCode: 400,
-            body: { error: String },
-            format: "application/json",
-          },
-          serverError: {
-            statusCode: 500,
-            body: { error: String },
-            format: "application/json",
-          },
-        },
-      },
-      {
-        name: "register",
-        description: "creates a user account",
-        request: {
-          path: "/api/users",
-          method: "POST",
-          auth: false,
-          query: null,
-          body: {
-            first: String,
-            last: String,
-            email: String,
-            password: String,
-            day: Number,
-            month: Number,
-            year: Number,
-            height: Number || undefined,
-          },
-        },
-        response: {
-          success: {
-            statusCode: 201,
-            body: "User registered",
-            format: "application/json",
-          },
-          clientError: {
-            statusCode: 400,
-            body: { error: String },
-            format: "application/json",
-          },
-          serverError: {
-            statusCode: 500,
-            body: { error: String },
-            format: "application/json",
-          },
-        },
-      },
-      {
-        name: "Delete profile",
-        description: "Deletes profile associated with bearer token",
-        request: {
-          path: "/api/users",
-          method: "PATCH",
-          auth: true,
-          query: null,
-          body: {
-            first: String || undefined,
-            last: String || undefined,
-            email: String || undefined,
-            password: String || undefined,
-            day: Number || undefined,
-            month: Number || undefined,
-            year: Number || undefined,
-            height: Number || undefined,
-          },
-        },
-        response: {
-          success: {
-            statusCode: 201,
-            body: "User updated",
-            format: "application/json",
-          },
-          clientError: {
-            statusCode: 400,
-            body: { error: String },
-            format: "application/json",
-          },
-          serverError: {
-            statusCode: 500,
-            body: { error: String },
-            format: "application/json",
-          },
-        },
-      },
-      {
-        name: "delete profile",
-        description: "returns user profile data ",
-        request: {
-          path: "/api/users",
-          method: "DELETE",
-          auth: true,
-          query: null,
-          body: null,
-        },
-        response: {
-          success: {
-            statusCode: 200,
-            body: "User deleted",
-            format: "application/json",
-          },
-          clientError: {
-            statusCode: 400,
-            body: { error: String },
-            format: "application/json",
-          },
-          serverError: {
-            statusCode: 500,
-            body: { error: String },
-            format: "application/json",
-          },
-        },
-      },
-    ],
-    foods: [],
-    weights: [],
+export const API_ROUTES = {
+  user: {
+    createUser: {
+      url: `${BASE_SERVER_URI}/api/users`,
+      method: `POST`,
+      auth: false,
+    },
+    login: {
+      url: `${BASE_SERVER_URI}/api/users/login`,
+      method: `POST`,
+      auth: false,
+    },
+    getUserInfo: {
+      url: `${BASE_SERVER_URI}/api/users`,
+      method: `GET`,
+      auth: true,
+    },
+    updateUserInfo: {
+      url: `${BASE_SERVER_URI}/api/users`,
+      method: `PATCH`,
+      auth: true,
+    },
+    deleteUser: {
+      url: `${BASE_SERVER_URI}/api/users`,
+      method: `DELETE`,
+      auth: true,
+    },
+  },
+  foods: {
+    retrieveAll: {
+      url: `${BASE_SERVER_URI}/api/foods`,
+      method: `GET`,
+      auth: true,
+    },
+    retrieveById: {
+      url: `${BASE_SERVER_URI}/api/foods`,
+      params: `_id`,
+      method: `GET`,
+      auth: true,
+    },
+    updateById: {
+      url: `${BASE_SERVER_URI}/api/foods`,
+      params: `_id`,
+      method: `PATCH`,
+      auth: true,
+    },
+    deleteById: {
+      url: `${BASE_SERVER_URI}/api/foods`,
+      params: `_id`,
+      method: `DELETE`,
+      auth: true,
+    },
+    saveFood: {
+      url: `${BASE_SERVER_URI}/api/foods`,
+      method: `POST`,
+      auth: true,
+    },
+    search: {
+      url: `${BASE_SERVER_URI}/api/foods`,
+      params: `query`,
+      method: `GET`,
+      auth: true,
+    },
+  },
+  exercises: {
+    retrieveAll: {
+      url: `${BASE_SERVER_URI}/api/exercises`,
+      method: `GET`,
+      auth: true,
+    },
+    createOne: {
+      url: `${BASE_SERVER_URI}/api/exercises`,
+      method: `POST`,
+      auth: true,
+    },
+    deleteById: {
+      url: `${BASE_SERVER_URI}/api/exercises`,
+      method: `DELETE`,
+      params: "_id",
+      auth: true,
+    },
+    updateById: {
+      url: `${BASE_SERVER_URI}/api/exercises`,
+      method: `PATCH`,
+      params: "_id",
+      auth: true,
+    },
   },
 };
