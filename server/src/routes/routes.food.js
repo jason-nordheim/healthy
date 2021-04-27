@@ -35,7 +35,7 @@ foodRouter.route("/").get(authenticateUser, (req, res) => {
 // READ
 foodRouter.route("/:id").get(authenticateUser, (req, res) => {
   Food.findOne({ userId: getUserId(req), _id: req.params.id })
-    .then((foods) => res.json(foods))
+    .then((foods) => res.status(200).json(foods))
     .catch((error) => res.status(400).json(error));
 });
 
