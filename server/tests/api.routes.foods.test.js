@@ -30,7 +30,12 @@ describe("FOOD Routes", () => {
       .send(testUser);
 
     const token = loginResponse.body.token;
+    expect(token).toBeTruthy();
+    expect(token.length).toBeGreaterThan(10);
+
     bearerToken = `bearer ${token}`;
+    expect(bearerToken).toBeDefined();
+    expect(bearerToken.length).toBeGreaterThan(10);
   });
 
   /************
