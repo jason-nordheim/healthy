@@ -1,4 +1,4 @@
-import { API_CONFIG } from "../config/api.config";
+import { API_ROUTES } from "../config/api.config";
 import { TokenExpiredError } from "../errors/TokenExpiredError";
 
 export const FAILED_TO_FETCH = "TypeError: Failed to fetch";
@@ -16,7 +16,7 @@ const parseResponse = async (res) => {
  * @returns {Promise<Response>}
  */
 export const loginUser = (user) => {
-  const { url, method } = API_CONFIG.routes.auth;
+  const { url, method } = API_ROUTES.user.login;
   return fetch(url, {
     method,
     headers: {
@@ -32,7 +32,7 @@ export const loginUser = (user) => {
  * @returns {Promise<Response>}
  */
 export const registerUser = (user) => {
-  const { url, method } = API_CONFIG.routes.user.register;
+  const { url, method } = API_ROUTES.user.createUser;
   return fetch(url, {
     method,
     headers: {
@@ -48,7 +48,7 @@ export const registerUser = (user) => {
  * @returns
  */
 export const getProfile = (token) => {
-  const { url, method } = API_CONFIG.routes.user.getInfo;
+  const { url, method } = API_ROUTES.user.getUserInfo;
   return fetch(url, {
     method,
     headers: {
@@ -65,7 +65,7 @@ export const getProfile = (token) => {
  * @returns
  */
 export const updateProfile = (token, fields) => {
-  const { url, method } = API_CONFIG.routes.user.updateInfo;
+  const { url, method } = API_ROUTES.user.updateUserInfo;
   return fetch(url, {
     method,
     headers: {
@@ -83,7 +83,7 @@ export const updateProfile = (token, fields) => {
  * @returns
  */
 export const addWeight = (token, kg) => {
-  const { url, method } = API_CONFIG.routes.weight.add;
+  const { url, method } = API_ROUTES.weights.create;
   return fetch(url, {
     method,
     headers: {
@@ -100,7 +100,7 @@ export const addWeight = (token, kg) => {
  * @returns
  */
 export const getWeights = (token) => {
-  const { url, method } = API_CONFIG.routes.weight.getAll;
+  const { url, method } = API_ROUTES.weights.retrieveAll;
   return fetch(url, {
     method,
     headers: {
@@ -117,7 +117,7 @@ export const getWeights = (token) => {
  * @returns
  */
 export const deleteWeight = (token, weightId) => {
-  const { url, method } = API_CONFIG.routes.weight.deleteOne;
+  const { url, method } = API_ROUTES.weights.delete;
   return fetch(url, {
     method,
     headers: {
@@ -133,14 +133,14 @@ export const deleteWeight = (token, weightId) => {
  * forwarded to edman api and returned
  */
 export const searchFoods = (text) => {
-  const { url, method } = API_CONFIG.routes.food.search;
+  const { url, method } = API_ROUTES.foods.search;
   return fetch(`${url}?query=${text}`, {
     method,
   }).then(parseResponse);
 };
 
 export const logFood = (token, food) => {
-  const { url, method } = API_CONFIG.routes.food.addFood;
+  const { url, method } = API_ROUTES.foods.saveFood;
   return fetch(url, {
     method,
     headers: {
@@ -152,7 +152,7 @@ export const logFood = (token, food) => {
 };
 
 export const getFoods = (token) => {
-  const { url, method } = API_CONFIG.routes.food.getFoods;
+  const { url, method } = API_ROUTES.foods.retrieveAll;
   return fetch(url, {
     method,
     headers: {
