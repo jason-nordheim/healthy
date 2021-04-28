@@ -25,7 +25,7 @@ userRouter.route("/").post(validateRegisterParams, (req, res) => {
 
 // LOGIN (token)
 userRouter.route("/login").post((req, res) => {
-  User.findOne({ email: req.body.email })
+  User.findOne({ username: req.body.username })
     .then((foundUser) => {
       bcrypt.compare(
         req.body.password,
