@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useAuthContext } from "../../../context/context.auth";
 
 export const Register = () => {
@@ -175,7 +175,7 @@ export const Register = () => {
             onClick={handleSubmit}
             disabled={!canSubmit}
           >
-            Login
+            Register
           </button>
         </div>
       </div>
