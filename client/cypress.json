@@ -1,1 +1,3 @@
-{}
+{
+  "host:dev": "http://localhost:3000"
+}
