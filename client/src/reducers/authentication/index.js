@@ -13,6 +13,27 @@ const TYPES = {
   REGISTER_FAILURE: "REGISTER_FAILURE",
 };
 
+const ACTIONS = {
+  // login
+  loginRequest: () => ({ type: TYPES.LOGIN_REQUEST }),
+  loginSuccess: (token) => ({ type: TYPES.LOGIN_SUCCESS, payload: { token } }),
+  loginFailure: (error) => ({ type: TYPES.LOGIN_FAILURE, payload: { error } }),
+
+  registerRequest: () => ({ type: TYPES.REGISTER_REQUEST }),
+  registerSuccess: () => ({ type: TYPES.REGISTER_SUCCESS }),
+  registerFailure: (error) => ({
+    type: TYPES.REGISTER_FAILURE,
+    payload: { error },
+  }),
+
+  logoutRequest: () => ({ type: TYPES.LOGOUT_REQUEST }),
+  logoutSuccess: () => ({ type: TYPES.LOGIN_SUCCESS }),
+  logoutFailure: (error) => ({
+    type: TYPES.LOGOUT_FAILURE,
+    payload: { error },
+  }),
+};
+
 const initialState = {
   token: undefined,
   pendingRequest: false,
@@ -60,4 +81,4 @@ const reducer = (state, action) => {
   }
 };
 
-export { TYPES, reducer, initialState };
+export { TYPES, reducer, initialState, ACTIONS };
