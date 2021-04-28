@@ -32,7 +32,7 @@ userRouter.route("/login").post((req, res) => {
         foundUser.passwordDigest,
         (error, isMatch) => {
           if (error) {
-            res.status(400).json(error);
+            res.status(400).json({ error });
           } else if (!isMatch) {
             res.status(401).send("Invalid Credentials");
           } else {
