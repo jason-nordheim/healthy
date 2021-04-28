@@ -1,4 +1,4 @@
-import { API_ROUTES } from "../config/api.config";
+import { API_ROUTES } from "../config/config.api";
 import { TokenExpiredError } from "../errors/TokenExpiredError";
 
 export const FAILED_TO_FETCH = "TypeError: Failed to fetch";
