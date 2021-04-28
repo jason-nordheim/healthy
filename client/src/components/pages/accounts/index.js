@@ -1,10 +1,12 @@
-import { Login } from "./Login";
-import { Register } from "./Register";
+import { useAuthContext } from "../../../context/context.auth";
+import { Authenticated } from "./Authenticated";
+import { UnAuthenticated } from "./UnAuthenticated";
 
 export const AccountPage = () => {
+  const { state } = useAuthContext();
   return (
     <div className="container">
-      <Register />
+      {state.token ? <Authenticated /> : <UnAuthenticated />}
     </div>
   );
 };
