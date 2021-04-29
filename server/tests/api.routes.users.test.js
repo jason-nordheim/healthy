@@ -76,10 +76,9 @@ describe("Route: `/api/users [AUTHORIZED]", () => {
       "first",
       "last",
       "email",
+      "username",
       "uom",
-      "day",
-      "month",
-      "year",
+      "birthday",
     ];
     expectedProperties.forEach((val) => {
       expect(response.body).toHaveProperty(val);
@@ -89,9 +88,7 @@ describe("Route: `/api/users [AUTHORIZED]", () => {
   const updates = [
     { property: "first", updateTo: "newFirst" },
     { property: "last", updateTo: "newLast" },
-    { property: "day", updateTo: 1 },
-    { property: "month", updateTo: 9 },
-    { property: "year", updateTo: 1990 },
+    { property: "birthday", updateTo: "1990-09-11" },
   ];
 
   updates.forEach((update) => {

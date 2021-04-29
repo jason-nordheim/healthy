@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.21.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
@@ -40,7 +41,11 @@
     ]
   },
   "devDependencies": {
-    "cypress": "^7.0.1",
-    "history": "^5.0.0"
+    "@cypress/react": "^5.4.0",
+    "@cypress/webpack-dev-server": "^1.1.5",
+    "cypress": "7.2.0",
+    "faker": "^5.5.3",
+    "history": "^5.0.0",
+    "process": "^0.11.10"
   }
 }

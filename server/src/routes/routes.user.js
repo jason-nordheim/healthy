@@ -25,14 +25,14 @@ userRouter.route("/").post(validateRegisterParams, (req, res) => {
 
 // LOGIN (token)
 userRouter.route("/login").post((req, res) => {
-  User.findOne({ email: req.body.email })
+  User.findOne({ username: req.body.username })
     .then((foundUser) => {
       bcrypt.compare(
         req.body.password,
         foundUser.passwordDigest,
         (error, isMatch) => {
           if (error) {
-            res.status(400).json(error);
+            res.status(400).json({ error });
           } else if (!isMatch) {
             res.status(401).send("Invalid Credentials");
           } else {

@@ -7,14 +7,19 @@ const userInfoString = (user) =>
   `[password:${user.password}]` +
   `[height:${user.height}]`;
 
+const getRandomDateString = () => {
+  const yearsOld = faker.datatype.number({ min: 17, max: 80, precision: 1 });
+  const randDate = faker.date.past(yearsOld);
+  return `${randDate.getFullYear()}-${randDate.getMonth()}-${randDate.getDay()}`;
+};
+
 const createTestUser = () => ({
   first: faker.name.firstName(),
   last: faker.name.lastName(),
+  username: faker.internet.userName(),
   email: faker.internet.email(),
   password: faker.internet.password(),
-  day: Math.ceil(Math.random() * 30),
-  month: Math.floor(Math.random() * 12),
-  year: new Date().getFullYear() - Math.floor(Math.random() * 50),
+  birthday: getRandomDateString(),
 });
 
 const createTestFood = () => ({
