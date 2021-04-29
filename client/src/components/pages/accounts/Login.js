@@ -10,7 +10,7 @@ export const Login = () => {
     username: "",
     birthday: new Date(),
   });
-  const { login } = useAuthContext();
+  const { actions } = useAuthContext();
 
   const canSubmit = useMemo(() => {
     if (values.password && values.username) return true;
@@ -19,7 +19,7 @@ export const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(values);
+    actions.login(values);
   };
 
   const handleChange = (e) => {

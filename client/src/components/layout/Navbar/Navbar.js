@@ -7,7 +7,7 @@ import { useAuthContext } from "../../../context/context.auth";
 
 export const Navbar = () => {
   const [expanded, setExpanded] = useState(false);
-  const { state, logout } = useAuthContext();
+  const { state, actions } = useAuthContext();
   return (
     <nav
       className="navbar navbar-expand-lg navbar-light bg-light"
@@ -43,7 +43,7 @@ export const Navbar = () => {
               // if logged in show a logout item in the list
               state?.token && (
                 <li className="nav-item">
-                  <span className="nav-link" onClick={() => logout()}>
+                  <span className="nav-link" onClick={() => actions.logout()}>
                     Logout
                   </span>
                 </li>

@@ -10,7 +10,7 @@ export const Register = () => {
     username: "",
     birthday: new Date(),
   });
-  const { register } = useAuthContext();
+  const { state, actions } = useAuthContext();
 
   const canSubmit = useMemo(() => {
     if (
@@ -26,7 +26,7 @@ export const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    register(values);
+    actions.register(values);
   };
 
   const handleChange = (e) => {
@@ -179,6 +179,7 @@ export const Register = () => {
           </button>
         </div>
       </div>
+      {state.error && <div className="row my-2">{state.error}</div>}
     </form>
   );
 };
