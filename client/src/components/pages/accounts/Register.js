@@ -179,7 +179,15 @@ export const Register = () => {
           </button>
         </div>
       </div>
-      {state.error && <div className="row my-2">{state.error}</div>}
+      {state.error && (
+        <div
+          id="error"
+          className="row my-2 text-center"
+          style={{ color: "red" }}
+        >
+          <p className="py-2">{state.error}</p>
+        </div>
+      )}
     </form>
   );
 };
