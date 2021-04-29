@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
-import { authActions, authReducer, initialAuthState } from "../reducers";
+import { authActions, authReducer, AuthState } from "../reducers";
 import { API_ROUTES } from "../config";
 import axios from "axios";
 export const AuthContext = createContext();
@@ -14,7 +14,7 @@ const {
 } = authActions;
 
 export const AuthProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, initialAuthState);
+  const [state, dispatch] = useReducer(authReducer, AuthState.initial());
 
   // actions
   const login = async (user) => {
@@ -48,7 +48,9 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       // something went wrong
-      if (error.response.data.code === 11000) {
+      if (error.response.data.error && error.response.data.error.message) {
+        dispatch(registerFailure(error.response.data.error.message));
+      } else if (error.response.data.code === 11000) {
         // duplicate key, loop through displaying which keys have been use
         let message = "Error: ";
         const errorObjKeys = Object.keys(error.response.data.keyPattern);

@@ -1,8 +1,8 @@
 import {
   TYPES as authType,
-  initialState as initialAuthState,
+  AuthState,
   reducer as authReducer,
   ACTIONS as authActions,
 } from "./authentication";
 
-export { authType, initialAuthState, authReducer, authActions };
+export { authType, AuthState, authReducer, authActions };
