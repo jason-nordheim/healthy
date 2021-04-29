@@ -1,9 +1,14 @@
+/* eslint-disable no-undef */
 // register.spec.js created with Cypress
 //
 // Start writing your Cypress tests below!
 // If you're unfamiliar with how Cypress works,
 // check out the link below and learn how to write your first test:
 // https://on.cypress.io/writing-first-test
+
+/// <reference types="cypress" />
+
+import { createTestUser } from "../helpers";
 
 describe("Unauthenticated User", () => {
   it("Can directly navigate to Accounts Page", () => {
@@ -91,6 +96,38 @@ describe("Unauthenticated User", () => {
       .should("not.have.attr", "disabled");
   });
 
-  it.skip("redirects to login when the form is filled in and submitted");
-  it.skip("displays error message if submitted with incorrect values");
+  it.only("redirects to login when the form is filled in and submitted", () => {
+    cy.visit("http://localhost:3000/account");
+    cy.url().should("match", /login/);
+    cy.get("div.btn-group")
+      .contains(/register/i)
+      .should("have.class", "btn-secondary")
+      .click();
+
+    const testUser = createTestUser();
+    console.log(testUser);
+
+    // fill in the fields
+    cy.get("input#first").type(testUser.first);
+    cy.get("input#last").type(testUser.last);
+    cy.get("input#birthday").invoke("val", testUser.birthday).trigger("change");
+    cy.get("input#email").type(testUser.email);
+    cy.get("input#username").type(testUser.username);
+    cy.get("input#password").type(testUser.password);
+
+    // button no longer disabled
+    cy.get("div.col.text-center")
+      .contains(/register/i)
+      .should("not.have.attr", "disabled");
+
+    // click the button
+    cy.get("div.col.text-center")
+      .contains(/register/i)
+      .click();
+
+    cy.wait(500);
+
+    cy.get("div.container").contains(/Welcome/i);
+  });
+  it.skip("displays error message if submitted with incorrect values", () => {});
 });
