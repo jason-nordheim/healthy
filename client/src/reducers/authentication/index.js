@@ -1,3 +1,5 @@
+import { CONSTANTS } from "../../config";
+
 const TYPES = {
   // login Actions
   LOGIN_REQUEST: "LOGIN_REQUEST",
@@ -34,10 +36,19 @@ const ACTIONS = {
   }),
 };
 
-const initialState = {
-  token: undefined,
-  pendingRequest: false,
-  error: undefined,
+const AuthState = {
+  save: (state) => {
+    localStorage.setItem(CONSTANTS.APP_NAME, JSON.stringify(state));
+  },
+  restore: () => {
+    return JSON.parse(localStorage.getItem(CONSTANTS.APP_NAME));
+  },
+  initial: () =>
+    JSON.parse(localStorage.getItem(CONSTANTS.APP_NAME)) || {
+      token: undefined,
+      pendingRequest: false,
+      error: undefined,
+    },
 };
 
 /**
@@ -54,31 +65,54 @@ const initialState = {
  * @returns
  */
 const reducer = (state, action) => {
+  let newState = { ...state };
   switch (action.type) {
     // LOGIN --------------------------
     case TYPES.LOGIN_REQUEST:
-      return { ...state, pendingRequest: true, error: undefined };
+      newState.pendingRequest = true;
+      newState.error = undefined;
+      break;
     case TYPES.LOGIN_SUCCESS:
-      return { ...state, pendingRequest: false, token: action.payload.token };
+      newState.pendingRequest = false;
+      newState.token = action.payload.token;
+      break;
     case TYPES.LOGIN_FAILURE:
-      return { ...state, pendingRequest: false, error: action.payload.error };
+      newState.pendingRequest = false;
+      newState.error = action.payload.error;
+      break;
     // LOGOUT --------------------------
     case TYPES.LOGOUT_REQUEST:
-      return { ...state, pendingRequest: true, error: undefined };
+      newState.pendingRequest = true;
+      newState.error = undefined;
+      newState.token = undefined;
+      break;
     case TYPES.LOGOUT_SUCCESS:
-      return { ...state, pendingRequest: false, token: undefined };
+      newState.pendingRequest = false;
+      newState.error = undefined;
+      newState.token = undefined;
+      break;
     case TYPES.LOGOUT_FAILURE:
-      return { ...state, pendingRequest: false, error: action.payload.error };
+      newState.pendingRequest = false;
+      newState.error = undefined;
+      newState.token = action.payload.error;
+      break;
     // REGISTER --------------------------
     case TYPES.REGISTER_REQUEST:
-      return { ...state, pendingRequest: true, error: undefined };
+      newState.pendingRequest = true;
+      newState.error = undefined;
+      break;
     case TYPES.REGISTER_SUCCESS:
-      return { ...state, pendingRequest: false };
+      newState.pendingRequest = false;
+      break;
     case TYPES.REGISTER_FAILURE:
-      return { ...state, pendingRequest: false, error: action.payload.error };
+      newState.pendingRequest = false;
+      newState.error = action.payload.error;
+      break;
     default:
       throw new Error("Invalid Action");
   }
+  AuthState.save(newState);
+  return newState;
 };
 
-export { TYPES, reducer, initialState, ACTIONS };
+export { TYPES, reducer, AuthState, ACTIONS };
