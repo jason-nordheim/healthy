@@ -131,7 +131,7 @@ describe("Unauthenticated User", () => {
 
     cy.get("div.container").contains(/Welcome/i);
   });
-  it.only("displays error message if submitted with a password less than 5 characters", () => {
+  it("displays error message if submitted with a password less than 5 characters", () => {
     cy.visit("http://localhost:3000/account");
     cy.url().should("match", /login/);
     cy.get("div.btn-group")
@@ -145,7 +145,6 @@ describe("Unauthenticated User", () => {
     cy.get("input#first").type(testUser.first);
     cy.get("input#last").type(testUser.last);
     cy.get("input#birthday").invoke("val", testUser.birthday).trigger("change");
-
     cy.get("input#email").type(testUser.email);
     cy.get("input#username").type(testUser.username);
     cy.get("input#password").type(testUser.password.slice(0, 3));
