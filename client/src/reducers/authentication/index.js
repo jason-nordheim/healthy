@@ -65,48 +65,68 @@ const AuthState = {
  * @returns
  */
 const reducer = (state, action) => {
-  let newState = { ...state };
+  let newState = { ...state } 
   switch (action.type) {
     // LOGIN --------------------------
     case TYPES.LOGIN_REQUEST:
-      newState.pendingRequest = true;
-      newState.error = undefined;
+      newState = { ...state, pendingRequest: true, error: undefined };
       break;
     case TYPES.LOGIN_SUCCESS:
-      newState.pendingRequest = false;
-      newState.token = action.payload.token;
+      newState = {
+        ...state,
+        pendingRequest: false,
+        token: action.payload.token,
+      };
       break;
     case TYPES.LOGIN_FAILURE:
-      newState.pendingRequest = false;
-      newState.error = action.payload.error;
+      newState = {
+        ...state,
+        pendingRequest: false,
+        error: action.payload.error,
+      };
       break;
     // LOGOUT --------------------------
     case TYPES.LOGOUT_REQUEST:
-      newState.pendingRequest = true;
-      newState.error = undefined;
-      newState.token = undefined;
+      newState = {
+        ...state,
+        pendingRequest: true,
+        error: undefined,
+        token: undefined,
+      };
       break;
     case TYPES.LOGOUT_SUCCESS:
-      newState.pendingRequest = false;
-      newState.error = undefined;
-      newState.token = undefined;
+      newState = {
+        ...state,
+        pendingRequest: false,
+      };
       break;
     case TYPES.LOGOUT_FAILURE:
-      newState.pendingRequest = false;
-      newState.error = undefined;
-      newState.token = action.payload.error;
+      newState = {
+        ...state,
+        pendingRequest: false,
+        error: action.payload.error,
+      };
       break;
     // REGISTER --------------------------
     case TYPES.REGISTER_REQUEST:
-      newState.pendingRequest = true;
-      newState.error = undefined;
+      newState = {
+        ...state,
+        pendingRequest: true,
+        error: undefined,
+      };
       break;
     case TYPES.REGISTER_SUCCESS:
-      newState.pendingRequest = false;
+      newState = {
+        ...newState,
+        pendingRequest: false,
+      };
       break;
     case TYPES.REGISTER_FAILURE:
-      newState.pendingRequest = false;
-      newState.error = action.payload.error;
+      newState = {
+        ...state,
+        pendingRequest: false,
+        error: action.payload.error,
+      };
       break;
     default:
       throw new Error("Invalid Action");
