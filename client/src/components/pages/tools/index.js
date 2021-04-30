@@ -1,7 +1,7 @@
 import { useRouteMatch, Link, Switch } from "react-router-dom";
 
 export const ToolsPage = () => {
-  let { path, url } = useRouteMatch();
+  let { url } = useRouteMatch();
   return (
     <div className="container">
       <ul>
