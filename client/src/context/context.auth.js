@@ -11,6 +11,9 @@ const {
   loginRequest,
   loginSuccess,
   loginFailure,
+  logoutRequest,
+  logoutSuccess,
+  logoutFailure,
 } = authActions;
 
 export const AuthProvider = ({ children }) => {
@@ -28,12 +31,19 @@ export const AuthProvider = ({ children }) => {
         const info = JSON.stringify(response.data);
         dispatch(loginFailure("Failed to login: " + info));
       }
-      console.log({ response });
     } catch (error) {
-      console.log({ error });
+      const info = JSON.stringify(error);
+      dispatch(loginFailure("Failed to login: " + info));
     }
   };
-  const logout = () => {};
+  const logout = () => {
+    try {
+      dispatch(logoutRequest());
+      dispatch(logoutSuccess());
+    } catch (error) {
+      dispatch(logoutFailure(error));
+    }
+  };
   const register = async (user) => {
     const { url } = API_ROUTES.user.createUser;
     // starting to parse
