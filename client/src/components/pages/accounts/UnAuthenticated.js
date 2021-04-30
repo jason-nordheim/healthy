@@ -14,7 +14,6 @@ export const UnAuthenticated = () => {
   let location = useLocation();
   const loginPath = `${url}/login`;
   const registerPath = `${url}/register`;
-  console.log({ location, loginPath });
   return (
     <>
       <div className="row">
