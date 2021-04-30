@@ -6,7 +6,7 @@ export const AccountPage = () => {
   const { state } = useAuthContext();
   return (
     <div className="container">
-      {state.token ? <Authenticated /> : <UnAuthenticated />}
+      {state && state.token ? <Authenticated /> : <UnAuthenticated />}
     </div>
   );
 };
