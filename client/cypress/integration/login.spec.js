@@ -11,10 +11,11 @@
 import { createTestUser } from "../helpers";
 
 describe("Unauthenticated User", () => {
-  let testUser = undefined;
-  beforeAll(() => {
+  // beforeAll(() => {});
+
+  it("User can login", () => {
     cy.clearLocalStorage(); // make sure we don't have any saved tokens
-    testUser = createTestUser();
+    const testUser = createTestUser();
 
     // register user
     cy.visit("http://localhost:3000/account");
@@ -26,18 +27,16 @@ describe("Unauthenticated User", () => {
     // fill in the fields
     cy.get("input#first").type(testUser.first);
     cy.get("input#last").type(testUser.last);
-    cy.get("input#birthday").invoke("val", testUser.birthday).trigger("change");
+    cy.get("input#birthday").invoke("val", testUser.birthday);
     cy.get("input#email").type(testUser.email);
     cy.get("input#username").type(testUser.username);
-    cy.get("input#password").type(testUser.password.slice(0, 3));
+    cy.get("input#password").type(testUser.password);
 
     cy.get("div.col.text-center")
       .contains(/register/i)
       .click();
 
-    cy.wait(500);
-    cy.get("div.container").contains(/Welcome/i);
+    cy.get("div.container").contains(/my information/i);
+    // cy.visit("http://localhost:3000/account");
   });
-
-  it.skip("User can login", () => {});
 });
