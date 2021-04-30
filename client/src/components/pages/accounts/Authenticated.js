@@ -1,3 +1,9 @@
+import { EditProfile } from "./EditProfile";
+
 export const Authenticated = () => {
-  return <h1>Welcome</h1>;
+  return (
+    <>
+      <EditProfile />
+    </>
+  );
 };
