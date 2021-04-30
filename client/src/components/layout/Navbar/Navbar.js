@@ -4,7 +4,7 @@ import { NavToggle } from "./NavToggle";
 import { NavItem } from "./NavItem";
 import { AppRoutes } from "../../../config";
 import { useAuthContext } from "../../../context/context.auth";
-
+import { Redirect } from "react-router-dom";
 export const Navbar = () => {
   const [expanded, setExpanded] = useState(false);
   const { state, actions } = useAuthContext();
@@ -43,7 +43,10 @@ export const Navbar = () => {
               // if logged in show a logout item in the list
               state?.token && (
                 <li className="nav-item">
-                  <span className="nav-link" onClick={() => actions.logout()}>
+                  <span
+                    className="nav-link"
+                    onClick={() => actions.logout() && <Redirect to="/" />}
+                  >
                     Logout
                   </span>
                 </li>
